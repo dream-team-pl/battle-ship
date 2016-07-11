@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Set of tests" >
+    <test name="ship, arbiter, movementContainer">
+        <classes>
+            <class name="ship.ShipTest" />
+            <class name="arbiter.ArbiterTest"/>
+        </classes>
+    </test>
+</suite>
