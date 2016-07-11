@@ -5,6 +5,7 @@
     <test name="ship, arbiter, movementContainer">
         <classes>
             <class name="ship.ShipTest" />
+            <class name="arbiter.ArbiterTest"/>
         </classes>
     </test>
 </suite>

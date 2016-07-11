@@ -39,4 +39,25 @@ public class Ship {
     public boolean isDamaged() {
         return (size - damaged) == 0;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ship ship = (Ship) o;
+
+        if (size != ship.size) return false;
+        if (damaged != ship.damaged) return false;
+        return name != null ? name.equals(ship.name) : ship.name == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (int) size;
+        result = 31 * result + damaged;
+        return result;
+    }
 }
