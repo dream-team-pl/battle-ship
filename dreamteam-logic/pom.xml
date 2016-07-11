@@ -17,5 +17,16 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <!--
+
+      https://mvnrepository.com/artifact/log4j/log4j
+      final static Logger logger = Logger.getLogger(classname.class);
+      to change the file location configure this: log4j.appender.file.File=
+    -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
   </dependencies>
 </project>
