@@ -10,7 +10,7 @@ public class Ship {
 
     final protected String name;
     final protected byte size;
-    protected int damaged;
+    protected int damaged;// FIXME the type of damage must be the same az size
 
     /**
      *
@@ -40,6 +40,7 @@ public class Ship {
         return (size - damaged) == 0;
     }
 
+    // FIXME the equal and hash must be carefully implemented. Cus more ships could have the same name size and damaged.
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
