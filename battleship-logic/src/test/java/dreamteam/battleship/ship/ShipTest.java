@@ -1,4 +1,4 @@
-package ship;
+package dreamteam.battleship.ship;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

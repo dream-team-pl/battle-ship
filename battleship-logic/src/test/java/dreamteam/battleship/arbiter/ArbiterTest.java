@@ -1,10 +1,11 @@
-package arbiter;
+package dreamteam.battleship.arbiter;
 
+import dreamteam.battleship.ship.Ship;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import ship.Ship;
+
 
 import java.util.LinkedList;
 import java.util.List;

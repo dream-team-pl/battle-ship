@@ -1,6 +1,6 @@
-package arbiter;
+package dreamteam.battleship.arbiter;
 
-import ship.Ship;
+import dreamteam.battleship.ship.Ship;
 
 import java.util.LinkedList;
 import java.util.List;

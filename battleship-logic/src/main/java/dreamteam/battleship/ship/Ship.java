@@ -1,4 +1,4 @@
-package ship;
+package dreamteam.battleship.ship;
 
 /**
  * Created by daniel on 11.07.16.
