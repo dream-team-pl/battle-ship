@@ -9,10 +9,10 @@ package dreamteam.battleship.ship;
 public class Ship {
 
     final protected String name;
-    final protected byte size;
+    public final byte size;
     protected int damaged;
 
-    /**
+    /**o
      *
      * @param name - name of ship
      * @param size - size of ship
