@@ -6,91 +6,66 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Created by daniel on 11.07.16.
- * Test of Ship class.
+ * Test of ShipImpl class.
  */
 public class ShipTest {
 
+    /**
+     *
+     * @return shipTypes, than we can check if after creating ShipImpl, we will initialize ship size
+     */
     @DataProvider
-    public Object[][] names (){
+    public Object[][] ships (){
         return new Object[][] {
-                {"ship1", },
-                {"ship2"},
-                {"destroyer"},
-                {"Al-Pacino"},
-                {"Titanic"},
-                {""}
+                {ShipType.oneMast},
+                {ShipType.twoMast},
+                {ShipType.threeMast},
+                {ShipType.fourMast}
         };
     }
 
     /**
      *
-     * @param name - is delivered to check if after creating object Ship, name is initialized
+     * @param shipType - is delivered to check if after creating object ShipImpl, size is initialized
      */
-    @Test(dataProvider = "names", expectedExceptions = IllegalArgumentException.class)
-    public void setName(String name) {
+    @Test(dataProvider = "ships")
+    public void setSize(ShipType shipType) {
         // given
-        // hardcoding size of ship. It is irrelevant
-        Ship ship = new Ship(name, (byte) 0);
+        ShipImpl ship = ShipImpl.shipFactory(shipType);
 
         // when
         // ...
 
         // then
-        assertEquals(ship.name, name);
-    }
-
-    @DataProvider
-    public Object[][] sizes (){
-        return new Object[][] {
-                {(byte) 0},
-                {(byte) 1},
-                {(byte) 2},
-                {(byte) 3},
-                {(byte) 4},
-                {(byte) 0},
-                {(byte) 7}
-        };
+        assertEquals(ship.shipType.size, shipType.size);
     }
 
     /**
      *
-     * @param size - is delivered to check if after creating object Ship, size is initialized
+     * @return shipType and count of damage
      */
-    @Test(dataProvider = "sizes", expectedExceptions = IllegalArgumentException.class)
-    public void setSize(byte size) {
-        // given
-        // hardcoding size of ship. It is irrelevant
-        Ship ship = new Ship("", size);
-
-        // when
-        // ...
-
-        // then
-        assertEquals(ship.size, size);
-    }
-
     @DataProvider
-    public Object[][] damaging() {
+    public Object[][] shipsAndCountOfDamage() {
         return new Object[][] {
-                {(byte)4, 3},
-                {(byte)4, 2},
-                {(byte)4, 1},
-                {(byte)3, 3},
-                {(byte)2, 1},
-                {(byte)1, 1}
+                {ShipType.fourMast, 3},
+                {ShipType.fourMast, 2},
+                {ShipType.fourMast, 1},
+                {ShipType.threeMast, 3},
+                {ShipType.twoMast, 1},
+                {ShipType.oneMast, 1}
         };
     }
 
     /**
      *
-     * @param size - is initialized, to prevent from to many call of damage() method
+     * @param shipType - is needed to create ShipImpl object
      * @param damaged - how many times damage() method is called
+     *                check how many times ship is damaged
      */
-    @Test(dataProvider = "damaging")
-    public void shipIsHit(byte size, int damaged) {
+    @Test(dataProvider = "shipsAndCountOfDamage")
+    public void shipIsHit(ShipType shipType, int damaged) {
         // given
-        Ship ship = new Ship("ship", size);
+        ShipImpl ship = ShipImpl.shipFactory(shipType);
 
         // when
         for(int i=0; i<damaged; i++)
@@ -100,57 +75,67 @@ public class ShipTest {
         assertEquals(ship.damaged, damaged);
     }
 
+    /**
+     *
+     * @return shipType and count of damage
+     */
     @DataProvider
-    public Object[][] sizeAndDamagedSet() {
+    public Object[][] shipsAndCountOfDamage2() {
         return new Object[][] {
-                {(byte) 4, 4},
-                {(byte) 3, 3},
-                {(byte) 2, 2},
-                {(byte) 1, 1}
+                {ShipType.fourMast, 4},
+                {ShipType.threeMast, 3},
+                {ShipType.twoMast, 2},
+                {ShipType.oneMast, 1}
         };
     }
 
     /**
      *
-     * @param size - is initialized, to prevent from to many call of damage() method, and check how many times
-     *             ship can be hit.
+     * @param shipType - is needed to create ShipImpl object
      * @param damaged - how many times damage() method is called
+     *                check is ship is damaged, ship is damaged when we shoot in it the same number times like his size,
+     *                this is winning conditions
      */
-    @Test(dataProvider = "sizeAndDamagedSet")
-    public void isWinner(byte size, int damaged) {
+    @Test(dataProvider = "shipsAndCountOfDamage2")
+    public void isWinner(ShipType shipType, int damaged) {
         // given
-        Ship ship = new Ship("ship", size);
+        ShipImpl ship = ShipImpl.shipFactory(shipType);
 
         // when
         for(int i=0; i<damaged; i++)
             ship.damage();
 
-        // given
+        // then
         assertTrue(ship.isDamaged());
     }
 
+    /**
+     *
+     * @return shipType and count of damage
+     */
     @DataProvider
-    public Object[][] sizeAndDamagedSet2() {
+    public Object[][] sizeAndDamagedSet() {
         return new Object[][] {
-                {(byte) 4, 3},
-                {(byte) 3, 2},
-                {(byte) 2, 1},
-                {(byte) 4, 2},
-                {(byte) 4, 1},
-                {(byte) 3, 1}
+                {ShipType.fourMast, 3},
+                {ShipType.threeMast, 2},
+                {ShipType.twoMast, 1},
+                {ShipType.fourMast, 2},
+                {ShipType.fourMast, 1},
+                {ShipType.threeMast, 1}
         };
     }
 
     /**
      *
-     * @param size - is initialized, to prevent from to many call of damage() method, and check how many times
-     *             ship can be hit.
+     * @param shipType - is needed to create ShipImpl object
      * @param damaged - how many times damage() method is called
+     *                check is ship is damaged, ship is damaged when we shoot in it the same number times like his size, but
+     *                here we didn't.
      */
-    @Test(dataProvider = "sizeAndDamagedSet2")
-    public void isNotWinner(byte size, int damaged) {
+    @Test(dataProvider = "sizeAndDamagedSet")
+    public void isNotWinner(ShipType shipType, int damaged) {
         // given
-        Ship ship = new Ship("ship", size);
+        ShipImpl ship = ShipImpl.shipFactory(shipType);
 
         // when
         for(int i=0; i<damaged; i++)

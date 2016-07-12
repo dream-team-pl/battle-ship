@@ -8,11 +8,14 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Created by daniel on 12.07.16.
- * Tests for MovementContainer Class
+ * Tests for MovementContainerImpl Class
  */
 public class MovementContainerTest {
 
+    /**
+     *
+     * @return set of movements
+     */
     @DataProvider
     public Object[][] setOfMovements() {
         return new Object[][] {
@@ -40,7 +43,7 @@ public class MovementContainerTest {
     @Test(dataProvider = "setOfMovements")
     public void allowAddingMovement(Integer field, Boolean isDamaged) {
         // given
-        MovementContainer movementContainer = new MovementContainer();
+        MovementContainerImpl movementContainer = new MovementContainerImpl();
 
         // when
         movementContainer.addMovement(field, isDamaged);
@@ -49,6 +52,10 @@ public class MovementContainerTest {
         assertEquals(movementContainer.movements.get(field), isDamaged);
     }
 
+    /**
+     *
+     * @return sets of movements
+     */
     @DataProvider
     public Object[][] setOfMovements1() {
         return new Object[][] {
@@ -73,13 +80,13 @@ public class MovementContainerTest {
      * @param isDamaged2 - information about player's attack. If player shot, isDamaged = true
      *                  else isDamaged = false
      *
-     *                   containsMovements method from MovementContainer is tested. Pair value, key is placed in map and than
+     *                   containsMovements method from MovementContainerImpl is tested. Pair value, key is placed in map and than
      *                   we check if pair is in map
      */
     @Test(dataProvider = "setOfMovements1")
     public void checkAvailableMovements(Integer field1, Boolean isDamaged1, Integer field2, Boolean isDamaged2) {
         // given
-        MovementContainer movementContainer = new MovementContainer();
+        MovementContainerImpl movementContainer = new MovementContainerImpl();
 
         // when
         movementContainer.addMovement(field1, isDamaged1);
@@ -90,6 +97,10 @@ public class MovementContainerTest {
         assertTrue(movementContainer.containsMovement(field2));
     }
 
+    /**
+     *
+     * @return set of movement and random key (another than key which we use to put our data(boolean) to map)
+     */
     @DataProvider
     public Object[][] objectAndRandomKey() {
         return new Object[][] {
@@ -111,13 +122,13 @@ public class MovementContainerTest {
      *                  else isDamaged = false
      * @param key - field on board
      *
-     *                   containsMovements method from MovementContainer is tested. Pair value, key is placed in map and than
+     *                   containsMovements method from MovementContainerImpl is tested. Pair value, key is placed in map and than
      *                   we check if pair is in map, but we use to this another key than we use when we putting object into map
      */
     @Test(dataProvider = "objectAndRandomKey")
     public void checkUnAvailableMovements(Integer field, Boolean isDamaged, Integer key) {
         // given
-        MovementContainer movementContainer = new MovementContainer();
+        MovementContainerImpl movementContainer = new MovementContainerImpl();
 
         // when
         movementContainer.addMovement(field, isDamaged);
