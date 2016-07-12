@@ -3,7 +3,7 @@ package dreamteam.battleship.board;
 import dreamteam.battleship.ship.Ship;
 
 /**
- * Created by grzegorz_sledz on 12.07.16.
+ * responsible for placing ships and checking the free places
  */
 public interface IBoard {
 

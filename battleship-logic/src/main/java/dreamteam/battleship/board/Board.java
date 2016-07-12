@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 /**
- * Created by grzegorz_sledz on 11.07.16.
+ * implements the {@link IBoard}
  */
 public class Board implements IBoard {
 
