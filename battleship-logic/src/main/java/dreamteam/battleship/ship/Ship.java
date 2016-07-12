@@ -16,12 +16,14 @@ public interface Ship {
     boolean isDamaged();
 
     /**
-     * equals is needed because we store ships in List
+     *
+     * @return unique id of ship, because ship can have the same variables, but it won't be meant that they will be the same
      */
-    boolean equals(Object obj);
+    int id();
 
     /**
-     * hashCode is needed because we store ships in List
+     *
+     * @return size of ship. It's necessary to outside of our class
      */
-    int hashCode();
+    byte size();
 }

@@ -21,4 +21,11 @@ public abstract class MovementContainer {
      *                  addMovement adds pair(pos, isDamaged) into movements Map
      */
     public abstract void addMovement(int field, boolean isDamaged);
+
+    /**
+     *
+     * @param field - field on Board
+     * @return true if movements contains field and false when movements doesn't contain field
+     */
+    public abstract boolean containsMovement(int field);
 }

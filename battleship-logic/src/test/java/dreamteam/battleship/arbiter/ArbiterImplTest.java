@@ -1,6 +1,7 @@
 package dreamteam.battleship.arbiter;
 
 import dreamteam.battleship.ship.Ship;
+import dreamteam.battleship.ship.ShipFactory;
 import dreamteam.battleship.ship.ShipImpl;
 import dreamteam.battleship.ship.ShipType;
 import org.testng.annotations.DataProvider;
@@ -23,12 +24,12 @@ public class ArbiterImplTest {
     @DataProvider
     public Object[][] removedShips() {
         return new Object[][] {
-                {ShipImpl.shipFactory(ShipType.fourMast), null},
-                {ShipImpl.shipFactory(ShipType.threeMast), null},
-                {ShipImpl.shipFactory(ShipType.fourMast), ShipImpl.shipFactory(ShipType.threeMast)},
-                {ShipImpl.shipFactory(ShipType.fourMast), ShipImpl.shipFactory(ShipType.oneMast)},
-                {ShipImpl.shipFactory(ShipType.twoMast), ShipImpl.shipFactory(ShipType.oneMast)},
-                {ShipImpl.shipFactory(ShipType.twoMast), ShipImpl.shipFactory(ShipType.oneMast)}
+                {ShipFactory.create(ShipType.fourMast), null},
+                {ShipFactory.create(ShipType.threeMast), null},
+                {ShipFactory.create(ShipType.fourMast), ShipFactory.create(ShipType.threeMast)},
+                {ShipFactory.create(ShipType.fourMast), ShipFactory.create(ShipType.oneMast)},
+                {ShipFactory.create(ShipType.twoMast), ShipFactory.create(ShipType.oneMast)},
+                {ShipFactory.create(ShipType.twoMast), ShipFactory.create(ShipType.oneMast)}
         };
     }
 
@@ -42,7 +43,7 @@ public class ArbiterImplTest {
     public void allowRemovingShip(ShipImpl ship1, ShipImpl ship2) {
         // given
         List<Ship> shipList = createShipList();
-        ArbiterImpl arbiter = new ArbiterImpl(shipList);
+        Arbiter arbiter = new ArbiterImpl(shipList);
 
         // when
         arbiter.removeShip(ship1);
@@ -62,7 +63,7 @@ public class ArbiterImplTest {
     public void checkingWinningConditionSucceed() {
         // given
         List<Ship> shipList = new LinkedList();
-        ArbiterImpl arbiter = new ArbiterImpl(shipList);
+        Arbiter arbiter = new ArbiterImpl(shipList);
 
         // then
         assertTrue(arbiter.isWinner());
@@ -75,7 +76,7 @@ public class ArbiterImplTest {
     public void checkingWinningConditionFailed() {
         // given
         List<Ship> shipList = createShipList();
-        ArbiterImpl arbiter = new ArbiterImpl(shipList);
+        Arbiter arbiter = new ArbiterImpl(shipList);
 
         // when
         // ...
@@ -88,12 +89,12 @@ public class ArbiterImplTest {
      * initialize new List that is consist of 4 ships
      */
     public List<Ship> createShipList() {
-        List<Ship> shipList = new LinkedList<Ship>();
+        List<Ship> shipList = new LinkedList<>();
 
-        shipList.add(ShipImpl.shipFactory(ShipType.fourMast));
-        shipList.add(ShipImpl.shipFactory(ShipType.threeMast));
-        shipList.add(ShipImpl.shipFactory(ShipType.twoMast));
-        shipList.add(ShipImpl.shipFactory(ShipType.oneMast));
+        shipList.add(ShipFactory.create(ShipType.fourMast));
+        shipList.add(ShipFactory.create(ShipType.threeMast));
+        shipList.add(ShipFactory.create(ShipType.twoMast));
+        shipList.add(ShipFactory.create(ShipType.oneMast));
 
         return shipList;
     }

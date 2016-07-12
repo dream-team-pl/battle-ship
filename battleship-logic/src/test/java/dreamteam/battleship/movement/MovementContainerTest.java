@@ -43,7 +43,7 @@ public class MovementContainerTest {
     @Test(dataProvider = "setOfMovements")
     public void allowAddingMovement(Integer field, Boolean isDamaged) {
         // given
-        MovementContainerImpl movementContainer = new MovementContainerImpl();
+        MovementContainer movementContainer = new MovementContainerImpl();
 
         // when
         movementContainer.addMovement(field, isDamaged);
@@ -86,7 +86,7 @@ public class MovementContainerTest {
     @Test(dataProvider = "setOfMovements1")
     public void checkAvailableMovements(Integer field1, Boolean isDamaged1, Integer field2, Boolean isDamaged2) {
         // given
-        MovementContainerImpl movementContainer = new MovementContainerImpl();
+        MovementContainer movementContainer = new MovementContainerImpl();
 
         // when
         movementContainer.addMovement(field1, isDamaged1);
@@ -128,7 +128,7 @@ public class MovementContainerTest {
     @Test(dataProvider = "objectAndRandomKey")
     public void checkUnAvailableMovements(Integer field, Boolean isDamaged, Integer key) {
         // given
-        MovementContainerImpl movementContainer = new MovementContainerImpl();
+        MovementContainer movementContainer = new MovementContainerImpl();
 
         // when
         movementContainer.addMovement(field, isDamaged);

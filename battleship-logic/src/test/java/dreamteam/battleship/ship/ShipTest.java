@@ -31,13 +31,13 @@ public class ShipTest {
     @Test(dataProvider = "ships")
     public void setSize(ShipType shipType) {
         // given
-        ShipImpl ship = ShipImpl.shipFactory(shipType);
+        Ship ship = ShipFactory.create(shipType);
 
         // when
         // ...
 
         // then
-        assertEquals(ship.shipType.size, shipType.size);
+        assertEquals(ship.size(), shipType.size);
     }
 
     /**
@@ -65,7 +65,7 @@ public class ShipTest {
     @Test(dataProvider = "shipsAndCountOfDamage")
     public void shipIsHit(ShipType shipType, int damaged) {
         // given
-        ShipImpl ship = ShipImpl.shipFactory(shipType);
+        BattleShip ship = (BattleShip) ShipFactory.create(shipType);
 
         // when
         for(int i=0; i<damaged; i++)
@@ -99,7 +99,7 @@ public class ShipTest {
     @Test(dataProvider = "shipsAndCountOfDamage2")
     public void isWinner(ShipType shipType, int damaged) {
         // given
-        ShipImpl ship = ShipImpl.shipFactory(shipType);
+        Ship ship = ShipFactory.create(shipType);
 
         // when
         for(int i=0; i<damaged; i++)
@@ -135,7 +135,7 @@ public class ShipTest {
     @Test(dataProvider = "sizeAndDamagedSet")
     public void isNotWinner(ShipType shipType, int damaged) {
         // given
-        ShipImpl ship = ShipImpl.shipFactory(shipType);
+        Ship ship = ShipFactory.create(shipType);
 
         // when
         for(int i=0; i<damaged; i++)

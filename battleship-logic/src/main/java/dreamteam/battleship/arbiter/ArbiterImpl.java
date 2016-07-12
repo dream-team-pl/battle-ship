@@ -14,13 +14,13 @@ public class ArbiterImpl extends Arbiter{
         this.shipList = shipList;
     }
 
+    @Override
     public void removeShip(Ship ship) {
-        if(shipList.contains(ship))
-            shipList.remove(ship);
-        else
+        if(!shipList.remove(ship))
             throw new IllegalArgumentException("The ship isn't into shipList");
     }
 
+    @Override
     public boolean isWinner() {
         return shipList.isEmpty();
     }

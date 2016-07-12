@@ -2,7 +2,6 @@ package dreamteam.battleship.arbiter;
 
 import dreamteam.battleship.ship.Ship;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,7 +13,7 @@ public abstract class Arbiter {
     /**
      * List of ships that are alived
      */
-    protected List<Ship> shipList = new LinkedList();
+    protected List<Ship> shipList;
 
     /**
      *
