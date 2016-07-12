@@ -2,7 +2,7 @@
 * Code review steps: 
     - complete and clear javadoc
     - clean code 
-    - pull the branch and check if the tests are passing
+    - pull the branch and check if the tests are passing(make all tests pass)
     - check if logger is used in a valid way( to not forget using logs )
 * Branches: 
     - Feature/{name of the functionality} when you add a new functionality to the system
