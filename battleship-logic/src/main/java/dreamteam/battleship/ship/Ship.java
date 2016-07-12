@@ -8,9 +8,9 @@ package dreamteam.battleship.ship;
  */
 public class Ship {
 
-    final protected String name;
-    final protected byte size;
-    protected int damaged;
+    protected final String name;
+    protected byte damaged;
+    public final byte size;
 
     /**
      *
