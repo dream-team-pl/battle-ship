@@ -13,7 +13,7 @@ import static org.testng.Assert.assertEquals;
 /**
  *
  */
-public class MovementManagerTest {
+public class DamageManagerImpTest {
 
     @Test
     public void test_if_invalid_movements_are_recognized(){
@@ -24,7 +24,7 @@ public class MovementManagerTest {
 
         when(containerMock.containsMovement(anyInt())).thenReturn(true);
 
-        MovementManager manager = new MovementManager(boardMock, containerMock, arbiterMock);
+        DamageManagerImp manager = new DamageManagerImp(boardMock, containerMock, arbiterMock);
 
         MovementStatus result = manager.damage(12);
 
@@ -41,7 +41,7 @@ public class MovementManagerTest {
         when(containerMock.containsMovement(anyInt())).thenReturn(false);
         when(arbiterMock.isWinner()).thenReturn(true);
 
-        MovementManager manager = new MovementManager(boardMock, containerMock, arbiterMock);
+        DamageManagerImp manager = new DamageManagerImp(boardMock, containerMock, arbiterMock);
 
         MovementStatus result = manager.damage(12);
 
@@ -58,7 +58,7 @@ public class MovementManagerTest {
         when(containerMock.containsMovement(anyInt())).thenReturn(false);
         when(boardMock.shipOn(anyInt())).thenReturn(null);
 
-        MovementManager manager = new MovementManager(boardMock, containerMock, arbiterMock);
+        DamageManagerImp manager = new DamageManagerImp(boardMock, containerMock, arbiterMock);
 
         MovementStatus result = manager.damage(12);
 
