@@ -2,7 +2,9 @@ package dreamteam.battleship.movement;
 
 import dreamteam.battleship.board.Board;
 import dreamteam.battleship.board.Direction;
+import dreamteam.battleship.ship.BattleShip;
 import dreamteam.battleship.ship.Ship;
+import dreamteam.battleship.ship.ShipType;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.mock;
@@ -34,7 +36,7 @@ public class PlaceShipManagementTest {
     public void putShipSuccessfully(){
         Board board = mock(Board.class);
         MovementManager manager = new PlaceShipManager(board);
-        Ship ship = new Ship("the name of the ship",(byte)2);
+        Ship ship = new BattleShip(ShipType.fourMast, 12321);
 
         when(board.isPlaceForTheShip(ship, 2, Direction.HORIZONTAL)).thenReturn(true);
         when(board.maxSize()).thenReturn(10);
