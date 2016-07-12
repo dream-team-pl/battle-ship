@@ -1,9 +1,31 @@
 package dreamteam.battleship.movement;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * Created by ehsan on 12.07.16.
+ * MovementContainerImpl stores player's movements.
  */
-public interface MovementContainer {
-    boolean containsMovement(int movementNumber);
-    void addMovement(int movementNumber, boolean isDamaged);
+public abstract class MovementContainer {
+
+    /**
+     * Container for movements. HashMap was chosen because of performance.
+     */
+    protected Map<Integer, Boolean> movements = new HashMap();
+
+    /**
+     *
+     * @param field - field on Board
+     * @param isDamaged - information about player's attack. If player shot, isDamaged = true
+     *                  else isDamaged = false
+     *                  addMovement adds pair(pos, isDamaged) into movements Map
+     */
+    public abstract void addMovement(int field, boolean isDamaged);
+
+    /**
+     *
+     * @param field - field on Board
+     * @return true if movements contains field and false when movements doesn't contain field
+     */
+    public abstract boolean containsMovement(int field);
 }
