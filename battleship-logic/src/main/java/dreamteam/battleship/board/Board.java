@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Board implements IBoard {
 
-    public final Integer mapSize;
+    private int mapSize = 10; // we have just such mach it may be change in the future
     private final Map<Integer,Ship> battleShipMap;
 
     public Board(int mapSize){
@@ -30,5 +30,11 @@ public class Board implements IBoard {
     public boolean isPlaceForTheShip(Ship ship,int fieldNumber,Direction direction){
         return false;
     }
+
+    @Override
+    public int maxSize() {
+        return mapSize*mapSize;
+    }
+
 
 }

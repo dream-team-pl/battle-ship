@@ -3,20 +3,20 @@ package dreamteam.battleship.movement;
 import dreamteam.battleship.arbiter.Arbiter;
 import dreamteam.battleship.board.Board;
 import dreamteam.battleship.ship.Ship;
+import org.apache.log4j.Logger;
 
 /**
  * Responsible to managing the damage movements
  */
-public class DamageManagerImp implements MovementManager {
+public class DamageManagerImp extends AbstractMovementManager{
 
     private final MovementContainer container;
 
-    private final Board board;
-
     private final Arbiter arbiter;
+    final static Logger logger = Logger.getLogger(DamageManagerImp.class);
     public DamageManagerImp(Board board, dreamteam.battleship.movement.MovementContainer movementContainer, Arbiter arbiter) {
+        super(board);
         this.container = movementContainer;
-        this.board = board;
         this.arbiter = arbiter;
     }
 
@@ -51,10 +51,7 @@ public class DamageManagerImp implements MovementManager {
      *          </ul>
      */
     private boolean isValidMovement(int movementNumber){
-        boolean isValid = true;
-        if(movementNumber<1 || movementNumber > board.mapSize){
-            isValid = false;
-        }
+        boolean isValid = isValidFieldNumber(movementNumber);
         if(isValid && container.containsMovement(movementNumber)){
             isValid = false;
         }

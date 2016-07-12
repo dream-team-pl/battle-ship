@@ -8,6 +8,7 @@ import dreamteam.battleship.ship.Ship;
  * Created by ehsan on 12.07.16.
  */
 public interface MovementManager {
+    int MAX_MAP_SIZE = 100;
     /**
      * Damage the field number
      * @param fieldNumber - the field that must be damaged
@@ -30,7 +31,6 @@ public interface MovementManager {
     default MovementStatus damage(int fieldNumber){
         return MovementStatus.INVALID_MOVEMENT;
     }
-
 
     /**
      *
