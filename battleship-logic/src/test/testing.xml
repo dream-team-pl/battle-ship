@@ -2,11 +2,22 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="Set of tests" >
-    <test name="ship, arbiter, movementContainer">
+    <test name="Ship and Arbiter and MovementContainer">
         <classes>
             <class name="dreamteam.battleship.arbiter.ArbiterImplTest" />
             <class name="dreamteam.battleship.ship.ShipTest"/>
             <class name="dreamteam.battleship.movement.MovementContainerTest"/>
+        </classes>
+    </test>
+    <test name="DamageManager and PlaceShipManagement">
+        <classes>
+            <class name="dreamteam.battleship.movement.DamageManagerImpTest"></class>
+            <class name="dreamteam.battleship.movement.PlaceShipManagementTest"></class>
+        </classes>
+    </test>
+    <test name="Board">
+        <classes>
+            <class name="dreamteam.battleship.board.BoardTest"></class>
         </classes>
     </test>
 </suite>

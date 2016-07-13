@@ -13,6 +13,18 @@ public class ShipFactory {
      */
     public static Ship create(ShipType shipType) {
         idCounter++;
-        return new BattleShip(shipType, idCounter);
+
+        switch(shipType) {
+            case oneMast:
+                return new MineSweeper(idCounter);
+            case twoMast:
+                return new Frigate(idCounter);
+            case threeMast:
+                return new Cruiser(idCounter);
+            case fourMast:
+                return new BattleShip(idCounter);
+            default:
+                return null;
+        }
     }
 }

@@ -6,19 +6,11 @@ package dreamteam.battleship.ship;
  */
 public abstract class ShipImpl implements Ship{
 
-    protected final int ID;
+    protected final int id;
+    protected byte damaged;
 
-    public ShipImpl(int ID) {
-        this.ID = ID;
-    }
-
-    /**
-     *
-     * @return unique ship's id
-     */
-    @Override
-    public int id() {
-        return ID;
+    public ShipImpl(int id) {
+        this.id = id;
     }
 
     @Override
@@ -28,24 +20,21 @@ public abstract class ShipImpl implements Ship{
 
         ShipImpl that = (ShipImpl) o;
 
-        return ID == that.ID;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return ID;
+        return id;
     }
 
-    /**
-     * method is executed when opponent hit player's ship
-     */
-    public abstract void damage();
+    public boolean isDamaged() {
+        return (size() - damaged) == 0;
+    }
 
-    /**
-     *
-     * @return true if the ship is destroyed and false if ship alived
-     */
-    public abstract boolean isDamaged();
+    public void damage() {
+        damaged++;
+    }
 
     /**
      *

@@ -4,13 +4,11 @@ import dreamteam.battleship.board.Board;
 import dreamteam.battleship.board.Direction;
 import dreamteam.battleship.ship.BattleShip;
 import dreamteam.battleship.ship.Ship;
-import dreamteam.battleship.ship.ShipType;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Created by ehsan on 12.07.16.
@@ -36,7 +34,7 @@ public class PlaceShipManagementTest {
     public void putShipSuccessfully(){
         Board board = mock(Board.class);
         MovementManager manager = new PlaceShipManager(board);
-        Ship ship = new BattleShip(ShipType.fourMast, 12321);
+        Ship ship = new BattleShip(12321);
 
         when(board.isPlaceForTheShip(ship, 2, Direction.HORIZONTAL)).thenReturn(true);
         when(board.maxSize()).thenReturn(10);
