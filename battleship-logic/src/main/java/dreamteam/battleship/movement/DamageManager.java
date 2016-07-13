@@ -8,16 +8,17 @@ import org.apache.log4j.Logger;
 /**
  * Responsible to managing the damage movements
  */
-public class DamageManagerImp extends AbstractMovementManager{
+public class DamageManager extends AbstractMovementManager{
 
     private final MovementContainer container;
 
     private final Arbiter arbiter;
-    final static Logger logger = Logger.getLogger(DamageManagerImp.class);
-    public DamageManagerImp(Board board, dreamteam.battleship.movement.MovementContainer movementContainer, Arbiter arbiter) {
+    final static Logger logger = Logger.getLogger(DamageManager.class);
+    public DamageManager(Board board, MovementContainer movementContainer, Arbiter arbiter) {
         super(board);
         this.container = movementContainer;
         this.arbiter = arbiter;
+        logger.debug("damage manager is created");
     }
 
     @Override
