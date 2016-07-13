@@ -65,7 +65,7 @@ public class ShipTest {
     @Test(dataProvider = "shipsAndCountOfDamage")
     public void shipIsHit(ShipType shipType, int damaged) {
         // given
-        BattleShip ship = (BattleShip) ShipFactory.create(shipType);
+        ShipImpl ship = (ShipImpl)ShipFactory.create(shipType);
 
         // when
         for(int i=0; i<damaged; i++)

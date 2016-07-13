@@ -31,10 +31,9 @@ public class Board implements IBoard {
         return false;
     }
 
-    @Override
     public int maxSize() {
         return mapSize*mapSize;
     }
 
-
+    
 }

@@ -17,12 +17,6 @@ public interface Ship {
 
     /**
      *
-     * @return unique id of ship, because ship can have the same variables, but it won't be meant that they will be the same
-     */
-    int id();
-
-    /**
-     *
      * @return size of ship. It's necessary to outside of our class
      */
     byte size();
