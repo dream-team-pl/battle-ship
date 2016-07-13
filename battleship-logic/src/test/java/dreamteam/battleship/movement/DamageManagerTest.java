@@ -1,6 +1,7 @@
 package dreamteam.battleship.movement;
 
 import dreamteam.battleship.arbiter.Arbiter;
+import dreamteam.battleship.arbiter.MovementContainer;
 import dreamteam.battleship.board.Board;
 import org.testng.annotations.Test;
 

@@ -6,12 +6,12 @@
         <classes>
             <class name="dreamteam.battleship.arbiter.ArbiterImplTest" />
             <class name="dreamteam.battleship.ship.ShipTest"/>
-            <class name="dreamteam.battleship.movement.MovementContainerTest"/>
+            <class name="dreamteam.battleship.arbiter.MovementContainerTest"/>
         </classes>
     </test>
     <test name="DamageManager and PlaceShipManagement">
         <classes>
-            <class name="dreamteam.battleship.movement.DamageManagerImpTest"></class>
+            <class name="dreamteam.battleship.movement.DamageManagerTest"></class>
             <class name="dreamteam.battleship.movement.PlaceShipManagementTest"></class>
         </classes>
     </test>
