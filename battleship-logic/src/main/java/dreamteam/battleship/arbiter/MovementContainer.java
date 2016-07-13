@@ -1,4 +1,4 @@
-package dreamteam.battleship.movement;
+package dreamteam.battleship.arbiter;
 
 import java.util.HashMap;
 import java.util.Map;

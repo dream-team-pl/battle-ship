@@ -1,6 +1,6 @@
-package dreamteam.battleship.movement;
+package dreamteam.battleship.arbiter;
 
-public class MovementContainerImpl extends MovementContainer{
+public class MovementContainerImpl extends MovementContainer {
 
     @Override
     public void addMovement(int field, boolean isDamaged) {
