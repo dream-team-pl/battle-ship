@@ -1,6 +1,7 @@
 package dreamteam.battleship.movement;
 
 import dreamteam.battleship.arbiter.Arbiter;
+import dreamteam.battleship.arbiter.MovementContainer;
 import dreamteam.battleship.board.Board;
 import dreamteam.battleship.ship.Ship;
 import org.apache.log4j.Logger;
