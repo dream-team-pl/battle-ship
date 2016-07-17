@@ -23,7 +23,7 @@ public class PlaceShipManagementTest {
         Board board = mock(Board.class);
         MovementManager manager = new PlaceShipManager(board);
         Ship ship = mock(Ship.class);
-        when(board.isPlaceForTheShip(ship, 12, Direction.HORIZONTAL)).thenReturn(false);
+        when(board.isPlaceForTheShip( 12,ship, Direction.HORIZONTAL)).thenReturn(false);
 
         assertEquals(manager.tryPutShip(ship, 12, Direction.HORIZONTAL), MovementStatus.TRY_AGAIN);
     }
@@ -36,7 +36,7 @@ public class PlaceShipManagementTest {
         MovementManager manager = new PlaceShipManager(board);
         Ship ship = new BattleShip(12321);
 
-        when(board.isPlaceForTheShip(ship, 2, Direction.HORIZONTAL)).thenReturn(true);
+        when(board.isPlaceForTheShip( 2,ship, Direction.HORIZONTAL)).thenReturn(true);
         when(board.maxSize()).thenReturn(10);
         assertEquals(manager.tryPutShip(ship, 2, Direction.HORIZONTAL), MovementStatus.SUCCESS);
     }
