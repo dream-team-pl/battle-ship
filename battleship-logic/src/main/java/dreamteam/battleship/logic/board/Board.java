@@ -1,5 +1,6 @@
 package dreamteam.battleship.logic.board;
 
+
 import dreamteam.battleship.logic.ship.Ship;
 
 import java.util.HashMap;
@@ -7,33 +8,54 @@ import java.util.Map;
 
 
 /**
- * implements the {@link IBoard}
+ * Simple representation of board
  */
 public class Board implements IBoard {
 
-    private int mapSize = 10; // we have just such mach it may be change in the future
-    private final Map<Integer,Ship> battleShipMap;
+    private final Integer size;
+    private final Map<Integer, Ship> battleShipMap;
+    private final BoardHelper boardHelper;
 
-    public Board(int mapSize){
-        this.mapSize=mapSize;
-        this.battleShipMap=new HashMap<Integer,Ship>(mapSize);
+    public Board(int size) {
+        this.size = size;
+        this.battleShipMap = new HashMap<Integer, Ship>(size * size);
+        this.boardHelper =new BoardHelper(this);
     }
 
-    public Ship shipOn(int fieldNumber){
+    @Override
+    public Ship shipOn(int fieldNumber) {
         return this.battleShipMap.get(fieldNumber);
     }
 
-    public boolean placeShip(int fieldNumber,Ship ship,Direction direction){
-        return false;
+    @Override
+    public boolean isPlaceForTheShip(int fieldNumber,Ship ship,  Direction direction) {
+        return boardHelper.isPlaceForTheShip(fieldNumber,ship,direction);
     }
 
-    public boolean isPlaceForTheShip(Ship ship,int fieldNumber,Direction direction){
+
+    @Override
+    public boolean placeShip(int fieldNumber, Ship ship, Direction direction) {
+        if (isPlaceForTheShip(fieldNumber,ship,direction)){
+            if(direction==Direction.HORIZONTAL) {
+                for (int i = 0; i < ship.size();i++) {
+                    battleShipMap.put(fieldNumber+i,ship);
+                }
+            }else if(direction==Direction.VERTICAL){
+                for (int i = 0; i < ship.size();i++) {
+                    battleShipMap.put(fieldNumber+i*size,ship);
+                }
+            }
+            return true;
+        }
         return false;
     }
-
+    @Override
+    public int size() {
+        return this.size;
+    }
+    @Override
     public int maxSize() {
-        return mapSize*mapSize;
+        return size()*size();
     }
 
-    
 }

@@ -4,6 +4,7 @@ import dreamteam.battleship.logic.arbiter.Arbiter;
 import dreamteam.battleship.logic.board.Direction;
 import dreamteam.battleship.logic.ship.Ship;
 
+
 /**
  * Created by ehsan on 12.07.16.
  */
