@@ -4,3 +4,4 @@ battleship-logic/target/
 log4j.properties
 battleship-view/battleship-view.iml
 battleship-service/battleship-service.iml
+battleship-service/target/
