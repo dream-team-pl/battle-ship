@@ -19,7 +19,7 @@ public class PlaceShipManager extends AbstractMovementManager {
         MovementStatus status = MovementStatus.INVALID_MOVEMENT;
         if(isValidFieldNumber(fromFieldNumber)){
             status = MovementStatus.TRY_AGAIN;
-            if(board.isPlaceForTheShip(ship, fromFieldNumber, direction)){
+            if(board.isPlaceForTheShip(fromFieldNumber,ship, direction)){
                 status = MovementStatus.SUCCESS;
                 board.placeShip(fromFieldNumber, ship, direction);
             }
