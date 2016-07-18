@@ -1,4 +1,4 @@
-package dreamteam.battleship.service;
+package dreamteam.battleship.service.registration;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;

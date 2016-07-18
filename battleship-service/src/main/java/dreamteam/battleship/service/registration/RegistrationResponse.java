@@ -1,4 +1,4 @@
-package dreamteam.battleship.service;
+package dreamteam.battleship.service.registration;
 
 /**
  * Created by ehsan on 18.07.16.

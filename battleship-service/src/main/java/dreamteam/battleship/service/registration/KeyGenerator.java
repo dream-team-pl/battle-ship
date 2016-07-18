@@ -1,4 +1,4 @@
-package dreamteam.battleship.service;
+package dreamteam.battleship.service.registration;
 
 import java.math.BigDecimal;
 import java.util.Random;

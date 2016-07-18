@@ -1,5 +1,9 @@
-package dreamteam.battleship.service;
+package dreamteam.battleship.service.registration;
 
+import dreamteam.battleship.service.registration.KeyGenerator;
+import dreamteam.battleship.service.registration.Player;
+import dreamteam.battleship.service.registration.Registration;
+import dreamteam.battleship.service.registration.RegistrationResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
