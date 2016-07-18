@@ -50,7 +50,7 @@ public class RegistrationTest {
 
         Registration registration = new Registration();
         RegistrationResponse response = registration.register(session, "name", "surname");
-        Player player = response.getPlayer();
+        Player player = response.player;
         Assert.assertFalse(player==null);
         Assert.assertTrue(player==registration.player);
     }

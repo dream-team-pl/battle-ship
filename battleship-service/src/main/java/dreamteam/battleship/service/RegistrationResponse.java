@@ -6,11 +6,8 @@ package dreamteam.battleship.service;
 public class RegistrationResponse {
 
     public final Player player;
+
     public RegistrationResponse(Player player) {
         this.player = player;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 }
