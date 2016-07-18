@@ -1,5 +1,6 @@
 package dreamteam.battleship.service.registration;
 
+import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 /**
  * The Class is responsible for registering the players by session
  */
+@Api
 @RestController
 @Scope("session")
 @CrossOrigin("*")

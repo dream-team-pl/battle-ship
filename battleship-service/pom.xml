@@ -91,8 +91,22 @@
       <artifactId>springfox-swagger-ui</artifactId>
       <version>2.2.2</version>
     </dependency>
-
-
+    <dependency>
+      <groupId>dreamteam.battleship</groupId>
+      <artifactId>dreamteam-logic</artifactId>
+      <version>1.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>dreamteam.battleship</groupId>
+      <artifactId>dreamteam-logic</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>dreamteam.battleship</groupId>
+      <artifactId>battleship-logic</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
