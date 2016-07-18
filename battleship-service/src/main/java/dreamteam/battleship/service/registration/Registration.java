@@ -31,4 +31,8 @@ public class Registration {
         logger.debug("register complete");
         return new RegistrationResponse(player);
     }
+
+    public Player getPlayer(){
+        return player;
+    }
 }
