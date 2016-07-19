@@ -31,6 +31,7 @@ public class PlacingShip {
 
     protected List<ShipType> availableShips = availableShipList();
 
+    // TODO do something to create all thinks such these one in one creator or builder
     private List<ShipType> availableShipList() {
         List<ShipType> list = new LinkedList<>();
         list.add(ShipType.oneMast);
@@ -66,4 +67,7 @@ public class PlacingShip {
         return availableShips.contains(type);
     }
 
+    public MovementManager myManager(){
+        return manager;
+    }
 }

@@ -1,6 +1,7 @@
 package dreamteam.battleship.logic.movement;
 
 import dreamteam.battleship.logic.arbiter.Arbiter;
+import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.board.Direction;
 import dreamteam.battleship.logic.ship.Ship;
 
@@ -54,4 +55,6 @@ public interface MovementManager {
     default MovementStatus tryPutShip(Ship ship, int fromFieldNumber, Direction direction){
         return MovementStatus.INVALID_MOVEMENT;
     }
+
+    Board getBoard();
 }

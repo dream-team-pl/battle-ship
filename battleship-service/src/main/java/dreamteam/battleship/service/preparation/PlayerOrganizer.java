@@ -41,7 +41,7 @@ public class PlayerOrganizer {
         if(gameController==null){
             logger.debug("Preparing the player");
             Player player = myPlayer(session);
-            MovementManager manager = newManager();
+            MovementManager manager = myManager(session);
 
             if(bench.isFree()){
                 setFirstPlayer(player, manager);
@@ -65,8 +65,8 @@ public class PlayerOrganizer {
         bench.letSit(gameController);
     }
 
-    private MovementManager newManager() {
-        return new DamageManager(new Board(10), new MovementContainerImpl(),new ArbiterImpl(null));
+    private MovementManager myManager(HttpSession session) {
+        return ((PlacingShip)session.getAttribute("placingShip")).manager;
     }
 
     private Player myPlayer(HttpSession session) {

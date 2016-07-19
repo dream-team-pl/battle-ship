@@ -16,4 +16,8 @@ public abstract class AbstractMovementManager implements MovementManager{
         return (fieldNumebr>0 && fieldNumebr < MAX_MAP_SIZE);
     }
 
+    @Override
+    public Board getBoard() {
+        return board;
+    }
 }

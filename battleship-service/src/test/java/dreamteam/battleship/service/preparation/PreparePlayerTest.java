@@ -5,7 +5,6 @@ import dreamteam.battleship.service.registration.Player;
 import dreamteam.battleship.service.registration.Registration;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.AssertJUnit.assertFalse;
@@ -21,10 +20,16 @@ public class PreparePlayerTest {
         PlayerOrganizer organizer = new PlayerOrganizer();
 
         MockHttpSession session = new MockHttpSession();
+
         Registration registration = mock(Registration.class);
-        when(registration.getPlayer()).thenReturn(new Player("name", "surname", "1"));
+        when(registration.getPlayer()).thenReturn(mock(Player.class));
+
+        PlacingShip placingShip = mock(PlacingShip.class);
+        when(placingShip.myManager()).thenReturn(mock(DamageManager.class));
 
         session.setAttribute("registration", registration);
+        session.setAttribute("placingShip", placingShip);
+
         organizer.bench = new Bench();
 
         PlayerOrganizerResponse response =  organizer.preparePlayer(session);
@@ -38,11 +43,15 @@ public class PreparePlayerTest {
 
         MockHttpSession session = new MockHttpSession();
         Registration registration = mock(Registration.class);
-        when(registration.getPlayer()).thenReturn(new Player("name", "surname", "1"));
+        when(registration.getPlayer()).thenReturn(mock(Player.class));
+
+        PlacingShip placingShip = mock(PlacingShip.class);
+        when(placingShip.myManager()).thenReturn(mock(DamageManager.class));
 
         session.setAttribute("registration", registration);
+        session.setAttribute("placingShip", placingShip);
         organizer.bench = new Bench();
-        organizer.bench.letSit(new GameController(new Player("name", "surname", "1"), mock(DamageManager.class)));
+        organizer.bench.letSit(new GameController(mock(Player.class), mock(DamageManager.class)));
         PlayerOrganizerResponse response =  organizer.preparePlayer(session);
 
         assertTrue(response.readyToPlay);
@@ -71,8 +80,11 @@ public class PreparePlayerTest {
         organizer2.bench = bench;
 
         // the session to add the attributes
+        PlacingShip placingShip = mock(PlacingShip.class);
+        when(placingShip.myManager()).thenReturn(mock(DamageManager.class));
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("registration", registration1);
+        session.setAttribute("placingShip", placingShip);
 
         // prepare player1
         organizer1.preparePlayer(session);

@@ -1,5 +1,8 @@
 package dreamteam.battleship.service.preparation;
 
+import dreamteam.battleship.logic.arbiter.ArbiterImpl;
+import dreamteam.battleship.logic.arbiter.MovementContainerImpl;
+import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.registration.Player;
 
@@ -11,6 +14,8 @@ public class GameController {
     Player player1, player2;
 
     MovementManager manager1, manager2;
+
+    private boolean isTheGameStarted;
 
     public GameController(Player player1, MovementManager manager1){
         this.player1 = player1;
@@ -24,5 +29,12 @@ public class GameController {
 
     public boolean isReadyToPlay() {
         return player1 != null && player2 != null;
+    }
+
+    public void startGame(){
+        if(!isTheGameStarted) {
+            manager1 = new DamageManager(manager2.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player2.shipList()));
+            manager2 = new DamageManager(manager1.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player1.shipList()));
+        }
     }
 }
