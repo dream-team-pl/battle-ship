@@ -6,6 +6,8 @@ import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.ship.Ship;
 import org.apache.log4j.Logger;
 
+import java.util.Map;
+
 /**
  * Responsible to managing the damage movements
  */
@@ -36,6 +38,11 @@ public class DamageManager extends AbstractMovementManager{
             retStatus = MovementStatus.WON;
         }
         return retStatus;
+    }
+
+    @Override
+    public Map<Integer, Boolean> getMovements() {
+        return container.getMovements();
     }
 
     /**

@@ -5,8 +5,11 @@ import dreamteam.battleship.logic.board.Direction;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.logic.movement.PlaceShipManager;
+import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipFactory;
 import dreamteam.battleship.logic.ship.ShipType;
+import dreamteam.battleship.service.registration.Player;
+import dreamteam.battleship.service.registration.Registration;
 import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
@@ -31,6 +34,12 @@ public class PlacingShip {
 
     protected List<ShipType> availableShips = availableShipList();
 
+    protected Player player;
+    @InitBinder
+    public void init(HttpSession session){
+        player = ((Registration)session.getAttribute("registration")).getPlayer();
+    }
+
     // TODO do something to create all thinks such these one in one creator or builder
     private List<ShipType> availableShipList() {
         List<ShipType> list = new LinkedList<>();
@@ -50,7 +59,11 @@ public class PlacingShip {
         logger.debug("Placing the ship " + type + " on field number " + fieldNumber + " " + direction);
         MovementStatus status = MovementStatus.TRY_AGAIN;
         if(validShip(type)){
-            status = manager.tryPutShip(ShipFactory.create(type), fieldNumber, direction);
+            //getting the ship from the player
+            // put the ship from the player
+            Ship ship = ShipFactory.create(type);
+            player.addShip(ship);
+            status = manager.tryPutShip(ship, fieldNumber, direction);
             cleanUpList(status, type);
         }
         logger.debug("Placement completed with status " + status);

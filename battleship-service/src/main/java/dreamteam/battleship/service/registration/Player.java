@@ -25,8 +25,26 @@ public class Player {
     }
 
     public List<Ship> shipList(){
-        List<Ship> temp = new LinkedList<>();
-        Collections.copy(temp, availableShips);
-        return temp;
+        return availableShips;
+    }
+
+    public void addShip(Ship ship){
+        availableShips.add(ship);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        return identification != null ? identification.equals(player.identification) : player.identification == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return identification != null ? identification.hashCode() : 0;
     }
 }

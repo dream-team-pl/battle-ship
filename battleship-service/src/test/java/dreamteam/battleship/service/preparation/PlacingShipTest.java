@@ -7,6 +7,7 @@ import dreamteam.battleship.logic.ship.Cruiser;
 import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipFactory;
 import dreamteam.battleship.logic.ship.ShipType;
+import dreamteam.battleship.service.registration.Player;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
 
@@ -29,6 +30,7 @@ public class PlacingShipTest {
     public void placing3SizeShipOnField1(){
         PlacingShip placingShip = new PlacingShip();
         MockHttpSession session = new MockHttpSession();
+        placingShip.player = new Player("","", "1", new LinkedList<Ship>());
         PlacingResponse placingResponse = placingShip.place(session, ShipType.threeMast, 1, Direction.VERTICAL);
 
         assertTrue(placingResponse.status.equals(MovementStatus.SUCCESS));
@@ -39,7 +41,7 @@ public class PlacingShipTest {
         PlacingShip placingShip = new PlacingShip();
 
         MockHttpSession session = new MockHttpSession();
-
+        placingShip.player = new Player("","", "1", new LinkedList<Ship>());
         placingShip.place(session, ShipType.threeMast, 1, Direction.VERTICAL);
         PlacingResponse placingResponse = placingShip.place(session, ShipType.threeMast, 1, Direction.VERTICAL);
 
@@ -61,6 +63,7 @@ public class PlacingShipTest {
         shipLists.add(ShipType.fourMast);
         shipLists.add(ShipType.fourMast);
         placingShip.availableShips = shipLists;
+        placingShip.player = new Player("","", "1", new LinkedList<Ship>());
 
         // placing the result list must be empty
         placingShip.place(session, ShipType.fourMast, 1, Direction.VERTICAL);

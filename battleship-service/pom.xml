@@ -93,7 +93,7 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      <!---agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n-->
+      <!-- -agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
