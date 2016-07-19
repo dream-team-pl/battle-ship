@@ -72,4 +72,8 @@ public class PlayerOrganizer {
     private Player myPlayer(HttpSession session) {
         return ((Registration)session.getAttribute("registration")).getPlayer();
     }
+
+    public GameController myController(){
+        return gameController;
+    }
 }
