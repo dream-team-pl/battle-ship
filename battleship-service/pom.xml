@@ -70,37 +70,11 @@
       <version>3.0.1</version>
     </dependency>
 
-    <!--swagger-->
-    <!--Swagger configuration-->
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>2.2.2</version>
-    </dependency>
-
     <!--just a json documentation-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.5.0</version>
-    </dependency>
-
-    <!--to create ui for swagger-->
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.2.2</version>
-    </dependency>
-    <dependency>
-      <groupId>dreamteam.battleship</groupId>
-      <artifactId>dreamteam-logic</artifactId>
-      <version>1.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>dreamteam.battleship</groupId>
-      <artifactId>dreamteam-logic</artifactId>
-      <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>dreamteam.battleship</groupId>
