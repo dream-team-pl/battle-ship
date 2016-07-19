@@ -5,6 +5,8 @@ import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.board.Direction;
 import dreamteam.battleship.logic.ship.Ship;
 
+import java.util.Map;
+
 
 /**
  * Created by ehsan on 12.07.16.
@@ -57,4 +59,6 @@ public interface MovementManager {
     }
 
     Board getBoard();
+
+    Map<Integer, Boolean> getMovements();
 }

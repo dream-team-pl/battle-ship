@@ -33,7 +33,7 @@ public class Registration {
         logger.debug("registering the player " + name +  "  " + surname + "sessionId" + " session: " + (session!=null));
         KeyGenerator generator = new KeyGenerator();
 
-        player = new Player(name, surname, generator.generate(), shipList());
+        player = new Player(name, surname, generator.generate(), new LinkedList<>());
         logger.debug("register complete");
         return new RegistrationResponse(player);
     }

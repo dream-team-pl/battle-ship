@@ -33,12 +33,14 @@ public class PlayingTest {
         PlayerOrganizer organizer = mock(PlayerOrganizer.class);
         GameController controller = mock(GameController.class);
         when(controller.shoot(anyInt(), any(Player.class))).thenReturn(MovementStatus.SUCCESS);
+        when(controller.getWinner()).thenReturn(null);
         when(organizer.myController()).thenReturn(controller);
 
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("registration", registration);
         session.setAttribute("placingShip", placingShip);
         session.setAttribute("playerOrganizer", organizer);
+        playing.init(session);
         ShootResponse status = playing.shoot(session, 12);
 
         assertTrue(status.status.equals(MovementStatus.SUCCESS));
