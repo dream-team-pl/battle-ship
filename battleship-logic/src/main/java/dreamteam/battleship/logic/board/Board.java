@@ -58,4 +58,8 @@ public class Board implements IBoard {
         return size()*size();
     }
 
+    @Override
+    public String toString() {
+        return  battleShipMap.toString();
+    }
 }
