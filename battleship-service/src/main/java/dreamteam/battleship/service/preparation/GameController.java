@@ -6,6 +6,7 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.registration.Player;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import java.util.Map;
  * Created by egolesor on 19.07.16.
  */
 public class GameController {
-
+    final static Logger logger = Logger.getLogger(GameController.class);
     Player player1, player2;
 
     MovementManager manager1, manager2;
@@ -45,8 +46,12 @@ public class GameController {
 
     public void startGame(){
         if(!isTheGameStarted) {
-            manager1 = new DamageManager(manager2.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player2.shipList()));
-            manager2 = new DamageManager(manager1.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player1.shipList()));
+            logger.debug(player1.name + " has board " + manager1.getBoard());
+            logger.debug(player2.name + " has board " + manager2.getBoard());
+            MovementManager tempManager1 = manager1;
+            MovementManager tempManager2 = manager2;
+            manager1 = new DamageManager(tempManager2.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player2.shipList()));
+            manager2 = new DamageManager(tempManager1.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player1.shipList()));
             currentManager = manager1;
             currentPlayer = player1;
             isTheGameStarted = true;
@@ -60,6 +65,7 @@ public class GameController {
             status = currentManager.damage(fieldNumber);
         }
         checkPlayer(status, player);
+
         return status;
     }
 
