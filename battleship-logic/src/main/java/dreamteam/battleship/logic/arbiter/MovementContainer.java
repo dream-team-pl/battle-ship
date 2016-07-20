@@ -28,4 +28,8 @@ public abstract class MovementContainer {
      * @return true if movements contains field and false when movements doesn't contain field
      */
     public abstract boolean containsMovement(int field);
+
+    public Map<Integer, Boolean> getMovements(){
+        return movements;
+    }
 }

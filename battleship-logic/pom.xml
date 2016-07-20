@@ -5,8 +5,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <groupId>dreamteam.battleship</groupId>
-  <artifactId>dreamteam-logic</artifactId>
-  <packaging>war</packaging>
+  <artifactId>battleship-logic</artifactId>
+  <packaging>jar</packaging>
   <version>1.0</version>
   <name>battleship-logic</name>
 

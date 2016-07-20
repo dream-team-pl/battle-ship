@@ -1,4 +1,4 @@
-package dreamteam.battleship.service;
+package dreamteam.battleship.service.registration;
 
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.Assert;

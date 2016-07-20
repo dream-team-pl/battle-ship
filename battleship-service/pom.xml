@@ -70,29 +70,17 @@
       <version>3.0.1</version>
     </dependency>
 
-    <!--swagger-->
-    <!--Swagger configuration-->
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-      <version>2.2.2</version>
-    </dependency>
-
     <!--just a json documentation-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.5.0</version>
     </dependency>
-
-    <!--to create ui for swagger-->
     <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
-      <version>2.2.2</version>
+      <groupId>dreamteam.battleship</groupId>
+      <artifactId>battleship-logic</artifactId>
+      <version>1.0</version>
     </dependency>
-
-
   </dependencies>
   <build>
     <plugins>
@@ -105,7 +93,7 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      <!---agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n-->
+      <!-- -agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
