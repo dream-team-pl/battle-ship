@@ -69,7 +69,11 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>3.0.1</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>1.1.1</version>
+    </dependency>
     <!--just a json documentation-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
