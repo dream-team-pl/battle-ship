@@ -10,7 +10,6 @@ import dreamteam.battleship.logic.ship.ShipFactory;
 import dreamteam.battleship.logic.ship.ShipType;
 import dreamteam.battleship.service.registration.Player;
 import dreamteam.battleship.service.registration.Registration;
-import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +21,8 @@ import java.util.List;
 /**
  * Created by egolesor on 18.07.16.
  */
-@Api
 @RestController
 @Scope("session")
-@CrossOrigin("*")
 public class PlacingShip {
 
     final static Logger logger = Logger.getLogger(PlacingShip.class);

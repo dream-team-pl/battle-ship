@@ -5,7 +5,6 @@ import dreamteam.battleship.service.preparation.GameController;
 import dreamteam.battleship.service.preparation.PlayerOrganizer;
 import dreamteam.battleship.service.registration.Player;
 import dreamteam.battleship.service.registration.Registration;
-import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by egolesor on 19.07.16.
+ * Responsible to play and shooting the fields
  */
-@Api
 @RestController
 @Scope("session")
-@CrossOrigin("*")
 public class Playing {
 
     final static Logger logger = Logger.getLogger(Playing.class);
