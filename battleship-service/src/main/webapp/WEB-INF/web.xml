@@ -22,9 +22,28 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>html-navigator</servlet-name>
+        <servlet-class>dreamteam.battleship.service.navigator.HtmlNavigator</servlet-class>
+        <init-param>
+            <param-name>navigationFile</param-name>
+            <param-value>/WEB-INF/html-navigation.json</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>html-navigator</servlet-name>
+        <url-pattern>/html/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/service/*</url-pattern>
     </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>/view/index.html</welcome-file>
+    </welcome-file-list>
+
 
 </web-app>

@@ -1,0 +1,5 @@
+{
+  "/register":"/view/register.html",
+  "/placing":"/view/placingShip.html",
+  "/play":"/view/play.html"
+}
