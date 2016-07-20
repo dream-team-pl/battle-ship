@@ -14,10 +14,10 @@
 
     <context:component-scan base-package="dreamteam.battleship.service" />
     <mvc:annotation-driven />
-    <bean class="
-    springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration"
-          id="swagger2Config">
 
-    </bean>
+    <context:annotation-config/>
+
+    <bean class="dreamteam.battleship.service.navigator.SwaggerConf"/>
+
 
 </beans>

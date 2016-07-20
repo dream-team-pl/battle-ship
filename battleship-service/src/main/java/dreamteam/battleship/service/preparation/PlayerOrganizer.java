@@ -1,18 +1,12 @@
 package dreamteam.battleship.service.preparation;
 
-import dreamteam.battleship.logic.arbiter.ArbiterImpl;
-import dreamteam.battleship.logic.arbiter.MovementContainerImpl;
-import dreamteam.battleship.logic.board.Board;
-import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.registration.Player;
 import dreamteam.battleship.service.registration.Registration;
-import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by egolesor on 19.07.16.
+ * responsible to connect the players
  */
-@Api
 @RestController
 @Scope("session")
-@CrossOrigin("*")
 public class PlayerOrganizer {
 
     final static Logger logger = Logger.getLogger(PlayerOrganizer.class);
