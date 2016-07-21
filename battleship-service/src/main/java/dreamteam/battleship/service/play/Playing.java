@@ -29,7 +29,7 @@ public class Playing extends BattleShipServiceBase {
     private Player player;
     @InitBinder
     public void init(HttpSession session){
-        super.init();
+        super.init(session);
         controller = initController(session);
         controller.startGame();
 

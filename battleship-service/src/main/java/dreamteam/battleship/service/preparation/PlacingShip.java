@@ -35,7 +35,7 @@ public class PlacingShip extends BattleShipServiceBase {
     protected Player player;
     @InitBinder
     public void init(HttpSession session){
-        super.init();
+        super.init(session);
         player = ((Registration)session.getAttribute("registration")).getPlayer();
     }
 
