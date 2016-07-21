@@ -8,7 +8,6 @@ import dreamteam.battleship.logic.movement.PlaceShipManager;
 import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipFactory;
 import dreamteam.battleship.logic.ship.ShipType;
-import dreamteam.battleship.service.BattleShipServiceBase;
 import dreamteam.battleship.service.registration.Player;
 import dreamteam.battleship.service.registration.Registration;
 import org.apache.log4j.Logger;
@@ -24,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @Scope("session")
-public class PlacingShip extends BattleShipServiceBase {
+public class PlacingShip {
 
     final static Logger logger = Logger.getLogger(PlacingShip.class);
 
@@ -35,7 +34,6 @@ public class PlacingShip extends BattleShipServiceBase {
     protected Player player;
     @InitBinder
     public void init(HttpSession session){
-        super.init();
         player = ((Registration)session.getAttribute("registration")).getPlayer();
     }
 

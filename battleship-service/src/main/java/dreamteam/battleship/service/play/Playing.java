@@ -1,7 +1,6 @@
 package dreamteam.battleship.service.play;
 
 import dreamteam.battleship.logic.movement.MovementStatus;
-import dreamteam.battleship.service.BattleShipServiceBase;
 import dreamteam.battleship.service.preparation.GameController;
 import dreamteam.battleship.service.preparation.PlayerOrganizer;
 import dreamteam.battleship.service.registration.Player;
@@ -12,15 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
-import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
-
 /**
  * Responsible to play and shooting the fields
  */
 @RestController
 @Scope("session")
-public class Playing extends BattleShipServiceBase {
+public class Playing {
 
     final static Logger logger = Logger.getLogger(Playing.class);
 
@@ -29,7 +25,6 @@ public class Playing extends BattleShipServiceBase {
     private Player player;
     @InitBinder
     public void init(HttpSession session){
-        super.init();
         controller = initController(session);
         controller.startGame();
 
@@ -46,16 +41,13 @@ public class Playing extends BattleShipServiceBase {
     public ShootResponse shoot(HttpSession session,
                                @RequestParam(name = "fieldNumber") int fieldNumber) {
 
-        logger.debug(START);
         ShootResponse response;
-        // check if there is sense to shoot
         if(controller.getWinner()==null){
             response = handleShoot(session, fieldNumber);
             logger.debug("shoot status is " + response.status);
         }else {
             response= winnerResponse();
         }
-        logger.debug(END);
         return response;
     }
 
@@ -72,19 +64,11 @@ public class Playing extends BattleShipServiceBase {
      */
     private ShootResponse handleShoot(HttpSession session, int fieldNumber) {
         logger.debug("Handling the shoot");
-        ShootResponse response;
         MovementStatus status = controller.shoot(fieldNumber, player);
         if(mustPlayNext(status)){
             controller.nextPlayer();
         }
-        // check if he is the winnner
-        //FIXME In the future when we will use web sockets we are going to send event, we need to delete this line
-        if(MovementStatus.WON.equals(status)){
-            response = winnerResponse();
-        }else {
-            response = new ShootResponse(status, controller.getBoardForPlayer(player));
-        }
-        return response;
+        return new ShootResponse(status, controller.getBoardForPlayer(player));
     }
 
     /**
