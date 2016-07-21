@@ -71,7 +71,7 @@ public class GameController {
 
     private void checkPlayer(MovementStatus status, Player player) {
         if(MovementStatus.WON.equals(status)){
-            winner = player1;
+            winner = currentPlayer;
         }
     }
 
