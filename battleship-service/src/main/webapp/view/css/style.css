@@ -1,0 +1,157 @@
+/**main**/
+#heading {
+    text-align: center;
+}
+
+button {
+    width: 100%;
+    display:block;
+	text-align:center;
+}
+
+#form {
+   width: 100%; 
+}
+
+td {
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
+}
+
+.player-board {
+    position: relative;
+}
+
+table td {
+    width: 30px;
+    height: 30px;
+    border: 1px solid gray;
+    background: #B1E6F2;
+}
+
+table th {
+    background: #aaa;
+    height: 30px;
+    width: 30px;
+    text-align: center
+}
+
+.player-board  td:hover {
+    background: red;
+}
+
+/**freezing***/
+
+.wait {
+    position: relative;
+    cursor: default
+}
+
+.wait:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, .6);
+    z-index: 100;
+    content: ""
+}
+
+.player-board.wait  {
+    cursor: default
+}
+
+
+/*******************/
+
+.cell_empty {
+    border: 1px solid #B4B4FF;
+    padding: 0
+}
+
+.cell_missed  {
+    background: #f2f4f8
+}
+
+.cell_content {
+    position: relative;
+    height: 2em;
+    width: 2em
+}
+.cell_missed .cell_content {
+    background: #f2f4f8
+}
+/*<td class="cell cell_missed ">
+<div class="cell_content"><span class="point"></span>&nbsp;</div>
+</td>*/
+
+.cell_missed .cell_content .point {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 4px;
+    width: 4px;
+    background: #333;
+    border-radius: 50%;
+    margin-top: -2px;
+    margin-left: -2px
+}
+
+/*********************************/
+td.cell_hit{
+    border: 2px solid red;
+    background: #f2f4f8
+}
+.cell_hit .cell_content{
+    background: #f2f4f8;
+    position: relative
+}
+
+.cell_hit .cell_content .point {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+    box-sizing: border-box
+}
+
+.cell_hit .cell_content .point:after,
+.cell_hit .cell_content .point:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: red;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg)
+}
+
+.cell_hit .cell_content .point:before {
+    left: 50%;
+    width: 2px;
+    top: -25%;
+    height: 150%;
+    margin-top: 1px
+}
+
+.cell_hit .cell_content .point:after {
+    top: 50%;
+    height: 2px;
+    left: -25%;
+    width: 150%;
+    margin-left: -1px
+}
+
+/******Ship*************/
+
+td.cell_ship{
+    border: 2px solid black;
+    background: #cc6600
+}

@@ -1,0 +1,25 @@
+<div id="mainColumn_id" class="main col-lg-12 ">
+    <div id="column1_id" class="col-lg-6">
+        <div class="form-group">
+            <br>
+            <label for="sel2">Select ship:</label>
+            <select id="shipsSelectLists_id" class="form-control" size="5">
+            </select>
+        </div>
+        <button id="orientationBtn_id" type="button" class="btn btn-warning" onclick="changeShipOrientation()" orientation="HORIZONTAL">HORIZONTAL</button>
+
+        <br>
+        <br>
+        <table id="id_shipTemplate">
+            <tbody id="id_tableBody"> </tbody>
+        </table>
+    </div>
+    <div id="column2_id" class="col-lg-6">
+        <h3>Opponent game</h3>
+        <table id="id_myBoard" class="player-board">
+            <thead>
+                <tr id="id_lettersLabel"> </tr>
+            </thead>
+            <tbody id="id_tableBody"> </tbody>
+        </table>
+    </div>
