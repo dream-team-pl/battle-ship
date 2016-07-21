@@ -15,7 +15,7 @@ public abstract class AbstractMovementManager implements MovementManager{
     }
 
     boolean isValidFieldNumber(int fieldNumebr){
-        return (fieldNumebr>0 && fieldNumebr < MAX_MAP_SIZE);
+        return (fieldNumebr>=1 && fieldNumebr <=MAX_MAP_SIZE);
     }
 
     @Override
