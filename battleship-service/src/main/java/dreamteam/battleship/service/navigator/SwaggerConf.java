@@ -15,6 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConf{
     @Bean
     public Docket customImplementation(){
-        return new Docket(new DocumentationType("Dreamteam","1.0")).pathMapping("/service/");
+        return new Docket(DocumentationType.SWAGGER_2).pathMapping("/service/");
     }
 }
