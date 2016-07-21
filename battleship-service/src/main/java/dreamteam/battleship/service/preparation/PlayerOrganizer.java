@@ -1,6 +1,7 @@
 package dreamteam.battleship.service.preparation;
 
 import dreamteam.battleship.logic.movement.MovementManager;
+import dreamteam.battleship.service.BattleShipServiceBase;
 import dreamteam.battleship.service.registration.Player;
 import dreamteam.battleship.service.registration.Registration;
 import org.apache.log4j.Logger;
@@ -13,12 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
+import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
+import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
+
 /**
  * responsible to connect the players
  */
 @RestController
 @Scope("session")
-public class PlayerOrganizer {
+public class PlayerOrganizer extends BattleShipServiceBase {
 
     final static Logger logger = Logger.getLogger(PlayerOrganizer.class);
 
@@ -30,6 +34,7 @@ public class PlayerOrganizer {
 
     @RequestMapping(method = RequestMethod.GET, path = "/prepare")
     public PlayerOrganizerResponse preparePlayer(HttpSession session) {
+        logger.debug(START);
         if(gameController==null){
             logger.debug("Preparing the player");
             Player player = myPlayer(session);
@@ -41,7 +46,7 @@ public class PlayerOrganizer {
                 setSecondPlayer(player, manager);
             }
         }
-
+        logger.debug(END);
         return new PlayerOrganizerResponse(gameController.isReadyToPlay());
     }
 
