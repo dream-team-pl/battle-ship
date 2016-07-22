@@ -1,4 +1,4 @@
-package dreamteam.battleship.service.preparation;
+package dreamteam.battleship.service.springcontroller.preparation;
 
 /**
  * Created by egolesor on 19.07.16.

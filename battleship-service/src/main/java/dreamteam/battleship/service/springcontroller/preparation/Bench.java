@@ -1,6 +1,5 @@
-package dreamteam.battleship.service.preparation;
+package dreamteam.battleship.service.springcontroller.preparation;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**

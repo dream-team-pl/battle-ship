@@ -1,4 +1,4 @@
-package dreamteam.battleship.service.registration;
+package dreamteam.battleship.service.springcontroller.registration;
 
 /**
  * Created by ehsan on 18.07.16.

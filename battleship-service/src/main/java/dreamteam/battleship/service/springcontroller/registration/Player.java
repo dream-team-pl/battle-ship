@@ -1,10 +1,7 @@
-package dreamteam.battleship.service.registration;
+package dreamteam.battleship.service.springcontroller.registration;
 
 import dreamteam.battleship.logic.ship.Ship;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

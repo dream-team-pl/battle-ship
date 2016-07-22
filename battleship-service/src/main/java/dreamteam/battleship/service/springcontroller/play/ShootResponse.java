@@ -1,7 +1,7 @@
-package dreamteam.battleship.service.play;
+package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.MovementStatus;
-import dreamteam.battleship.service.registration.Player;
+import dreamteam.battleship.service.springcontroller.registration.Player;
 
 import java.util.Map;
 

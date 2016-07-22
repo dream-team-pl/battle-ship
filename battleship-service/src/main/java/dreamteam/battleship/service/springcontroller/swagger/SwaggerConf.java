@@ -1,4 +1,4 @@
-package dreamteam.battleship.service.navigator;
+package dreamteam.battleship.service.springcontroller.swagger;
 
 
 import org.springframework.context.annotation.Bean;
