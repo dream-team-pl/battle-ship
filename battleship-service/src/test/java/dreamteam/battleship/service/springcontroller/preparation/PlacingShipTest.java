@@ -1,11 +1,13 @@
-package dreamteam.battleship.service.preparation;
+package dreamteam.battleship.service.springcontroller.preparation;
 
 import dreamteam.battleship.logic.board.Direction;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.logic.movement.PlaceShipManager;
 import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipType;
-import dreamteam.battleship.service.registration.Player;
+import dreamteam.battleship.service.springcontroller.preparation.PlacingResponse;
+import dreamteam.battleship.service.springcontroller.preparation.PlacingShip;
+import dreamteam.battleship.service.springcontroller.registration.Player;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
 

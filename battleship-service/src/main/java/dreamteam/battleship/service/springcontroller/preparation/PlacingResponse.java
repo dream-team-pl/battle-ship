@@ -1,4 +1,4 @@
-package dreamteam.battleship.service.preparation;
+package dreamteam.battleship.service.springcontroller.preparation;
 
 import dreamteam.battleship.logic.movement.*;
 import dreamteam.battleship.logic.ship.ShipType;

@@ -1,10 +1,10 @@
-package dreamteam.battleship.service.play;
+package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
-import dreamteam.battleship.service.preparation.GameController;
-import dreamteam.battleship.service.registration.Player;
+import dreamteam.battleship.service.springcontroller.preparation.GameController;
+import dreamteam.battleship.service.springcontroller.registration.Player;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.mock;

@@ -12,12 +12,12 @@
     <mvc:default-servlet-handler/>
     <!--end Swagger configurations-->
 
-    <context:component-scan base-package="dreamteam.battleship.service" />
+    <context:component-scan base-package="dreamteam.battleship.service.springcontroller" />
     <mvc:annotation-driven />
 
     <context:annotation-config/>
 
-    <bean class="dreamteam.battleship.service.navigator.SwaggerConf"/>
+    <bean class="dreamteam.battleship.service.springcontroller.swagger.SwaggerConf"/>
 
 
 </beans>

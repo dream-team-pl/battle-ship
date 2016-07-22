@@ -1,6 +1,5 @@
-package dreamteam.battleship.service.registration;
+package dreamteam.battleship.service.springcontroller.registration;
 
-import java.math.BigDecimal;
 import java.util.Random;
 
 /**

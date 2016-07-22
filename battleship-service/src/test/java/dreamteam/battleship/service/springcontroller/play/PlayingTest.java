@@ -1,12 +1,14 @@
-package dreamteam.battleship.service.play;
+package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
-import dreamteam.battleship.service.preparation.GameController;
-import dreamteam.battleship.service.preparation.PlacingShip;
-import dreamteam.battleship.service.preparation.PlayerOrganizer;
-import dreamteam.battleship.service.registration.Player;
-import dreamteam.battleship.service.registration.Registration;
+import dreamteam.battleship.service.springcontroller.play.Playing;
+import dreamteam.battleship.service.springcontroller.play.ShootResponse;
+import dreamteam.battleship.service.springcontroller.preparation.GameController;
+import dreamteam.battleship.service.springcontroller.preparation.PlacingShip;
+import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
+import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
 

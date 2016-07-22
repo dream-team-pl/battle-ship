@@ -1,11 +1,11 @@
-package dreamteam.battleship.service.preparation;
+package dreamteam.battleship.service.springcontroller.preparation;
 
 import dreamteam.battleship.logic.arbiter.ArbiterImpl;
 import dreamteam.battleship.logic.arbiter.MovementContainerImpl;
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
-import dreamteam.battleship.service.registration.Player;
+import dreamteam.battleship.service.springcontroller.registration.Player;
 import org.apache.log4j.Logger;
 
 import java.util.Map;

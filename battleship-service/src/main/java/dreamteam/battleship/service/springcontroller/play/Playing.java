@@ -1,11 +1,11 @@
-package dreamteam.battleship.service.play;
+package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.BattleShipServiceBase;
-import dreamteam.battleship.service.preparation.GameController;
-import dreamteam.battleship.service.preparation.PlayerOrganizer;
-import dreamteam.battleship.service.registration.Player;
-import dreamteam.battleship.service.registration.Registration;
+import dreamteam.battleship.service.springcontroller.preparation.GameController;
+import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
+import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
