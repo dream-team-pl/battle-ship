@@ -22,15 +22,19 @@ public class HtmlNavigator extends HttpServlet {
     final static Logger logger = Logger.getLogger(HtmlNavigator.class);
 
     private static String WEB_INF_PATH = "/src/main/webapp/";
+    private static String MODULE_NAME = "/battleship-service";
     @Override
     public void init() throws ServletException {
         String navigationFile = getServletConfig().getInitParameter("navigationFile");
         JSONParser parser = new JSONParser();
         try {
-            String path = System.getProperty("user.dir") + WEB_INF_PATH + navigationFile;
-            path = path.replace("//","/");
+            StringBuilder path = new StringBuilder(System.getProperty("user.dir"));
+            if(!path.toString().contains(MODULE_NAME)){
+                path.append(MODULE_NAME);
+            }
+            path.append(WEB_INF_PATH + navigationFile);
             logger.debug("Reading the file: " + System.getProperty("user.dir") + navigationFile);
-            Object obj = parser.parse(new FileReader(path));
+            Object obj = parser.parse(new FileReader(path.toString().replace("//","/")));
             jsonObject = ((JSONObject) obj);
 
         } catch (ParseException e) {
