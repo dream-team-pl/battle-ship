@@ -40,6 +40,8 @@ var myBoardId = '#id_myBoard';
 var myBoardMap = {};
 var opponentsBoardMap = {};
 
+var thisPlayerStartsGameFirst=false;
+
 //this method is invkoed when page is changing from registration to placing ships
 function loadPlacingShipsProperites() {
     sendRequestforShipList();
@@ -246,6 +248,8 @@ function addRequestedShipsToSelectOptionList(shipsToPlace) {
 
 var readyToPlayInterval;
 
+var oponnentTurnsUpdateInterval;
+
 //request is send to check it is possiblity to place ship on board
 function sendRequestforPlacingShip(shipType, fieldNumber) {
     $.ajax({
@@ -290,6 +294,9 @@ function goToPlayAfterPlacingShips() {
         $("#column1_id").append(data);
         loadOpponentBoard();
         removeActionsForPlacingShipFromPlayerBoard();
+        if(thisPlayerStartsGameFirst==false){
+         lockTable(opponentBoardId);
+        }
     });
 };
 //method for checing who is winner. it depends only on returning status
@@ -324,8 +331,8 @@ function sentShotRequest(tableCell) {
             else if (data.status == PLACING_STATUS_ENUM.TRY_AGAIN) {
                 tableCell.attr('class', 'cell_missed');
             }
-            prepareOpponentShootsMap(data);
-            placeOpponentsShootsOnBoard();
+//            prepareOpponentShootsMap(data);
+//            placeOpponentsShootsOnBoard();
             isWinner(data);
         }
     });
@@ -358,21 +365,9 @@ function loadOpponentBoard() {
 };
 
 
-//function isOpponentReady() {
-//    setInterval('$.ajax({  '+
-//        'method: "GET" '+
-//        ', dataType: "json" '+
-//        ', url: "/service/prepare" '+
-//       'success: function (data) {'+
-//        'if(data.readyToPlay){ '+
-//         'removeSelectOptionList();'+
-//          'goToPlayAfterPlacingShips();'+
-//        ' }'+
-//        '}'+
-//    '}); ', 2000);
-//};
 
-var thisPlayerStartsGameFirst=false;
+
+
 
 //this method will be used to checkin it is possobolity to play
 // it will be nice to get also who is turn next and last ship placed
@@ -391,13 +386,28 @@ function isOpponentReady() {
                 if(thisPlayerStartsGameFirst==true){
                     alert('Your tourn');
                 }else{
-                    
-                    alert('Oponnent tourn');
+//                    lockTable(opponentBoardId);
+                    oponnentTurnsUpdateInterval=setInterval(sendReuqestForOponnentTurns, 1000);
+                    //clearInterval(sendReuqestForOponnentTurns);
                 }
             }
             else {
                 thisPlayerStartsGameFirst = true;
             }
+        }
+    });
+};
+
+
+function sendReuqestForOponnentTurns() {
+    $.ajax({
+        method: "GET"
+        , dataType: 'json'
+        , url: "/service/turnstatus", //       data: { },
+        success: function (data) {
+           prepareOpponentShootsMap(data);
+           placeOpponentsShootsOnBoard();
+            alert(data.isMyTurn);
         }
     });
 };
