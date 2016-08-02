@@ -270,9 +270,8 @@ function sendRequestforPlacingShip(shipType, fieldNumber) {
                 var length = $(shipsSelectListsId + ' > option').length;
                 if (length == 0) {
                     $('#myPleaseWait').modal('show');
-
                     readyToPlayInterval=setInterval(isOpponentReady, 1000);
-                    oponnentTurnsUpdateInterval=setInterval(sendReuqestForOponnentTurns, 1000);
+
                 }
             }
         }
@@ -335,6 +334,7 @@ function sentShotRequest(tableCell) {
             }
             else if (data.status == PLACING_STATUS_ENUM.TRY_AGAIN) {
                 tableCell.attr('class', 'cell_missed');
+                oponnentTurnsUpdateInterval=setInterval(sendReuqestForOponnentTurns, 1000);
             }
 //            prepareOpponentShootsMap(data);
 //            placeOpponentsShootsOnBoard();
@@ -386,6 +386,7 @@ function isOpponentReady() {
         , url: "/service/prepare", //       data: { },
         success: function (data) {
             if (data.readyToPlay) {
+              oponnentTurnsUpdateInterval=setInterval(sendReuqestForOponnentTurns, 1000);
                 clearInterval(readyToPlayInterval);
                 removeSelectOptionList();
                 goToPlayAfterPlacingShips();
@@ -407,10 +408,8 @@ function isOpponentReady() {
                     "fieldNumber": 0
                 }
                 , success: function (data) {
-
                 }
             });
-
 
             }
             else {
@@ -431,6 +430,7 @@ function sendReuqestForOponnentTurns() {
            placeOpponentsShootsOnBoard();
             if(data.isMyTurn==true){
              unLockTable(opponentBoardId);
+             clearInterval(oponnentTurnsUpdateInterval);
             }else{
             lockTable(opponentBoardId);
             }
