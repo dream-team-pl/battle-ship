@@ -1,5 +1,6 @@
 {
   "/register":"/view/register.html",
   "/placing":"/view/placingShip.html",
-  "/play":"/view/play.html"
+  "/play":"/view/play.html",
+  "/tests":"/view/test/tests.html"
 }

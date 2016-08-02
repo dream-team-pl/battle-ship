@@ -222,12 +222,31 @@ function setListenerOnShipsSelectLists() {
         placingShipCondition = true;
     });
 };
+
+// ***  SHIPS  *** //
+function Ship(p_type) {
+    var type = p_type;
+    return this;
+}
+
+function getListOfShipsFromJSON(shipsToPlace) {
+    var ships = [];
+    for (var i in shipsToPlace.availableShips) {
+        console.log(parseInt(i));
+        var s = new Ship(i);
+        alert(s);
+        ships.push("1");
+    }
+    return ships;
+}
+
 //method for adding ships wihich was returend in ajax response
 function addRequestedShipsToSelectOptionList(shipsToPlace) {
     for (var i in shipsToPlace.availableShips) {
         var size = parseInt(i) + 1;
         $(shipsSelectListsId).append('<option shipSize="' + size + '">' + shipsToPlace.availableShips[i] + '</option>');
     }
+    console.log(ships.length);
 };
 //request is send to check it is possiblity to place ship on board
 function sendRequestforPlacingShip(shipType, fieldNumber) {
