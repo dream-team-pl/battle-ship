@@ -1,11 +1,10 @@
 /***** logic. js**************/
 
-$(document).ready(function () {
-    // jQuery methods go here...
-});
+
 
 function goToRegister() {
     $("#content_id").load("/html/register");
+
 };
 
 function goToPlacingBoard() {
@@ -245,6 +244,8 @@ function addRequestedShipsToSelectOptionList(shipsToPlace) {
     }
 };
 
+var readyToPlayInterval;
+
 //request is send to check it is possiblity to place ship on board
 function sendRequestforPlacingShip(shipType, fieldNumber) {
     $.ajax({
@@ -262,8 +263,10 @@ function sendRequestforPlacingShip(shipType, fieldNumber) {
                 removeShipFromSelectLists();
                 var length = $(shipsSelectListsId + ' > option').length;
                 if (length == 0) {
-                    alert('here should be checking if  opponed is ready to play');
-                    isOpponentReady();
+                    $('#myPleaseWait').modal('show');
+
+                    readyToPlayInterval=setInterval(isOpponentReady, 1000);
+//                    isOpponentReady();
                 }
             }
         }
@@ -295,7 +298,7 @@ function isWinner(data) {
         alert('The winner is: ' + data.winner.name + ' ' + data.winner.surname);
     }
 }
-//this method read oponnent moves and add it to opponentsBoardMap 
+//this method read oponnent moves and add it to opponentsBoardMap
 function prepareOpponentShootsMap(response) {
     var items = response.myDamages;
     for (var i in items) {
@@ -353,18 +356,48 @@ function loadOpponentBoard() {
         });
     });
 };
+
+
+//function isOpponentReady() {
+//    setInterval('$.ajax({  '+
+//        'method: "GET" '+
+//        ', dataType: "json" '+
+//        ', url: "/service/prepare" '+
+//       'success: function (data) {'+
+//        'if(data.readyToPlay){ '+
+//         'removeSelectOptionList();'+
+//          'goToPlayAfterPlacingShips();'+
+//        ' }'+
+//        '}'+
+//    '}); ', 2000);
+//};
+
+var thisPlayerStartsGameFirst=false;
+
 //this method will be used to checkin it is possobolity to play
+// it will be nice to get also who is turn next and last ship placed
+//example i am asking about turns and also get information it opponents ends shooting
 function isOpponentReady() {
     $.ajax({
         method: "GET"
         , dataType: 'json'
-        , url: "/service/prepare"
-        , //       data: { },
+        , url: "/service/prepare", //       data: { },
         success: function (data) {
-            //           if(data.readyToPlay){
-            removeSelectOptionList();
-            goToPlayAfterPlacingShips();
-            //       }
+            if (data.readyToPlay) {
+                clearInterval(readyToPlayInterval);
+                removeSelectOptionList();
+                goToPlayAfterPlacingShips();
+                $('#myPleaseWait').modal('hide');
+                if(thisPlayerStartsGameFirst==true){
+                    alert('Your tourn');
+                }else{
+                    
+                    alert('Oponnent tourn');
+                }
+            }
+            else {
+                thisPlayerStartsGameFirst = true;
+            }
         }
     });
 };
