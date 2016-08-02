@@ -23,6 +23,10 @@ public class GameController {
 
     private Player winner;
 
+    public boolean isMyTurn(Player player) {
+        return currentPlayer.equals(player);
+    }
+
     private MovementManager currentManager;
     private Player currentPlayer;
     public GameController(Player player1, MovementManager manager1){
