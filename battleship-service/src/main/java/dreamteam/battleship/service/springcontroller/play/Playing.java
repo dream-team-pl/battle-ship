@@ -60,10 +60,10 @@ public class Playing extends BattleShipServiceBase {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
-    public TurnStatusResponse turnStatus(){
+    public TurnStatusResponse turnStatus(HttpSession session){
         // this method will call iterally, so i dont think that logging is a good idea
         return
-                new TurnStatusResponse(controller.getBoardForPlayer(player), controller.isMyTurn(player));
+                new TurnStatusResponse(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner());
     }
 
     private ShootResponse winnerResponse() {
