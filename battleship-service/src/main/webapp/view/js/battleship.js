@@ -1,10 +1,6 @@
 /***** logic. js**************/
-
-
-
 function goToRegister() {
     $("#content_id").load("/html/register");
-
 };
 
 function goToPlacingBoard() {
@@ -15,22 +11,19 @@ function goToPlacingBoard() {
 
 function sendRegisterRequest() {
     $.ajax({
-        url: '/service/register',
-        type: 'GET',
-        data: $("#form").serialize(),
-        success: function (data) {
+        url: '/service/register'
+        , type: 'GET'
+        , data: $("#form").serialize()
+        , success: function (data) {
             //called when successful
             goToPlacingBoard();
-        },
-        error: function (e) {
+        }
+        , error: function (e) {
             alert("Permission denied");
         }
     });
 };
-
 /*****end logic. js**************/
-
-
 /***** Variables****************************************/
 var boardSize = 10;
 var opponentBoardId = '#id_opponentBoard';
@@ -39,13 +32,9 @@ var myBoardId = '#id_myBoard';
 /**variable helps with placing ship on board*****/
 var myBoardMap = {};
 var opponentsBoardMap = {};
-
-var thisPlayerStartsGameFirst=false;
-
+var thisPlayerStartsGameFirst = false;
 var readyToPlayInterval;
-
 var oponnentTurnsUpdateInterval;
-
 //this method is invkoed when page is changing from registration to placing ships
 function loadPlacingShipsProperites() {
     sendRequestforShipList();
@@ -53,8 +42,6 @@ function loadPlacingShipsProperites() {
     setActionForPlacingShipOnPlayerBoard();
     setListenerOnShipsSelectLists();
 }
-
-
 //this metoh create labels for board.
 //it is neccesary when we have different size board
 function getLetterFromAlphabet(position) {
@@ -105,12 +92,7 @@ function unLockTable(boardId) {
     console.log("unloking " + boardId);
     $(boardId).attr('class', 'player-board');
 };
-
-
-
-
 /**************************placing ships*******************************/
-
 var DIRECTION_ENUM = {
     VERTICAL: "VERTICAL"
     , HORIZONTAL: "HORIZONTAL"
@@ -172,7 +154,6 @@ function changeShipOrientation() {
     clearShipToPlacePreview();
     createShipPreview(shipSize);
 }
-
 //it allows to place ship on board.
 //this action will be later removed becouse after placing ships it isn't possible to prepare action on board
 function setActionForPlacingShipOnPlayerBoard() {
@@ -213,7 +194,6 @@ function putShipOnBoard(position) {
         }
     }
 }
-
 //this request is send for ship list
 //it will be better when we can get ship name and it size
 function sendRequestforShipList() {
@@ -249,9 +229,6 @@ function addRequestedShipsToSelectOptionList(shipsToPlace) {
         $(shipsSelectListsId).append('<option shipSize="' + size + '">' + shipsToPlace.availableShips[i] + '</option>');
     }
 };
-
-
-
 //request is send to check it is possiblity to place ship on board
 function sendRequestforPlacingShip(shipType, fieldNumber) {
     $.ajax({
@@ -270,8 +247,7 @@ function sendRequestforPlacingShip(shipType, fieldNumber) {
                 var length = $(shipsSelectListsId + ' > option').length;
                 if (length == 0) {
                     $('#myPleaseWait').modal('show');
-                    readyToPlayInterval=setInterval(isOpponentReady, 1000);
-
+                    readyToPlayInterval = setInterval(isOpponentReady, 1000);
                 }
             }
         }
@@ -281,7 +257,6 @@ function sendRequestforPlacingShip(shipType, fieldNumber) {
 function removeSelectOptionList() {
     $(column1Id).empty();
 };
-
 //after ship placing board can't handle any click action
 function removeActionsForPlacingShipFromPlayerBoard() {
     console.log("remove click actions after placing ships");
@@ -295,15 +270,15 @@ function goToPlayAfterPlacingShips() {
         $("#column1_id").append(data);
         loadOpponentBoard();
         removeActionsForPlacingShipFromPlayerBoard();
-        if(thisPlayerStartsGameFirst==false){
-         lockTable(opponentBoardId);
+        if (thisPlayerStartsGameFirst == false) {
+            lockTable(opponentBoardId);
         }
     });
 };
 //method for checing who is winner. it depends only on returning status
 function isWinner(data) {
     if (data.status == PLACING_STATUS_ENUM.WON) {
-     clearInterval(oponnentTurnsUpdateInterval);
+        clearInterval(oponnentTurnsUpdateInterval);
         alert('The winner is: ' + data.winner.name + ' ' + data.winner.surname);
     }
 }
@@ -315,8 +290,6 @@ function prepareOpponentShootsMap(response) {
         opponentsBoardMap[index] = Boolean(items[index]);
     }
 };
-
-
 //this method send shoot request after click on opponent board table cell
 function sentShotRequest(tableCell) {
     var position = $(tableCell).attr('id');
@@ -334,16 +307,14 @@ function sentShotRequest(tableCell) {
             }
             else if (data.status == PLACING_STATUS_ENUM.TRY_AGAIN) {
                 tableCell.attr('class', 'cell_missed');
-                oponnentTurnsUpdateInterval=setInterval(sendReuqestForOponnentTurns, 1000);
+                oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, 1000);
             }
-//            prepareOpponentShootsMap(data);
-//            placeOpponentsShootsOnBoard();
+            //            prepareOpponentShootsMap(data);
+            //            placeOpponentsShootsOnBoard();
             isWinner(data);
         }
     });
 };
-
-
 // this method place returned by ajax oponnent shoots and place it on player board
 function placeOpponentsShootsOnBoard() {
     var htmlTable = $(myBoardId);
@@ -364,18 +335,12 @@ function placeOpponentsShootsOnBoard() {
 function loadOpponentBoard() {
     console.log("loading opponent board");
     loadHtmlTableAsGameBoard(boardSize, opponentBoardId);
-    $(opponentBoardId+' td.cell_empty').each(function (index, elem) {
+    $(opponentBoardId + ' td.cell_empty').each(function (index, elem) {
         $(this).on("click", function () {
             sentShotRequest($(this));
         });
     });
 };
-
-
-
-
-
-
 //this method will be used to checkin it is possobolity to play
 // it will be nice to get also who is turn next and last ship placed
 //example i am asking about turns and also get information it opponents ends shooting
@@ -386,31 +351,28 @@ function isOpponentReady() {
         , url: "/service/prepare", //       data: { },
         success: function (data) {
             if (data.readyToPlay) {
-              oponnentTurnsUpdateInterval=setInterval(sendReuqestForOponnentTurns, 1000);
+                oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, 1000);
                 clearInterval(readyToPlayInterval);
                 removeSelectOptionList();
                 goToPlayAfterPlacingShips();
                 $('#myPleaseWait').modal('hide');
-                if(thisPlayerStartsGameFirst==true){
+                if (thisPlayerStartsGameFirst == true) {
                     alert('Your tourn');
-                }else{
-//                    lockTable(opponentBoardId);
-
+                }
+                else {
+                    //                    lockTable(opponentBoardId);
                     //clearInterval(sendReuqestForOponnentTurns);
                 }
-
-//init game
-        $.ajax({
-                method: "GET"
-                , dataType: 'json'
-                , url: "/service/shoot"
-                , data: {
-                    "fieldNumber": 0
-                }
-                , success: function (data) {
-                }
-            });
-
+                //init game
+                $.ajax({
+                    method: "GET"
+                    , dataType: 'json'
+                    , url: "/service/shoot"
+                    , data: {
+                        "fieldNumber": 0
+                    }
+                    , success: function (data) {}
+                });
             }
             else {
                 thisPlayerStartsGameFirst = true;
@@ -419,20 +381,24 @@ function isOpponentReady() {
     });
 };
 
-
 function sendReuqestForOponnentTurns() {
     $.ajax({
         method: "GET"
         , dataType: 'json'
         , url: "/service/turnstatus", //       data: { },
         success: function (data) {
-           prepareOpponentShootsMap(data);
-           placeOpponentsShootsOnBoard();
-            if(data.isMyTurn==true){
-             unLockTable(opponentBoardId);
-             clearInterval(oponnentTurnsUpdateInterval);
-            }else{
-            lockTable(opponentBoardId);
+            prepareOpponentShootsMap(data);
+            placeOpponentsShootsOnBoard();
+            if (data.isMyTurn == true) {
+                unLockTable(opponentBoardId);
+                clearInterval(oponnentTurnsUpdateInterval);
+            }
+            else if (data.winner != null) {
+                alert('The winner is: ' + data.winner.name + ' ' + data.winner.surname);
+                clearInterval(oponnentTurnsUpdateInterval);
+            }
+            else {
+                lockTable(opponentBoardId);
             }
         }
     });
