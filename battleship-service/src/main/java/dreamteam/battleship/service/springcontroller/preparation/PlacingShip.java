@@ -43,7 +43,13 @@ public class PlacingShip extends BattleShipServiceBase {
     private List<ShipType> availableShipList() {
         List<ShipType> list = new LinkedList<>();
         list.add(ShipType.oneMast);
+/*        list.add(ShipType.oneMast);
+        list.add(ShipType.oneMast);
+        list.add(ShipType.oneMast);*/
         list.add(ShipType.twoMast);
+/*        list.add(ShipType.twoMast);
+        list.add(ShipType.twoMast);
+        list.add(ShipType.threeMast);*/
         list.add(ShipType.threeMast);
         list.add(ShipType.fourMast);
         return list;

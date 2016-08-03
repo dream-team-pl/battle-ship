@@ -404,6 +404,16 @@ function isOpponentReady() {
         , url: "/service/prepare", //       data: { },
         success: function (data) {
             if (data.readyToPlay) {
+                //init game
+                $.ajax({
+                    method: "GET"
+                    , dataType: 'json'
+                    , url: "/service/shoot"
+                    , data: {
+                        "fieldNumber": 0
+                    }
+                    , success: function (data) {}
+                });
                 oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, 1000);
                 clearInterval(readyToPlayInterval);
                 removeSelectOptionList();
@@ -416,16 +426,7 @@ function isOpponentReady() {
                     //                    lockTable(opponentBoardId);
                     //clearInterval(sendReuqestForOponnentTurns);
                 }
-                //init game
-                $.ajax({
-                    method: "GET"
-                    , dataType: 'json'
-                    , url: "/service/shoot"
-                    , data: {
-                        "fieldNumber": 0
-                    }
-                    , success: function (data) {}
-                });
+
             }
             else {
                 thisPlayerStartsGameFirst = true;
