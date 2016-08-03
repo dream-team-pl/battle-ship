@@ -110,8 +110,7 @@ var PLACING_STATUS_ENUM = {
     , SUCCESS: "SUCCESS"
     , WON: "WON"
 };
-//default settings for ships preview when we click on ship item in list
-var direction = DIRECTION_ENUM.HORIZONTAL;
+
 //some ids
 var shipTemplateBoardId = '#id_shipTemplate';
 var shipsSelectListsId = '#shipsSelectLists_id';
@@ -129,10 +128,10 @@ function clearShipToPlacePreview() {
     tableBody.empty();
 };
 // creating ship preview
-function createShipPreview(shipSize) {
+function createShipPreview(p_ship) {
     var opponentBoard = $(shipTemplateBoardId);
     var tableBody = opponentBoard.find("tbody#id_tableBody");
-    for (i = 1; i <= shipSize; i++) {
+    for (i = 1; i <= p_ship.size; i++) {
         var row = "";
         if ($(orientationBtnId).text() == DIRECTION_ENUM.VERTICAL) {
             row = '<tr>';
@@ -147,15 +146,17 @@ function createShipPreview(shipSize) {
 }
 //this method is used by button to change ship orientation
 function changeShipOrientation() {
+    var t_shipName = $(shipsSelectListsId + " option:selected").text();
+        currentShip = getShipFromShipList(t_shipName, listOfShips);
+
     if ($(orientationBtnId).text().toString() == DIRECTION_ENUM.VERTICAL) {
-        direction = "" + $(orientationBtnId).text(DIRECTION_ENUM.HORIZONTAL).toString();
+        currentShip.direction = "" + $(orientationBtnId).text(DIRECTION_ENUM.HORIZONTAL).toString();
     }
     else {
-        direction = "" + $(orientationBtnId).text(DIRECTION_ENUM.VERTICAL).toString();
+        currentShip.direction = "" + $(orientationBtnId).text(DIRECTION_ENUM.VERTICAL).toString();
     }
-    shipSize = $(shipsSelectListsId + " option:selected").attr('shipSize');
     clearShipToPlacePreview();
-    createShipPreview(shipSize);
+    createShipPreview(currentShip);
 }
 //it allows to place ship on board.
 //this action will be later removed becouse after placing ships it isn't possible to prepare action on board
@@ -165,7 +166,7 @@ function setActionForPlacingShipOnPlayerBoard() {
         $(this).on("click", function () {
             if (placingShipCondition == true) {
                 var position = parseInt($(this).attr('id'));
-                sendRequestforPlacingShip(shipType, position, direction);
+                sendRequestforPlacingShip(currentShip, position);
             }
         });
     });
@@ -182,7 +183,7 @@ function putShipOnBoard(shipToPut, position) {
     if (placingShipCondition == true) {
         var htmlTable = $(myBoardId);
         var dir = $(orientationBtnId).text();
-        for (i = 1; i <= shipSize; i = i + 1) {
+        for (i = 1; i <= shipToPut.size; i = i + 1) {
             var tableCell = htmlTable.find('#' + position);
             myBoardMap[position] = true;
             console.log("putting ship at: " + position);
@@ -215,27 +216,14 @@ function sendRequestforShipList() {
         }
     });
 };
-//listener for select list option - action needed when w click for ex. one mast to see preview
-/*function setListenerOnShipsSelectLists() {
-    $(shipsSelectListsId).change(function () {
-        console.log("shipsSelectListsId changed");
-        shipSize = $(shipsSelectListsId + " option:selected").attr('shipSize');
-        shipType = $(shipsSelectListsId + " option:selected").text();
-        clearShipToPlacePreview();
-        createShipPreview(shipSize);
-        placingShipCondition = true;
-    });
-};*/
 
 function setListenerOnShipsSelectLists() {
     $(shipsSelectListsId).change(function () {
         var shipName = $(shipsSelectListsId + " option:selected").text();
         currentShip = getShipFromShipList(shipName, listOfShips);
 
-        shipSize = currentShip.size;
-        shipType = currentShip.type;
         clearShipToPlacePreview();
-        createShipPreview(shipSize);
+        createShipPreview(currentShip);
         placingShipCondition = true;
     });
 };
@@ -249,12 +237,12 @@ function getShipFromShipList(shipName, shipList) {
         return null;
 }
 
-// ***  SHIPS  *** //
+// ***  SHIP  *** //
 var globalShipID = 0;
 function Ship(p_type, p_size, p_globalShipID) {
     this.type = p_type;
     this.size = p_size;
-    this.direction = null;
+    this.direction = "HORIZONTAL";
     this.id = p_globalShipID;
     return this;
 }
@@ -263,10 +251,25 @@ function getListOfShipsFromJSON(shipsToPlace) {
 
     var ships = [];
     for (var i in shipsToPlace.availableShips) {
-        var p_size = parseInt(i) + 1;
+
+    var size = 0;
+    switch(shipsToPlace.availableShips[i]) {
+        case "oneMast":
+            size = 1;
+            break;
+        case "twoMast":
+            size = 2;
+            break;
+        case "threeMast":
+            size = 3;
+            break;
+        case "fourMast":
+            size = 4;
+            break;
+    }
         globalShipID = globalShipID + 1;
 
-        var s = new Ship(shipsToPlace.availableShips[i], p_size, globalShipID);
+        var s = new Ship(shipsToPlace.availableShips[i], size, globalShipID);
         ships.push(s);
     }
     return ships;
@@ -280,13 +283,13 @@ function addRequestedShipsToSelectOptionList(ships) {
 
 
 //request is send to check it is possiblity to place ship on board
-function sendRequestforPlacingShip(shipType, fieldNumber) {
+function sendRequestforPlacingShip(p_ship, fieldNumber) {
     $.ajax({
         method: "GET"
         , dataType: 'json'
         , url: "/service/place"
         , data: {
-            "type": shipType
+            "type": p_ship.type
             , "fieldNumber": fieldNumber
             , direction: $(orientationBtnId).text().toString()
         }
