@@ -16,7 +16,7 @@ QUnit.test( "changing field with number to field with character", function( asse
   assert.ok(getLetterFromAlphabet(10) == "J", "letter: J");
 });
 
-QUnit.test( "Register", function( assert ) {
+QUnit.test( "register user", function( assert ) {
 
 var done = assert.async();
 
@@ -41,34 +41,55 @@ var done = assert.async();
     });
 });
 
-QUnit.test( "Request for Ships", function( assert ) {
+QUnit.test( "save json response to array of ships", function( assert ) {
 
-var done = assert.async();
-var preparedShipList = [];
-var ss = new Ship("twoMast");
-preparedShipList.push(ss.type);
-preparedShipList.push(new Ship("twoMast"));
-preparedShipList.push(new Ship("threeMast"));
-preparedShipList.push(new Ship("fourMast"));
+    var done = assert.async();
+
+    var preparedShipList = [];
+    preparedShipList.push(new Ship("oneMast", 1, 1));
+    preparedShipList.push(new Ship("twoMast", 2, 2));
+    preparedShipList.push(new Ship("threeMast", 3, 3));
+    preparedShipList.push(new Ship("fourMast", 4, 4));
+
+    var test_listOfShips = [];
 
     var shipsJSON = '{"status": "TRY_AGAIN", "availableShips": ["oneMast", "twoMast", "threeMast", "fourMast"]}';
 
     $.mockjax({
         url: '/service/place',
+        dataType: 'json',
         responseText: shipsJSON
     });
 
 
     $.ajax({
         url: '/service/place',
+        dataType: 'json',
         success: function(response) {
-            var listOfShips = getListOfShipsFromJSON(response);
-            assert.equal(ss.type, listOfShips, "Ships lists are equal");
+            test_listOfShips = getListOfShipsFromJSON(response);
+            assert.deepEqual(test_listOfShips, preparedShipList, "Ships lists are equal");
         },
 
         error: function () {
-        assert.ok(false, 'error callback executed');
+            assert.ok(false, 'error callback executed');
         },
         complete: done
     });
+});
+
+QUnit.test( "take ship from shipList", function( assert ) {
+
+    var preparedShipList = [];
+    preparedShipList.push(new Ship("oneMast", 1, 1));
+    preparedShipList.push(new Ship("twoMast", 2, 2));
+    preparedShipList.push(new Ship("threeMast", 3, 3));
+    preparedShipList.push(new Ship("fourMast", 4, 4));
+    preparedShipList.push(new Ship("fourMast", 4, 5));
+
+
+    assert.deepEqual(getShipFromShipList("oneMast", preparedShipList), preparedShipList[0], "Ships with name 'one mast' are equal");
+    assert.deepEqual(getShipFromShipList("twoMast", preparedShipList), preparedShipList[1], "Ships with name 'two mast' are equal");
+    assert.deepEqual(getShipFromShipList("threeMast", preparedShipList), preparedShipList[2], "Ships with name 'three mast' are equal");
+    assert.deepEqual(getShipFromShipList("fourMast", preparedShipList), preparedShipList[3], "Ships with name 'four mast' are equal");
+    assert.notDeepEqual(getShipFromShipList("fourMast", preparedShipList), preparedShipList[4], "Ships with name 'four mast' aren't equal");
 });

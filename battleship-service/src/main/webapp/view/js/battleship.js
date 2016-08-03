@@ -28,8 +28,11 @@ function sendRegisterRequest() {
 var boardSize = 10;
 var opponentBoardId = '#id_opponentBoard';
 var myBoardId = '#id_myBoard';
+
 /**** placing ships variables****************************/
 /**variable helps with placing ship on board*****/
+var currentShip;
+var listOfShips = [];
 var myBoardMap = {};
 var opponentsBoardMap = {};
 var thisPlayerStartsGameFirst = false;
@@ -175,7 +178,7 @@ function removeShipFromSelectLists() {
 }
 //this method is used when we click on board to place ship there
 //it uses global variable like shipSize
-function putShipOnBoard(position) {
+function putShipOnBoard(shipToPut, position) {
     if (placingShipCondition == true) {
         var htmlTable = $(myBoardId);
         var dir = $(orientationBtnId).text();
@@ -207,12 +210,13 @@ function sendRequestforShipList() {
             , direction: "HORIZONTAL"
         }
         , success: function (data) {
-            addRequestedShipsToSelectOptionList(data);
+            listOfShips = getListOfShipsFromJSON(data);
+            addRequestedShipsToSelectOptionList(listOfShips);
         }
     });
 };
 //listener for select list option - action needed when w click for ex. one mast to see preview
-function setListenerOnShipsSelectLists() {
+/*function setListenerOnShipsSelectLists() {
     $(shipsSelectListsId).change(function () {
         console.log("shipsSelectListsId changed");
         shipSize = $(shipsSelectListsId + " option:selected").attr('shipSize');
@@ -221,33 +225,60 @@ function setListenerOnShipsSelectLists() {
         createShipPreview(shipSize);
         placingShipCondition = true;
     });
+};*/
+
+function setListenerOnShipsSelectLists() {
+    $(shipsSelectListsId).change(function () {
+        var shipName = $(shipsSelectListsId + " option:selected").text();
+        currentShip = getShipFromShipList(shipName, listOfShips);
+
+        shipSize = currentShip.size;
+        shipType = currentShip.type;
+        clearShipToPlacePreview();
+        createShipPreview(shipSize);
+        placingShipCondition = true;
+    });
 };
 
+
+function getShipFromShipList(shipName, shipList) {
+        for (var i in shipList) {
+            if(shipList[i].type == shipName)
+                return shipList[i];
+        }
+        return null;
+}
+
 // ***  SHIPS  *** //
-function Ship(p_type) {
-    var type = p_type;
+var globalShipID = 0;
+function Ship(p_type, p_size, p_globalShipID) {
+    this.type = p_type;
+    this.size = p_size;
+    this.direction = null;
+    this.id = p_globalShipID;
     return this;
 }
 
 function getListOfShipsFromJSON(shipsToPlace) {
+
     var ships = [];
     for (var i in shipsToPlace.availableShips) {
-        console.log(parseInt(i));
-        var s = new Ship(i);
-        alert(s);
-        ships.push("1");
+        var p_size = parseInt(i) + 1;
+        globalShipID = globalShipID + 1;
+
+        var s = new Ship(shipsToPlace.availableShips[i], p_size, globalShipID);
+        ships.push(s);
     }
     return ships;
 }
 
-//method for adding ships wihich was returend in ajax response
-function addRequestedShipsToSelectOptionList(shipsToPlace) {
-    for (var i in shipsToPlace.availableShips) {
-        var size = parseInt(i) + 1;
-        $(shipsSelectListsId).append('<option shipSize="' + size + '">' + shipsToPlace.availableShips[i] + '</option>');
+function addRequestedShipsToSelectOptionList(ships) {
+    for (var i in ships) {
+        $(shipsSelectListsId).append('<option shipSize="' + ships[i].size + '">' + ships[i].type + '</option>');
     }
-    console.log(ships.length);
 };
+
+
 //request is send to check it is possiblity to place ship on board
 function sendRequestforPlacingShip(shipType, fieldNumber) {
     $.ajax({
@@ -261,7 +292,7 @@ function sendRequestforPlacingShip(shipType, fieldNumber) {
         }
         , success: function (data) {
             if (data.status == PLACING_SHIP_STATUS_ENUM.SUCCESS) {
-                putShipOnBoard(fieldNumber);
+                putShipOnBoard(currentShip, fieldNumber);
                 removeShipFromSelectLists();
                 var length = $(shipsSelectListsId + ' > option').length;
                 if (length == 0) {
