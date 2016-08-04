@@ -91,8 +91,6 @@ function sentShotRequest(tableCell) {
                 tableCell.attr('class', 'cell_missed');
                 oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, 1000);
             }
-            //            prepareOpponentShootsMap(data);
-            //            placeOpponentsShootsOnBoard();
             isWinner(data);
         }
     });
@@ -127,8 +125,8 @@ function sendReuqestForOponnentTurns() {
                 clearInterval(oponnentTurnsUpdateInterval);
             }
             else if (data.winner != null) {
-                alert('The winner is: ' + data.winner.name + ' ' + data.winner.surname);
                 clearInterval(oponnentTurnsUpdateInterval);
+                alert('The winner is: ' + data.winner.name + ' ' + data.winner.surname);
             }
             else {
                 lockTable(opponentBoardId);
