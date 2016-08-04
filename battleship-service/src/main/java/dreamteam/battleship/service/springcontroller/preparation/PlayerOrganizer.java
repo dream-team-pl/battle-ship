@@ -73,4 +73,9 @@ public class PlayerOrganizer extends BattleShipServiceBase {
     public GameController myController(){
         return gameController;
     }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+
+    }
 }
