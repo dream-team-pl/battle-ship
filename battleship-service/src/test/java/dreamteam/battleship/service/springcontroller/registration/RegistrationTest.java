@@ -43,7 +43,8 @@ public class RegistrationTest {
         MockHttpSession session = new MockHttpSession();
 
         Registration registration = new Registration();
-        RegistrationResponse response = registration.register(session, "name", "surname");
+        registration.session = session;
+        RegistrationResponse response = registration.register("name", "surname");
 
         Assert.assertFalse(response.player.identification.isEmpty());
     }
@@ -53,7 +54,8 @@ public class RegistrationTest {
         MockHttpSession session = new MockHttpSession();
 
         Registration registration = new Registration();
-        RegistrationResponse response = registration.register(session, "name", "surname");
+        registration.session = session;
+        RegistrationResponse response = registration.register("name", "surname");
         Player player = response.player;
         Assert.assertFalse(player==null);
         Assert.assertTrue(player==registration.player);

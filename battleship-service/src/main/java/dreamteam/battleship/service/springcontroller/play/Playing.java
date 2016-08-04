@@ -7,6 +7,7 @@ import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer
 import dreamteam.battleship.service.springcontroller.registration.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,24 +28,17 @@ public class Playing extends BattleShipServiceBase {
     protected GameController controller;
 
     private Player player;
-    @InitBinder
-    public void init(HttpSession session){
-        super.init(session);
-        controller = initController(session);
-        controller.startGame();
 
-        player=myPlayer(session);
-    }
+    @Autowired
+    protected HttpSession session=null;
 
     /**
      * Responsible to handling the request to for the shooting.
-     * @param session
      * @param fieldNumber
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "/shoot")
-    public ShootResponse shoot(HttpSession session,
-                               @RequestParam(name = "fieldNumber") int fieldNumber) {
+    public ShootResponse shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
 
         logger.debug(START);
         ShootResponse response;
@@ -121,5 +115,14 @@ public class Playing extends BattleShipServiceBase {
     private Player myPlayer(HttpSession session) {
         logger.debug("getting the player in the playing");
         return ((Registration)session.getAttribute("registration")).getPlayer();
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        super.init(session);
+        controller = initController(session);
+        controller.startGame();
+
+        player=myPlayer(session);
     }
 }

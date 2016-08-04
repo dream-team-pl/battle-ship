@@ -31,7 +31,8 @@ public class PlacingShipTest {
         PlacingShip placingShip = new PlacingShip();
         MockHttpSession session = new MockHttpSession();
         placingShip.player = new Player("","", "1", new LinkedList<Ship>());
-        PlacingResponse placingResponse = placingShip.place(session, ShipType.threeMast, 1, Direction.VERTICAL);
+        placingShip.session = session;
+        PlacingResponse placingResponse = placingShip.place(ShipType.threeMast, 1, Direction.VERTICAL);
 
         assertTrue(placingResponse.status.equals(MovementStatus.SUCCESS));
     }
@@ -42,8 +43,9 @@ public class PlacingShipTest {
 
         MockHttpSession session = new MockHttpSession();
         placingShip.player = new Player("","", "1", new LinkedList<Ship>());
-        placingShip.place(session, ShipType.threeMast, 1, Direction.VERTICAL);
-        PlacingResponse placingResponse = placingShip.place(session, ShipType.threeMast, 1, Direction.VERTICAL);
+        placingShip.session = session;
+        placingShip.place(ShipType.threeMast, 1, Direction.VERTICAL);
+        PlacingResponse placingResponse = placingShip.place(ShipType.threeMast, 1, Direction.VERTICAL);
 
         assertEquals(placingResponse.status, MovementStatus.TRY_AGAIN);
     }
@@ -66,8 +68,9 @@ public class PlacingShipTest {
         placingShip.player = new Player("","", "1", new LinkedList<Ship>());
 
         // placing the result list must be empty
-        placingShip.place(session, ShipType.fourMast, 1, Direction.VERTICAL);
-        placingShip.place(session, ShipType.fourMast, 1, Direction.VERTICAL);
+        placingShip.session = session;
+        placingShip.place(ShipType.fourMast, 1, Direction.VERTICAL);
+        placingShip.place(ShipType.fourMast, 1, Direction.VERTICAL);
 
         assertTrue(placingShip.availableShips.isEmpty());
 

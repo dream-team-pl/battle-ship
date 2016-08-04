@@ -12,6 +12,8 @@ import dreamteam.battleship.service.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.registration.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,25 +35,12 @@ public class PlacingShip extends BattleShipServiceBase {
     protected List<ShipType> availableShips = availableShipList();
 
     protected Player player;
-    @InitBinder
-    public void init(HttpSession session){
-        super.init(session);
-        player = ((Registration)session.getAttribute("registration")).getPlayer();
-    }
 
-    // TODO do something to create all thinks such these one in one creator or builder
-    private List<ShipType> availableShipList() {
-        List<ShipType> list = new LinkedList<>();
-        list.add(ShipType.oneMast);
-        list.add(ShipType.twoMast);
-        list.add(ShipType.threeMast);
-        list.add(ShipType.fourMast);
-        return list;
-    }
+    @Autowired
+    HttpSession session;
 
     @RequestMapping(method = RequestMethod.GET, path = "/place")
-    public PlacingResponse place(HttpSession session,
-                                 @RequestParam(name = "type") ShipType type,
+    public PlacingResponse place(@RequestParam(name = "type") ShipType type,
                                  @RequestParam(name = "fieldNumber") int fieldNumber,
                                  @RequestParam(name = "direction") Direction direction) {
 
@@ -69,6 +58,18 @@ public class PlacingShip extends BattleShipServiceBase {
         return new PlacingResponse(status, availableShips);
     }
 
+    // TODO do something to create all thinks such these one in one creator or builder
+    private List<ShipType> availableShipList() {
+        List<ShipType> list = new LinkedList<>();
+        list.add(ShipType.oneMast);
+        list.add(ShipType.twoMast);
+        list.add(ShipType.threeMast);
+        list.add(ShipType.fourMast);
+        return list;
+    }
+
+
+
     private void cleanUpList(MovementStatus status, ShipType type) {
         if(status.equals(MovementStatus.SUCCESS)){
             availableShips.remove(type);
@@ -81,5 +82,11 @@ public class PlacingShip extends BattleShipServiceBase {
 
     public MovementManager myManager(){
         return manager;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        super.init(session);
+        player = ((Registration)session.getAttribute("registration")).getPlayer();
     }
 }

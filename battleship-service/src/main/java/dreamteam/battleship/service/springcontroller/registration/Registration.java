@@ -6,6 +6,7 @@ import dreamteam.battleship.logic.ship.ShipType;
 
 import dreamteam.battleship.service.BattleShipServiceBase;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +25,11 @@ public class Registration extends BattleShipServiceBase {
 
     protected Player player;
 
+    @Autowired
+    protected HttpSession session=null;
+
     @RequestMapping(method = RequestMethod.GET, path = "/register")
-    public RegistrationResponse register(HttpSession session,
-                                         @RequestParam(name = "name") String name,
+    public RegistrationResponse register(@RequestParam(name = "name") String name,
                                          @RequestParam(name = "surname") String surname) {
 
         String key = new KeyGenerator().generate();
@@ -37,19 +40,12 @@ public class Registration extends BattleShipServiceBase {
         return new RegistrationResponse(player);
     }
 
-    // TODO do something to create all thinks such these one in one creator or builder
-    private List<Ship> shipList() {
-        List<Ship> list = new LinkedList<>();
-
-        list.add(ShipFactory.create(ShipType.oneMast));
-        list.add(ShipFactory.create(ShipType.twoMast));
-        list.add(ShipFactory.create(ShipType.threeMast));
-        list.add(ShipFactory.create(ShipType.fourMast));
-
-        return list;
-    }
-
     public Player getPlayer(){
         return player;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        super.init(session);
     }
 }

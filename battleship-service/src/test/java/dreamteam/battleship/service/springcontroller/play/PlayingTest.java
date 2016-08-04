@@ -42,8 +42,13 @@ public class PlayingTest {
         session.setAttribute("registration", registration);
         session.setAttribute("placingShip", placingShip);
         session.setAttribute("playerOrganizer", organizer);
-        playing.init(session);
-        ShootResponse status = playing.shoot(session, 12);
+        playing.session = session;
+        try {
+            playing.afterPropertiesSet();
+        } catch (Exception e) {
+            assertTrue(false);
+        }
+        ShootResponse status = playing.shoot(12);
 
         assertTrue(status.status.equals(MovementStatus.SUCCESS));
     }
