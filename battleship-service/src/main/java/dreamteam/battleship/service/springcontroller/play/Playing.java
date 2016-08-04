@@ -30,7 +30,7 @@ public class Playing extends BattleShipServiceBase {
     private Player player;
 
     @Autowired
-    protected HttpSession session=null;
+    protected HttpSession session;
 
     /**
      * Responsible to handling the request to for the shooting.

@@ -26,7 +26,7 @@ public class Registration extends BattleShipServiceBase {
     protected Player player;
 
     @Autowired
-    protected HttpSession session=null;
+    protected HttpSession session;
 
     @RequestMapping(method = RequestMethod.GET, path = "/register")
     public RegistrationResponse register(@RequestParam(name = "name") String name,
