@@ -5,7 +5,6 @@ var orientationBtnId = '#orientationBtn_id';
 var column1Id = '#column1_id';
 var currentShip;
 var listOfShips = [];
-var myBoardMap = {};
 //when ship is placed it is need for not alowwing puting it again
 var placingShipCondition = true;
 //interval need to checking it opponent sets ships and it is ready to play
@@ -62,19 +61,19 @@ function getListOfShipsFromJSON(shipsToPlace) {
 
 function goToPlacingBoard() {
     $("#content_id").load("/html/placing", function () {
-        loadPlacingShipsProperites();
+        loadPlacingShipsProperties();
     });
 };
 //this method is invkoed when page is changing from registration to placing ships
-function loadPlacingShipsProperites() {
-    sendRequestforShipList();
+function loadPlacingShipsProperties() {
+    sendRequestForShipList();
     loadHtmlTableAsGameBoard(boardSize, myBoardId);
     setActionForPlacingShipOnPlayerBoard();
     setListenerOnShipsSelectLists();
 }
 //this request is send for ship list
 //it will be better when we can get ship name and it size
-function sendRequestforShipList() {
+function sendRequestForShipList() {
     $.ajax({
         method: "GET"
         , dataType: 'json'
@@ -104,13 +103,15 @@ function setActionForPlacingShipOnPlayerBoard() {
         $(this).on("click", function () {
             if (placingShipCondition == true) {
                 var position = parseInt($(this).attr('id'));
-                sendRequestforPlacingShip(currentShip, position);
+
+                if(currentShip!=null)
+                    sendRequestForPlacingShip(currentShip, position);
             }
         });
     });
 };
 //request is send to check it is possiblity to place ship on board
-function sendRequestforPlacingShip(p_ship, fieldNumber) {
+function sendRequestForPlacingShip(p_ship, fieldNumber) {
     $.ajax({
         method: "GET"
         , dataType: 'json'
@@ -118,21 +119,25 @@ function sendRequestforPlacingShip(p_ship, fieldNumber) {
         , data: {
             "type": p_ship.type
             , "fieldNumber": fieldNumber
-            , direction: $(orientationBtnId).text().toString()
+            , direction: p_ship.direction
         }
         , success: function (data) {
             if (data.status == PLACING_SHIP_STATUS_ENUM.SUCCESS) {
                 putShipOnBoard(currentShip, fieldNumber);
                 removeShipFromSelectLists();
-                var length = $(shipsSelectListsId + ' > option').length;
-                if (length == 0) {
-                    $('#myPleaseWait').modal('show');
-                    readyToPlayInterval = setInterval(isOpponentReady, 1000);
-                }
+                checkPlacingShipEndCondition();
             }
         }
     });
 };
+
+function checkPlacingShipEndCondition() {
+    var length = $(shipsSelectListsId + ' > option').length;
+    if (length == 0) {
+        $('#myPleaseWait').modal('show');
+        readyToPlayInterval = setInterval(isOpponentReady, 1000);
+    }
+}
 //after placing ship it must be removed from list
 function removeShipFromSelectLists() {
     $(shipsSelectListsId + " option:selected").remove();
@@ -147,8 +152,6 @@ function putShipOnBoard(shipToPut, position) {
         var dir = $(orientationBtnId).text();
         for (i = 1; i <= shipToPut.size; i = i + 1) {
             var tableCell = htmlTable.find('#' + position);
-            myBoardMap[position] = true;
-            console.log("putting ship at: " + position);
             tableCell.attr('class', 'cell_ship');
             tableCell.off('click');
             if (dir == DIRECTION_ENUM.HORIZONTAL) {
@@ -158,6 +161,7 @@ function putShipOnBoard(shipToPut, position) {
                 position = position + boardSize;
             }
         }
+        console.log("Ship is putted correctly");
     }
 }
 // clearing  board for ship(to place) preview
@@ -187,27 +191,45 @@ function createShipPreview(p_ship) {
 function changeShipOrientation() {
     var t_shipName = $(shipsSelectListsId + " option:selected").text();
     currentShip = getShipFromShipList(t_shipName, listOfShips);
+    var dir;
+
     if ($(orientationBtnId).text().toString() == DIRECTION_ENUM.VERTICAL) {
-        currentShip.direction = "" + $(orientationBtnId).text(DIRECTION_ENUM.HORIZONTAL).toString();
+        dir = DIRECTION_ENUM.HORIZONTAL;
     }
     else {
-        currentShip.direction = "" + $(orientationBtnId).text(DIRECTION_ENUM.VERTICAL).toString();
+        dir = DIRECTION_ENUM.VERTICAL;
     }
+
+    $(orientationBtnId).text(dir);
     clearShipToPlacePreview();
-    createShipPreview(currentShip);
+    if(currentShip!=null) {
+        currentShip.direction = dir;
+        createShipPreview(currentShip);
+    }
+
 }
 
 function setListenerOnShipsSelectLists() {
     $(shipsSelectListsId).change(function () {
         var shipName = $(shipsSelectListsId + " option:selected").text();
         currentShip = getShipFromShipList(shipName, listOfShips);
+        if ($(orientationBtnId).text().toString() == DIRECTION_ENUM.VERTICAL) {
+            currentShip.direction = DIRECTION_ENUM.VERTICAL;
+        }
+        else {
+            currentShip.direction = DIRECTION_ENUM.HORIZONTAL;
+        }
+
         clearShipToPlacePreview();
-        createShipPreview(currentShip);
+        if(currentShip!=null)
+            createShipPreview(currentShip);
         placingShipCondition = true;
     });
 };
 
 function getShipFromShipList(shipName, shipList) {
+    console.log(shipList.length);
+    console.log(shipName);
     for (var i in shipList) {
         if (shipList[i].type == shipName) return shipList[i];
     }
