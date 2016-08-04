@@ -35,7 +35,8 @@ function isOpponentReady() {
         , success: function (data) {
             if (data.readyToPlay) {
                 //init shoot
-                sendShotRequest(0, null);
+//                sendShotRequest(0, null);
+                sendInitShotRequest();
                 clearInterval(readyToPlayInterval);
                 removeSelectOptionList();
                 $('#myPleaseWait').modal('hide');
@@ -52,7 +53,7 @@ function isOpponentReady() {
 };
 //method for checing who is winner. it depends only on returning status
 function isWinner(data) {
-    if (data.hasOwnProperty('status') && data.status == PLACING_STATUS_ENUM.WON || data.hasOwnProperty('winner') && data.winner != null) {
+    if (data.hasOwnProperty('winner') && data.winner != null||data.hasOwnProperty('status') && data.status == PLACING_STATUS_ENUM.WON) {
         clearInterval(oponnentTurnsUpdateInterval);
         exitGame();
         alert('The winner is: ' + data.winner.name + ' ' + data.winner.surname);
@@ -68,12 +69,30 @@ function prepareOpponentShootsMap(response) {
     }
     return opponentsBoardMap;
 };
+
+//this method send shoot request after click on opponent board table cell
+function sendInitShotRequest(position) {
+    $.ajax({
+        method: "GET"
+        , dataType: 'json'
+        , url: "/service/shoot"
+        , async: false
+        , data: {
+            "fieldNumber": 0
+        }
+        , success: function (data) {
+             oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
+        }
+    });
+};
+
 //this method send shoot request after click on opponent board table cell
 function sendShotRequest(position, tableCell) {
     $.ajax({
         method: "GET"
         , dataType: 'json'
         , url: "/service/shoot"
+        , async: false
         , data: {
             "fieldNumber": position
         }
@@ -87,9 +106,9 @@ function sendShotRequest(position, tableCell) {
                 tableCell.attr('class', 'cell_missed');
                 oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
             }
-            else if (data.status == PLACING_STATUS_ENUM.INVALID_MOVEMENT) {
-                oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
-            }
+//            else if (data.status == PLACING_STATUS_ENUM.INVALID_MOVEMENT) {
+//                oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
+//            }
         }
     });
 };
@@ -113,6 +132,7 @@ function sendReuqestForOponnentTurns() {
     $.ajax({
         method: "GET"
         , dataType: 'json'
+        , async: false
         , url: "/service/turnstatus", //       data: { },
         success: function (data) {
             var opponentsBoardMap = prepareOpponentShootsMap(data);
@@ -121,7 +141,7 @@ function sendReuqestForOponnentTurns() {
                 unLockTable(opponentBoardId);
                 clearInterval(oponnentTurnsUpdateInterval);
             }
-            else if (data.winner != null) {
+            else if (data.hasOwnProperty('winner') && data.winner != null) {
                 isWinner(data)
             }
             else {
