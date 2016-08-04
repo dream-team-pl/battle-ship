@@ -9,23 +9,53 @@
     <link rel="stylesheet" href="view/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="view/js/battleship.js"></script>
+    <script src="view/js/registration.js"></script>
+    <script src="view/js/board.js"></script>
+    <script src="view/js/placingShips.js"></script>
+    <script src="view/js/game.js"></script>
 </head>
 
 <body style="background-color: #EEEEEE;">
-    <div class="container">
-        <h2 id="heading">Battleship game</h2>
-        <div class="row">
-            <div class="main col-lg-12 " id="content_id">
-                <div class="main col-lg-5 "> </div>
-                <div class="main col-lg-2 ">
-                    <div style= "vertical-align:middle;">
-                        <button class="btn btn-primary btn-lg" onclick="goToRegister()" style= "vertical-align:middle;">PLAY</button>
+<div class="container">
+    <h2 id="heading">Battleship game</h2>
+    <div class="row">
+        <div class="main col-lg-12 " id="content_id">
+            <div class="main col-lg-5 "> </div>
+            <div class="main col-lg-2 ">
+                <div style= "vertical-align:middle;">
+                    <button class="btn btn-primary btn-lg" onclick="goToRegister()" style= "vertical-align:middle;">PLAY</button>
+                </div>
+            </div>
+            <div class="main col-lg-5 "> </div>
+        </div>
+    </div>
+
+    <!-- Modal Start here-->
+    <div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1"
+         role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                    <span class="glyphicon glyphicon-time">
+                    </span>Waiting for oponnent...
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-info
+                    progress-bar-striped active"
+                             style="width: 100%">
+                        </div>
                     </div>
                 </div>
-                <div class="main col-lg-5 "> </div>
             </div>
         </div>
     </div>
+    <!-- Modal ends Here -->
+
+
+
+</div>
 </body>
 </html>
