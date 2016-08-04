@@ -2,7 +2,7 @@
 var shipTemplateBoardId = '#id_shipTemplate';
 var shipsSelectListsId = '#shipsSelectLists_id';
 var orientationBtnId = '#orientationBtn_id';
-var column1Id = '#column1_id';
+
 var currentShip;
 var listOfShips = [];
 var myBoardMap = {};
