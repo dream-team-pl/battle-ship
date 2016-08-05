@@ -123,8 +123,8 @@ public class GameController {
         return retMap;
     }
 
-    public int numberOfPlayerShoot(){
-        DamageManager damageManager=(currentPlayer == player1) ? (DamageManager)manager2:(DamageManager)manager1;
+    public int numberOfPlayerShoot(Player player){
+        MovementManager damageManager = (player == player1) ? manager2:manager1;
         return damageManager.numberOfPlayerShoot();
     }
 }
