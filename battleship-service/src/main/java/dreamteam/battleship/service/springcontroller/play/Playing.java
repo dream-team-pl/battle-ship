@@ -70,12 +70,8 @@ public class Playing extends BattleShipServiceBase {
         logger.debug(START);
         SalvaShootResponse response;
         // check if there is sense to shoot
-        if(controller.getWinner()==null){
-            response = handleSalvaShoot(session, fieldNumbers);
-            logger.debug("shoot status is " + response.status);
-        }else {
-            response= (SalvaShootResponse)winnerResponse();
-        }
+        response = handleSalvaShoot(session, fieldNumbers);
+        logger.debug("shoot status is " + response.status);
         logger.debug(END);
         return response;
     }
