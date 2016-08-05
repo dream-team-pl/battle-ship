@@ -93,3 +93,36 @@ QUnit.test( "take ship from shipList", function( assert ) {
     assert.deepEqual(getShipFromShipList("fourMast", preparedShipList), preparedShipList[3], "Ships with name 'four mast' are equal");
     assert.notDeepEqual(getShipFromShipList("fourMast", preparedShipList), preparedShipList[4], "Ships with name 'four mast' aren't equal");
 });
+
+QUnit.test( "prepared opponent board based on server response", function( assert ) {
+
+    var done = assert.async();
+    var testingBoard = {11:true, 16:true, 26:true, 31:true, 32:true, 36:true, 46:true, 51:true, 52:true, 53:true};
+
+    var serverResponse = '{"status":null,"winner":{"name":"x","surname":"x","identification":"14703151276810.72200961291804046"},"myDamages":{"32":true,"16":true,"51":true,"52":true,"36":true,"53":true,"26":true,"11":true,"46":true,"31":true},"isMyTurn":false}';
+
+    $.mockjax({
+        url: '/service/turnstatus',
+        dataType: 'json',
+        responseText: serverResponse
+    });
+
+ $.ajax({
+        method: "GET"
+        , dataType: 'json'
+        , async: false
+        , url: "/service/turnstatus", //       data: { },
+        success: function (data) {
+            var opponentsBoardMap = prepareOpponentShootsMap(data);
+            assert.equal(data.status, null, "statuses are equal");
+            assert.equal(data.winner.name, "x", "names are equal");
+            assert.equal(data.winner.surname, "x", "names are equal");
+            assert.equal(data.winner.identification, "14703151276810.72200961291804046", "ids are equal");
+            assert.deepEqual(opponentsBoardMap, testingBoard, "list of damaged ships are equal");
+        },
+        error: function () {
+            assert.ok(false, 'error callback executed');
+        },
+        complete: done
+    });
+});
