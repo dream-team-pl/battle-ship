@@ -134,7 +134,7 @@ function sendRequestForPlacingShip(p_ship, fieldNumber) {
 function checkPlacingShipEndCondition() {
     var length = $(shipsSelectListsId + ' > option').length;
     if (length == 0) {
-        $('#myPleaseWait').modal('show');
+        $('#waitModal').modal('show');
         readyToPlayInterval = setInterval(isOpponentReady, 1000);
     }
 }

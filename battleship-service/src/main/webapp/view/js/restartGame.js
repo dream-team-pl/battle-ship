@@ -6,4 +6,5 @@ function showEndOfTheGameModal(data) {
 function restartGame() {
     $("#winner_id").empty();
     $('#endOfTheGameModal').modal('hide');
+    goToPlacingBoard();
 }

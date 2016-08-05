@@ -37,7 +37,7 @@ function isOpponentReady() {
                 sendInitShotRequest();
                 clearInterval(readyToPlayInterval);
                 removeSelectOptionList();
-                $('#myPleaseWait').modal('hide');
+                $('#waitModal').modal('hide');
                 goToPlayAfterPlacingShips();
                 if (thisPlayerStartsGameFirst == true) {
                     alert('Your turn');

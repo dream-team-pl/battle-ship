@@ -20,6 +20,8 @@
 <body style="background-color: #EEEEEE;">
     <div class="container">
         <h2 id="heading">Battleship game</h2>
+        <p class="text-right"><strong id="playerName_id"></strong></p>
+        
         <div class="row">
             <div class="main col-lg-12 " id="content_id">
                 <div class="main col-lg-5 "> </div>
@@ -31,50 +33,20 @@
                 <div class="main col-lg-5 "> </div>
             </div>
         </div>
-        <!-- Waiting modal-->
-        <div class="modal fade bs-example-modal-sm" id="myPleaseWait" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                    <span class="glyphicon glyphicon-time">
-                    </span>Waiting for oponnent...
-                    </h4> </div>
-                    <div class="modal-body">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info
-                    progress-bar-striped active" style="width: 100%"> </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Waiting modal ends Here -->
-        <!-- Waiting modal-->
-        <!-- Modal -->
-        <div class="modal fade" id="endOfTheGameModal" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">End of the game</h4> </div>
-                    <div class="modal-body">
-                        <p id="winner_id"><strong>The winner is:</strong> </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary btn-lg" onclick="restartGame()" style="vertical-align:middle;">Restart game</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Waiting modal ends Here -->
+        <div id="modals_id"> </div>
     </div>
-    
     <footer class="footer">
         <div class="container text-center">
-            <p class="text-muted" >&copy; 2016 dream-team</p>
+            <p class="text-muted">&copy; 2016 dream-team</p>
         </div>
     </footer>
+    <script>
+        $(document).ready(function () {
+            $.get('html/modals', function (data) {
+                $('#modals_id').append(data);
+            });
+        });
+    </script>
 </body>
 
 </html>
