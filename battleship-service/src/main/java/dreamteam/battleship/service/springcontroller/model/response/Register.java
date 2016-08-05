@@ -5,11 +5,11 @@ import dreamteam.battleship.service.springcontroller.model.Player;
 /**
  * Created by ehsan on 18.07.16.
  */
-public class Registration {
+public class Register {
 
     public final Player player;
 
-    public Registration(Player player) {
+    public Register(Player player) {
         this.player = player;
     }
 }

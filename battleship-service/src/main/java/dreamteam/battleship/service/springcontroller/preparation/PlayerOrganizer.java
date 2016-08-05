@@ -5,6 +5,7 @@ import dreamteam.battleship.service.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.gamecontroller.Bench;
 import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.Organizer;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class PlayerOrganizer extends BattleShipServiceBase {
     protected GameController gameController;
 
     @RequestMapping(method = RequestMethod.GET, path = "/prepare")
-    public dreamteam.battleship.service.springcontroller.model.response.PlayerOrganizer preparePlayer(HttpSession session) {
+    public Organizer preparePlayer(HttpSession session) {
         logger.debug(START);
         if(gameController==null){
             logger.debug("Preparing the player");
@@ -49,7 +50,7 @@ public class PlayerOrganizer extends BattleShipServiceBase {
             }
         }
         logger.debug(END);
-        return new dreamteam.battleship.service.springcontroller.model.response.PlayerOrganizer(gameController.isReadyToPlay());
+        return new Organizer(gameController.isReadyToPlay());
     }
 
     private void setSecondPlayer(Player player, MovementManager manager) {

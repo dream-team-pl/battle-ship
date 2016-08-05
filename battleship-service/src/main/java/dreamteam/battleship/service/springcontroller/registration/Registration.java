@@ -2,6 +2,7 @@ package dreamteam.battleship.service.springcontroller.registration;
 
 import dreamteam.battleship.service.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.Register;
 import dreamteam.battleship.service.springcontroller.util.KeyGenerator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,15 @@ public class Registration extends BattleShipServiceBase {
     protected HttpSession session;
 
     @RequestMapping(method = RequestMethod.GET, path = "/register")
-    public dreamteam.battleship.service.springcontroller.model.response.Registration register(@RequestParam(name = "name") String name,
-                                                                                              @RequestParam(name = "surname") String surname) {
+    public Register register(@RequestParam(name = "name") String name,
+                             @RequestParam(name = "surname") String surname) {
 
         String key = new KeyGenerator().generate();
         logger.debug("registering the player " + name +  "  " + surname + "sessionId" + " session: " + session.getId());
 
         player = new Player(name, surname, key, new LinkedList<>());
         logger.debug("register complete");
-        return new dreamteam.battleship.service.springcontroller.model.response.Registration(player);
+        return new Register(player);
     }
 
     public Player getPlayer(){
