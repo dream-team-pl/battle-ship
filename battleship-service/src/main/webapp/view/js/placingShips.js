@@ -228,8 +228,6 @@ function setListenerOnShipsSelectLists() {
 };
 
 function getShipFromShipList(shipName, shipList) {
-    console.log(shipList.length);
-    console.log(shipName);
     for (var i in shipList) {
         if (shipList[i].type == shipName) return shipList[i];
     }
