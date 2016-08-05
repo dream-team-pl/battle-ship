@@ -27,8 +27,8 @@ public class GameController {
         return currentPlayer.equals(player);
     }
 
-    private MovementManager currentManager;
-    private Player currentPlayer;
+    protected MovementManager currentManager;
+    protected Player currentPlayer;
     public GameController(Player player1, MovementManager manager1){
         this.player1 = player1;
         this.manager1 = manager1;
@@ -68,14 +68,16 @@ public class GameController {
         if(validatePlayer(player)){
             status = currentManager.damage(fieldNumber);
         }
-        checkPlayer(status, player);
+        checkPlayer();
 
         return status;
     }
 
-    private void checkPlayer(MovementStatus status, Player player) {
-        if(MovementStatus.WON.equals(status)){
-            winner = currentPlayer;
+    private void checkPlayer() {
+        if(manager1.isThePlayerWon()){
+            winner=player1;
+        }else if(manager2.isThePlayerWon()){
+            winner=player2;
         }
     }
 
