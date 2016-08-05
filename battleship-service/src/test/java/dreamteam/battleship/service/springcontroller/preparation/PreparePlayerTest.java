@@ -1,8 +1,10 @@
 package dreamteam.battleship.service.springcontroller.preparation;
 
 import dreamteam.battleship.logic.movement.DamageManager;
+import dreamteam.battleship.service.springcontroller.model.response.PlayerOrganizer;
+import dreamteam.battleship.service.springcontroller.gamecontroller.Bench;
 import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
-import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
@@ -18,7 +20,7 @@ public class PreparePlayerTest {
 
     @Test
     public void testIfGameControllerDoesntLetTheGameStartWIthOnePlayer(){
-        PlayerOrganizer organizer = new PlayerOrganizer();
+        dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer organizer = new dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer();
 
         MockHttpSession session = new MockHttpSession();
 
@@ -33,14 +35,14 @@ public class PreparePlayerTest {
 
         organizer.bench = new Bench();
 
-        PlayerOrganizerResponse response =  organizer.preparePlayer(session);
+        PlayerOrganizer response =  organizer.preparePlayer(session);
 
         assertFalse(response.readyToPlay);
     }
 
     @Test
     public void testIfOrganizerLetTheGameStart(){
-        PlayerOrganizer organizer = new PlayerOrganizer();
+        dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer organizer = new dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer();
 
         MockHttpSession session = new MockHttpSession();
         Registration registration = mock(Registration.class);
@@ -53,7 +55,7 @@ public class PreparePlayerTest {
         session.setAttribute("placingShip", placingShip);
         organizer.bench = new Bench();
         organizer.bench.letSit(new GameController(mock(Player.class), mock(DamageManager.class)));
-        PlayerOrganizerResponse response =  organizer.preparePlayer(session);
+        PlayerOrganizer response =  organizer.preparePlayer(session);
 
         assertTrue(response.readyToPlay);
 
@@ -72,8 +74,8 @@ public class PreparePlayerTest {
         when(registration2.getPlayer()).thenReturn(player2);
 
         // the organizer that we are going to test
-        PlayerOrganizer organizer1 = new PlayerOrganizer();
-        PlayerOrganizer organizer2 = new PlayerOrganizer();
+        dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer organizer1 = new dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer();
+        dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer organizer2 = new dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer();
 
         //singleton Bench
         Bench bench = new Bench();

@@ -2,10 +2,11 @@ package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
+import dreamteam.battleship.service.springcontroller.model.response.Shoot;
 import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import dreamteam.battleship.service.springcontroller.preparation.PlacingShip;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
-import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
@@ -46,7 +47,7 @@ public class PlayingTest {
         } catch (Exception e) {
             assertTrue(false);
         }
-        ShootResponse status = playing.shoot(12);
+        Shoot status = playing.shoot(12);
 
         assertTrue(status.status.equals(MovementStatus.SUCCESS));
     }

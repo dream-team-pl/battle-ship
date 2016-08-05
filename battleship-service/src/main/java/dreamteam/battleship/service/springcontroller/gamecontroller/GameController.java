@@ -5,7 +5,7 @@ import dreamteam.battleship.logic.arbiter.MovementContainerImpl;
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
-import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.model.Player;
 import org.apache.log4j.Logger;
 
 import java.util.Map;

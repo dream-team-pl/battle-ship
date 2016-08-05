@@ -2,9 +2,11 @@ package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.BattleShipServiceBase;
+import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
-import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +40,10 @@ public class Playing extends BattleShipServiceBase {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "/shoot")
-    public ShootResponse shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
+    public Shoot shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
 
         logger.debug(START);
-        ShootResponse response;
+        Shoot response;
         // check if there is sense to shoot
         if(controller.getWinner()==null){
             response = handleShoot(session, fieldNumber);
@@ -54,15 +56,15 @@ public class Playing extends BattleShipServiceBase {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
-    public TurnStatusResponse turnStatus(HttpSession session){
+    public TurnStatus turnStatus(HttpSession session){
         // this method will call iterally, so i dont think that logging is a good idea
         return
-                new TurnStatusResponse(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner());
+                new TurnStatus(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner());
     }
 
-    private ShootResponse winnerResponse() {
+    private Shoot winnerResponse() {
         return
-                new ShootResponse(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
+                new Shoot(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
     }
 
     /**
@@ -71,9 +73,9 @@ public class Playing extends BattleShipServiceBase {
      * @param fieldNumber
      * @return
      */
-    private ShootResponse handleShoot(HttpSession session, int fieldNumber) {
+    private Shoot handleShoot(HttpSession session, int fieldNumber) {
         logger.debug("Handling the shoot");
-        ShootResponse response;
+        Shoot response;
         MovementStatus status = controller.shoot(fieldNumber, player);
         if(mustPlayNext(status)){
             controller.nextPlayer();
@@ -83,7 +85,7 @@ public class Playing extends BattleShipServiceBase {
         if(MovementStatus.WON.equals(status)){
             response = winnerResponse();
         }else {
-            response = new ShootResponse(status, controller.getBoardForPlayer(player));
+            response = new Shoot(status, controller.getBoardForPlayer(player));
         }
         return response;
     }

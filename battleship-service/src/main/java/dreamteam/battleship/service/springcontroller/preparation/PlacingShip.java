@@ -9,10 +9,10 @@ import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipFactory;
 import dreamteam.battleship.logic.ship.ShipType;
 import dreamteam.battleship.service.BattleShipServiceBase;
-import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.model.response.Placing;
+import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +40,9 @@ public class PlacingShip extends BattleShipServiceBase {
     HttpSession session;
 
     @RequestMapping(method = RequestMethod.GET, path = "/place")
-    public PlacingResponse place(@RequestParam(name = "type") ShipType type,
-                                 @RequestParam(name = "fieldNumber") int fieldNumber,
-                                 @RequestParam(name = "direction") Direction direction) {
+    public Placing place(@RequestParam(name = "type") ShipType type,
+                         @RequestParam(name = "fieldNumber") int fieldNumber,
+                         @RequestParam(name = "direction") Direction direction) {
 
         logger.debug("Placing the ship " + type + " on field number " + fieldNumber + " " + direction);
         MovementStatus status = MovementStatus.TRY_AGAIN;
@@ -55,7 +55,7 @@ public class PlacingShip extends BattleShipServiceBase {
             cleanUpList(status, type);
         }
         logger.debug("Placement completed with status " + status);
-        return new PlacingResponse(status, availableShips);
+        return new Placing(status, availableShips);
     }
 
     // TODO do something to create all thinks such these one in one creator or builder
