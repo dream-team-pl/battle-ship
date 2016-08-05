@@ -1,7 +1,7 @@
 package dreamteam.battleship.service.springcontroller.restart;
 
 /**
- * Created by ehsan on 05.08.16.
+ * The class is to return the information about the restart
  */
 public class RestartResponse {
 }
