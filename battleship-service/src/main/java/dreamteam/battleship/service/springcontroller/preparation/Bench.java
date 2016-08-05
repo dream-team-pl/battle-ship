@@ -1,5 +1,6 @@
 package dreamteam.battleship.service.springcontroller.preparation;
 
+import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import org.springframework.stereotype.Component;
 
 /**

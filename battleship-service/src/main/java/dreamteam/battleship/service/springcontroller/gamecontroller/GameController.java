@@ -1,4 +1,4 @@
-package dreamteam.battleship.service.springcontroller.preparation;
+package dreamteam.battleship.service.springcontroller.gamecontroller;
 
 import dreamteam.battleship.logic.arbiter.ArbiterImpl;
 import dreamteam.battleship.logic.arbiter.MovementContainerImpl;

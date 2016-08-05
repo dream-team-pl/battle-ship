@@ -2,7 +2,7 @@ package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.BattleShipServiceBase;
-import dreamteam.battleship.service.springcontroller.preparation.GameController;
+import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
 import dreamteam.battleship.service.springcontroller.registration.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
