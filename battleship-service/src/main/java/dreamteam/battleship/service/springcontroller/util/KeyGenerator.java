@@ -1,4 +1,4 @@
-package dreamteam.battleship.service.springcontroller.registration;
+package dreamteam.battleship.service.springcontroller.util;
 
 import java.util.Random;
 

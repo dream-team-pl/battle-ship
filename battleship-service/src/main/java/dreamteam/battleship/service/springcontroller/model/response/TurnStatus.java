@@ -1,13 +1,13 @@
-package dreamteam.battleship.service.springcontroller.play;
+package dreamteam.battleship.service.springcontroller.model.response;
 
-import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.model.Player;
 
 import java.util.Map;
 
 /**
  * Created by ehsan on 02.08.16.
  */
-public class TurnStatusResponse extends ShootResponse{
+public class TurnStatus extends Shoot {
 
     public final Map<Integer, Boolean> myDamages;
 
@@ -15,7 +15,7 @@ public class TurnStatusResponse extends ShootResponse{
 
     public final Player winner;
 
-    public TurnStatusResponse(Map<Integer, Boolean> myDamages, boolean isMyTurn, Player winner) {
+    public TurnStatus(Map<Integer, Boolean> myDamages, boolean isMyTurn, Player winner) {
         super(null, null);
         this.myDamages = myDamages;
         this.isMyTurn = isMyTurn;

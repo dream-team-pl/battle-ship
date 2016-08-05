@@ -1,11 +1,10 @@
-package dreamteam.battleship.service.springcontroller.preparation;
+package dreamteam.battleship.service.springcontroller.gamecontroller;
 
 import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
-import dreamteam.battleship.service.springcontroller.preparation.GameController;
-import dreamteam.battleship.service.springcontroller.registration.Player;
+import dreamteam.battleship.service.springcontroller.model.Player;
 import org.testng.annotations.Test;
 
 import static org.mockito.Matchers.anyInt;
