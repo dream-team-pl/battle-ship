@@ -15,10 +15,20 @@ public class TurnStatusResponse extends ShootResponse{
 
     public final Player winner;
 
+    public int shootingNumber;
+
     public TurnStatusResponse(Map<Integer, Boolean> myDamages, boolean isMyTurn, Player winner) {
-        super(null, null);
+        super(null);
         this.myDamages = myDamages;
         this.isMyTurn = isMyTurn;
         this.winner = winner;
+    }
+
+    public TurnStatusResponse(Map<Integer, Boolean> myDamages, boolean isMyTurn, Player winner, int shootingNumber) {
+        super(null);
+        this.myDamages = myDamages;
+        this.isMyTurn = isMyTurn;
+        this.winner = winner;
+        this.shootingNumber = shootingNumber;
     }
 }

@@ -58,6 +58,14 @@ public interface MovementManager {
         return MovementStatus.INVALID_MOVEMENT;
     }
 
+    /**
+     *
+     * @return number of available shoots
+     */
+    default int numberOfPlayerShoot() {
+        return 1;
+    }
+
     Board getBoard();
 
     Map<Integer, Boolean> getMovements();
