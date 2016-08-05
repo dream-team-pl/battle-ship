@@ -24,4 +24,9 @@ public class ArbiterImpl extends Arbiter{
     public boolean isWinner() {
         return shipList.isEmpty();
     }
+
+    @Override
+    public int numberOfAliveShips() {
+        return this.shipList.size();
+    }
 }

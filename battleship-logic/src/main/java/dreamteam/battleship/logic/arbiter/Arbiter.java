@@ -27,4 +27,10 @@ public abstract class Arbiter {
      * won the game, because he destroyed all opponent's ships.
      */
     public abstract boolean isWinner();
+
+    /**
+     *
+     * @return number of ships that are alived
+     */
+    public abstract int numberOfAliveShips();
 }

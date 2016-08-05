@@ -102,4 +102,7 @@ public class DamageManager extends AbstractMovementManager{
         }
     }
 
+    public int numberOfPlayerShoot() {
+        return arbiter.numberOfAliveShips();
+    }
 }

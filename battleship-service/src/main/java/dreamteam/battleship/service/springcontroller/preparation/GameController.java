@@ -72,6 +72,19 @@ public class GameController {
 
         return status;
     }
+    public MovementStatus salvaShoot(int fieldNumber, Player player){
+        MovementStatus status;
+
+        if(player.equals(player1)) {
+            status = manager1.damage(fieldNumber);
+        } else {
+            status = manager2.damage(fieldNumber);
+        }
+
+        checkPlayer(status, player);
+
+        return status;
+    }
 
     private void checkPlayer(MovementStatus status, Player player) {
         if(MovementStatus.WON.equals(status)){
@@ -108,5 +121,10 @@ public class GameController {
             retMap = manager1.getMovements();
         }
         return retMap;
+    }
+
+    public int numberOfPlayerShoot(){
+        DamageManager damageManager=(currentPlayer == player1) ? (DamageManager)manager2:(DamageManager)manager1;
+        return damageManager.numberOfPlayerShoot();
     }
 }

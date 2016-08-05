@@ -9,9 +9,15 @@ import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
 import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
@@ -53,6 +59,34 @@ public class Playing extends BattleShipServiceBase {
         return response;
     }
 
+    /**
+     * Responsible to handling the request to for the shooting.
+     * @param fieldNumbers
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "/salvashoot")
+    public SalvaShootResponse salvaShoot(@RequestParam(name = "fieldNumbers") List<Integer> fieldNumbers) {
+
+        logger.debug(START);
+        SalvaShootResponse response;
+        // check if there is sense to shoot
+        if(controller.getWinner()==null){
+            response = handleSalvaShoot(session, fieldNumbers);
+            logger.debug("shoot status is " + response.status);
+        }else {
+            response= (SalvaShootResponse)winnerResponse();
+        }
+        logger.debug(END);
+        return response;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/salvaturnstatus")
+    public TurnStatusResponse salvaTurnStatus(HttpSession session){
+        // this method will call iterally, so i dont think that logging is a good idea
+        return
+                new TurnStatusResponse(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner(), controller.numberOfPlayerShoot());
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
     public TurnStatusResponse turnStatus(HttpSession session){
         // this method will call iterally, so i dont think that logging is a good idea
@@ -62,7 +96,7 @@ public class Playing extends BattleShipServiceBase {
 
     private ShootResponse winnerResponse() {
         return
-                new ShootResponse(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
+                new ShootResponse(MovementStatus.WON, controller.getWinner());
     }
 
     /**
@@ -83,8 +117,43 @@ public class Playing extends BattleShipServiceBase {
         if(MovementStatus.WON.equals(status)){
             response = winnerResponse();
         }else {
-            response = new ShootResponse(status, controller.getBoardForPlayer(player));
+            response = new ShootResponse(status);
         }
+        return response;
+    }
+
+    /**
+     * Will shoot the fields and check the result of the shooting.
+     * @param session
+     * @param fieldNumbers
+     * @return
+     */
+    private SalvaShootResponse handleSalvaShoot(HttpSession session, List<Integer> fieldNumbers) {
+        logger.debug("Handling the shoot");
+        SalvaShootResponse response;
+        Map<Integer, Boolean> salvaShootingResponse = new HashMap<>();
+        Player winner = null;
+        MovementStatus ms = MovementStatus.SALVA_MODE;
+
+        for(int fieldNumber: fieldNumbers) {
+            MovementStatus status = controller.salvaShoot(fieldNumber, player);
+
+            switch(status) {
+                case WON:
+                    salvaShootingResponse.put(fieldNumber, true);
+                    winner = controller.getWinner();
+                    ms = MovementStatus.WON;
+                    break;
+                case SUCCESS:
+                    salvaShootingResponse.put(fieldNumber, true);
+                    break;
+                default:
+                    salvaShootingResponse.put(fieldNumber, false);
+                    break;
+            }
+        }
+
+        response = new SalvaShootResponse(ms, winner, salvaShootingResponse);
         return response;
     }
 

@@ -35,6 +35,14 @@ public enum MovementStatus {
      *     the field that you want to shoot is invalid</li>
      * </ul>
      */
-    INVALID_MOVEMENT
+    INVALID_MOVEMENT,
+
+    /**
+     * <ul>
+     *     <li>When placing the ships it don't have responsibility</li>
+     *     <li>When shooting the field it return if you are in salva mode</li>
+     * </ul>
+     */
+    SALVA_MODE
 
 }
