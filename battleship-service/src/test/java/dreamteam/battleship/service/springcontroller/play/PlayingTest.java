@@ -8,6 +8,7 @@ import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer
 import dreamteam.battleship.service.springcontroller.registration.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.springframework.mock.web.MockHttpSession;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -15,9 +16,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.AssertJUnit.assertTrue;
@@ -27,17 +26,28 @@ import static org.testng.AssertJUnit.assertTrue;
  */
 public class PlayingTest {
 
-    @Test
-    public void testIfPlayerTermAreCorrect(){
-        Playing playing = new Playing();
-        Registration registration = mock(Registration.class);
+    Playing playing;
+    Registration registration;
+    PlacingShip placingShip;
+    PlayerOrganizer organizer;
+    GameController controller;
+
+    @BeforeClass
+    public void initialize() {
+        playing = new Playing();
+        registration = mock(Registration.class);
         when(registration.getPlayer()).thenReturn(mock(Player.class));
 
-        PlacingShip placingShip = mock(PlacingShip.class);
+        placingShip = mock(PlacingShip.class);
         when(placingShip.myManager()).thenReturn(mock(DamageManager.class));
 
-        PlayerOrganizer organizer = mock(PlayerOrganizer.class);
-        GameController controller = mock(GameController.class);
+        organizer = mock(PlayerOrganizer.class);
+        controller = mock(GameController.class);
+    }
+
+    @Test
+    public void testIfPlayerTermAreCorrect(){
+
         when(controller.shoot(anyInt(), any(Player.class))).thenReturn(MovementStatus.SUCCESS);
         when(controller.getWinner()).thenReturn(null);
         when(organizer.myController()).thenReturn(controller);
@@ -68,18 +78,9 @@ public class PlayingTest {
     }
     @Test(dataProvider = "shootingList")
     public void testPlayerSalvaShooting(List<Integer> shootingList) {
-        Playing playing = new Playing();
-        Registration registration = mock(Registration.class);
-        when(registration.getPlayer()).thenReturn(mock(Player.class));
-
-        PlacingShip placingShip = mock(PlacingShip.class);
-        when(placingShip.myManager()).thenReturn(mock(DamageManager.class));
-
-        PlayerOrganizer organizer = mock(PlayerOrganizer.class);
-        GameController controller = mock(GameController.class);
 
         for(int shoot: shootingList) {
-            when(controller.salvaShoot(eq(shoot), any(Player.class))).thenReturn(MovementStatus.TRY_AGAIN);
+            when(controller.gunSaluteShoot(eq(shoot), any(Player.class))).thenReturn(MovementStatus.TRY_AGAIN);
         }
 
         when(controller.getWinner()).thenReturn(null);
@@ -96,9 +97,8 @@ public class PlayingTest {
         } catch(Exception e) {
             assertTrue(false);
         }
-        SalvaShootResponse status = playing.salvaShoot(shootingList);
+        GunSaluteShootResponse status = playing.gunSaluteShoot(shootingList);
 
-        System.out.println(status.status);
         assertTrue(status.status.equals(MovementStatus.SALVA_MODE));
     }
 }

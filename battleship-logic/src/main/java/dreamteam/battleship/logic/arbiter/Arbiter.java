@@ -28,9 +28,5 @@ public abstract class Arbiter {
      */
     public abstract boolean isWinner();
 
-    /**
-     *
-     * @return number of ships that are alived
-     */
     public abstract int numberOfAliveShips();
 }

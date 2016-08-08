@@ -62,7 +62,7 @@ public interface MovementManager {
      *
      * @return number of available shoots
      */
-    default int numberOfPlayerShoot() {
+    default int numberOfPlayerShot() {
         return 1;
     }
 

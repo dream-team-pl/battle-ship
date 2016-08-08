@@ -49,12 +49,8 @@ public class Playing extends BattleShipServiceBase {
         logger.debug(START);
         ShootResponse response;
         // check if there is sense to shoot
-        if(controller.getWinner()==null){
-            response = handleShoot(session, fieldNumber);
-            logger.debug("shoot status is " + response.status);
-        }else {
-            response= winnerResponse();
-        }
+        response = controller.getWinner() == null ? handleShoot(session, fieldNumber) : winnerResponse();
+
         logger.debug(END);
         return response;
     }
@@ -65,12 +61,12 @@ public class Playing extends BattleShipServiceBase {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "/salvashoot")
-    public SalvaShootResponse salvaShoot(@RequestParam(name = "fieldNumbers") List<Integer> fieldNumbers) {
+    public GunSaluteShootResponse gunSaluteShoot(@RequestParam(name = "fieldNumbers") List<Integer> fieldNumbers) {
 
         logger.debug(START);
-        SalvaShootResponse response;
+        GunSaluteShootResponse response;
         // check if there is sense to shoot
-        response = handleSalvaShoot(session, fieldNumbers);
+        response = handleGunSaluteShoot(session, fieldNumbers);
         logger.debug("shoot status is " + response.status);
         logger.debug(END);
         return response;
@@ -80,7 +76,7 @@ public class Playing extends BattleShipServiceBase {
     public TurnStatusResponse salvaTurnStatus(HttpSession session){
         // this method will call iterally, so i dont think that logging is a good idea
         return
-                new TurnStatusResponse(controller.getBoardForPlayer(player), true, controller.getWinner(), controller.numberOfPlayerShoot(player));
+                new TurnStatusResponse(controller.getBoardForPlayer(player), true, controller.getWinner(), controller.numberOfPlayerShots(player));
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
@@ -110,11 +106,7 @@ public class Playing extends BattleShipServiceBase {
         }
         // check if he is the winnner
         //FIXME In the future when we will use web sockets we are going to send event, we need to delete this line
-        if(MovementStatus.WON.equals(status)){
-            response = winnerResponse();
-        }else {
-            response = new ShootResponse(status);
-        }
+        response = MovementStatus.WON.equals(status) ? winnerResponse() : new ShootResponse(status);
         return response;
     }
 
@@ -124,33 +116,26 @@ public class Playing extends BattleShipServiceBase {
      * @param fieldNumbers
      * @return
      */
-    private SalvaShootResponse handleSalvaShoot(HttpSession session, List<Integer> fieldNumbers) {
+    private GunSaluteShootResponse handleGunSaluteShoot(HttpSession session, List<Integer> fieldNumbers) {
         logger.debug("Handling the shoot");
-        SalvaShootResponse response;
+        GunSaluteShootResponse response;
         Map<Integer, Boolean> salvaShootingResponse = new HashMap<>();
-        Player winner = null;
-        MovementStatus ms = MovementStatus.SALVA_MODE;
+
 
         for(int fieldNumber: fieldNumbers) {
-            MovementStatus status = controller.salvaShoot(fieldNumber, player);
-
-            switch(status) {
-                case WON:
-                    salvaShootingResponse.put(fieldNumber, true);
-                    winner = controller.getWinner();
-                    ms = MovementStatus.WON;
-                    break;
-                case SUCCESS:
-                    salvaShootingResponse.put(fieldNumber, true);
-                    break;
-                default:
-                    salvaShootingResponse.put(fieldNumber, false);
-                    break;
-            }
+            MovementStatus status = controller.gunSaluteShoot(fieldNumber, player);
+            boolean fieldIsHit = shipIsHit(status);
+            salvaShootingResponse.put(fieldNumber, fieldIsHit);
         }
 
-        response = new SalvaShootResponse(ms, winner, salvaShootingResponse);
+        Player winner = controller.getWinner();
+        MovementStatus ms  = winner != null ? MovementStatus.WON : MovementStatus.SALVA_MODE;
+        response = new GunSaluteShootResponse(ms, winner, salvaShootingResponse);
         return response;
+    }
+
+    private boolean shipIsHit (MovementStatus ms) {
+        return ms == MovementStatus.SUCCESS || ms == MovementStatus.WON;
     }
 
     /**
