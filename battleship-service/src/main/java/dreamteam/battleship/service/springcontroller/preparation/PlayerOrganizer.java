@@ -40,8 +40,8 @@ public class PlayerOrganizer extends BattleShipServiceBase {
         logger.debug(START);
         if(gameController==null){
             logger.debug("Preparing the player");
-            Player player = myPlayer(session);
-            MovementManager manager = myManager(session);
+            Player player = callPlayer(session);
+            MovementManager manager = callManager(session);
 
             if(bench.isFree()){
                 setFirstPlayer(player, manager);
@@ -65,11 +65,11 @@ public class PlayerOrganizer extends BattleShipServiceBase {
         bench.letSit(gameController);
     }
 
-    private MovementManager myManager(HttpSession session) {
+    private MovementManager callManager(HttpSession session) {
         return ((PlacingShip)session.getAttribute("placingShip")).manager;
     }
 
-    private Player myPlayer(HttpSession session) {
+    private Player callPlayer(HttpSession session) {
         return ((Registration)session.getAttribute("registration")).getPlayer();
     }
 

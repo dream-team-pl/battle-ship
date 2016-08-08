@@ -1,5 +1,6 @@
 package dreamteam.battleship.service.springcontroller.restart;
 
+import dreamteam.battleship.service.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.util.RestarterUtil;
 import org.apache.log4j.Logger;
 import org.apache.log4j.jmx.LoggerDynamicMBean;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @SessionScope
-public class RestartGame {
+public class RestartGame extends BattleShipServiceBase {
 
     private static Logger logger = Logger.getLogger(RestartGame.class);
     @Autowired
@@ -34,4 +35,8 @@ public class RestartGame {
     }
 
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        super.init(session);
+    }
 }

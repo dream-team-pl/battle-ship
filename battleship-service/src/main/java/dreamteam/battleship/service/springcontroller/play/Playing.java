@@ -46,7 +46,7 @@ public class Playing extends BattleShipServiceBase {
         Shoot response;
         // check if there is sense to shoot
         if(controller.getWinner()==null){
-            response = handleShoot(session, fieldNumber);
+            response = handleShoot(fieldNumber);
             logger.debug("shoot status is " + response.status);
         }else {
             response= winnerResponse();
@@ -56,7 +56,7 @@ public class Playing extends BattleShipServiceBase {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
-    public TurnStatus turnStatus(HttpSession session){
+    public TurnStatus turnStatus(){
         // this method will call iterally, so i dont think that logging is a good idea
         return
                 new TurnStatus(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner());
@@ -69,11 +69,10 @@ public class Playing extends BattleShipServiceBase {
 
     /**
      * Will shoot the concrete field and check the result of the shooting.
-     * @param session
      * @param fieldNumber
      * @return
      */
-    private Shoot handleShoot(HttpSession session, int fieldNumber) {
+    private Shoot handleShoot(int fieldNumber) {
         logger.debug("Handling the shoot");
         Shoot response;
         MovementStatus status = controller.shoot(fieldNumber, player);
@@ -101,20 +100,18 @@ public class Playing extends BattleShipServiceBase {
 
     /**
      * Initializing the controller. getting the controller from the session that created earlier
-     * @param session
      * @return
      */
-    private GameController initController(HttpSession session) {
+    private GameController callController() {
         logger.debug("initializing the controller for the playew");
         return ((PlayerOrganizer)session.getAttribute("playerOrganizer")).myController();
     }
 
     /**
      * Initializing the player. getting the player from the session that created earlier
-     * @param session
      * @return
      */
-    private Player myPlayer(HttpSession session) {
+    private Player callPlayer() {
         logger.debug("getting the player in the playing");
         return ((Registration)session.getAttribute("registration")).getPlayer();
     }
@@ -122,9 +119,9 @@ public class Playing extends BattleShipServiceBase {
     @Override
     public void afterPropertiesSet() throws Exception {
         super.init(session);
-        controller = initController(session);
+        controller = callController();
         controller.startGame();
 
-        player=myPlayer(session);
+        player= callPlayer();
     }
 }
