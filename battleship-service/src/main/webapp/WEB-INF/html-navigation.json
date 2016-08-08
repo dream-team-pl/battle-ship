@@ -2,5 +2,6 @@
   "/register":"/view/register.html",
   "/placing":"/view/placingShip.html",
   "/play":"/view/play.html",
-  "/tests":"/view/test/tests.html"
+  "/tests":"/view/test/tests.html",
+  "/modals":"/view/modals.html"
 }

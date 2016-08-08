@@ -34,12 +34,10 @@ function isOpponentReady() {
         , url: "/service/prepare"
         , success: function (data) {
             if (data.readyToPlay) {
-                //init shoot
-//                sendShotRequest(0, null);
                 sendInitShotRequest();
                 clearInterval(readyToPlayInterval);
                 removeSelectOptionList();
-                $('#myPleaseWait').modal('hide');
+                $('#waitModal').modal('hide');
                 goToPlayAfterPlacingShips();
                 if (thisPlayerStartsGameFirst == true) {
                     alert('Your turn');
@@ -51,12 +49,16 @@ function isOpponentReady() {
         }
     });
 };
+
+
+
 //method for checing who is winner. it depends only on returning status
 function isWinner(data) {
     if (data.hasOwnProperty('winner') && data.winner != null||data.hasOwnProperty('status') && data.status == PLACING_STATUS_ENUM.WON) {
         clearInterval(oponnentTurnsUpdateInterval);
-        exitGame();
-        alert('The winner is: ' + data.winner.name + ' ' + data.winner.surname);
+//        exitGame();
+        showEndOfTheGameModal(data);
+            
     }
 }
 //this method read oponnent moves and add it to opponentsBoardMap
@@ -106,9 +108,7 @@ function sendShotRequest(position, tableCell) {
                 tableCell.attr('class', 'cell_missed');
                 oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
             }
-//            else if (data.status == PLACING_STATUS_ENUM.INVALID_MOVEMENT) {
-//                oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
-//            }
+
         }
     });
 };
