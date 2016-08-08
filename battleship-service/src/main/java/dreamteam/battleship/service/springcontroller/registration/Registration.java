@@ -1,6 +1,6 @@
 package dreamteam.battleship.service.springcontroller.registration;
 
-import dreamteam.battleship.service.BattleShipServiceBase;
+import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.Register;
 import dreamteam.battleship.service.springcontroller.util.KeyGenerator;
