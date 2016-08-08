@@ -38,6 +38,17 @@ public interface MovementManager {
 
     /**
      *
+     * @return
+     *          <ul>
+     *              <li>true - if the player is already won. it returns the status by the help of arbiter</li>
+     *              <li>false - if the player is not won yet. it returns the status by the help of arbiter</li>
+     *          </ul>
+     */
+    default boolean isThePlayerWon(){
+        return false;
+    }
+    /**
+     *
      * @param ship - the ship
      * @param fromFieldNumber - from the fieldNubmer
      * @param direction - the direction that the must be stored

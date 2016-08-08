@@ -1,4 +1,4 @@
-package dreamteam.battleship.service.springcontroller.registration;
+package dreamteam.battleship.service.springcontroller.model;
 
 import dreamteam.battleship.logic.ship.Ship;
 

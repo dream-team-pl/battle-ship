@@ -1,9 +1,8 @@
 package dreamteam.battleship.service.springcontroller.registration;
 
-import dreamteam.battleship.service.springcontroller.registration.KeyGenerator;
-import dreamteam.battleship.service.springcontroller.registration.Player;
-import dreamteam.battleship.service.springcontroller.registration.Registration;
-import dreamteam.battleship.service.springcontroller.registration.RegistrationResponse;
+import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.Register;
+import dreamteam.battleship.service.springcontroller.util.KeyGenerator;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -44,7 +43,7 @@ public class RegistrationTest {
 
         Registration registration = new Registration();
         registration.session = session;
-        RegistrationResponse response = registration.register("name", "surname");
+        Register response = registration.register("name", "surname");
 
         Assert.assertFalse(response.player.identification.isEmpty());
     }
@@ -55,7 +54,7 @@ public class RegistrationTest {
 
         Registration registration = new Registration();
         registration.session = session;
-        RegistrationResponse response = registration.register("name", "surname");
+        Register response = registration.register("name", "surname");
         Player player = response.player;
         Assert.assertFalse(player==null);
         Assert.assertTrue(player==registration.player);
