@@ -1,5 +1,7 @@
 package dreamteam.battleship.service.springcontroller.util;
 
+import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -14,5 +16,7 @@ public class RestarterUtil {
         session.removeAttribute(SessionAttrKey.PLACING_SERVICE);
         session.removeAttribute(SessionAttrKey.PLAYING_SERVICE);
         session.removeAttribute(SessionAttrKey.PREPARING_SERVICE);
+        Player player = ((Registration)session.getAttribute(SessionAttrKey.Registration_SERVICE)).getPlayer();
+        player.clearList();
     }
 }
