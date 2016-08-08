@@ -16,7 +16,7 @@ public class RestarterUtil {
         session.removeAttribute(SessionAttrKey.PLACING_SERVICE);
         session.removeAttribute(SessionAttrKey.PLAYING_SERVICE);
         session.removeAttribute(SessionAttrKey.PREPARING_SERVICE);
-        Player player = ((Registration)session.getAttribute(SessionAttrKey.Registration_SERVICE)).getPlayer();
+        Player player = ((Registration)session.getAttribute(SessionAttrKey.REGISTRATION_SERVICE)).getPlayer();
         player.clearList();
     }
 }

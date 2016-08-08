@@ -31,7 +31,7 @@ public class RestarterUtilTest {
         Registration registration = mock(Registration.class);
         Player player = new Player("","","",new LinkedList<Ship>());
         when(registration.getPlayer()).thenReturn(player);
-        session.setAttribute(SessionAttrKey.Registration_SERVICE, registration);
+        session.setAttribute(SessionAttrKey.REGISTRATION_SERVICE, registration);
 
         RestarterUtil restarterUtil = new RestarterUtil();
 
