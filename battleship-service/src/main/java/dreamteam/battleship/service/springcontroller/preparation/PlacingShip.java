@@ -8,7 +8,7 @@ import dreamteam.battleship.logic.movement.PlaceShipManager;
 import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipFactory;
 import dreamteam.battleship.logic.ship.ShipType;
-import dreamteam.battleship.service.BattleShipServiceBase;
+import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.model.response.Place;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;

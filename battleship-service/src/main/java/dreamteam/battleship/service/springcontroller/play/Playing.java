@@ -1,7 +1,7 @@
 package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.MovementStatus;
-import dreamteam.battleship.service.BattleShipServiceBase;
+import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.model.response.Shoot;
 import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
