@@ -4,7 +4,16 @@ function showEndOfTheGameModal(data) {
 }
 
 function restartGame() {
-    $("#winner_id").empty();
-    $('#endOfTheGameModal').modal('hide');
-    goToPlacingBoard();
+    $.ajax({
+        url: '/service/restart'
+        , type: 'GET'
+        , success: function (data) {
+            $("#winner_id").empty();
+            $('#endOfTheGameModal').modal('hide');
+            goToPlacingBoard();
+        }
+        , error: function (e) {
+            alert("Restart error");
+        }
+    });
 }
