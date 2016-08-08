@@ -3,16 +3,6 @@ function showEndOfTheGameModal(data) {
     $('#endOfTheGameModal').modal('show');
 }
 
-function chooseGameMode() {
-    $('.tooltip-test').tooltip();
-    $('.popover-test').popover();
-    $('#gameModeModal').modal('show');
-}
-
-function chooseGame() {
-    $('#gameModeModal').modal('hide');
-}
-
 function restartGame() {
     $.ajax({
         url: '/service/restart'
