@@ -17,6 +17,7 @@ function sendRegisterRequest() {
             //method from placingShips.js
             goToPlacingBoard();
             savePlayerName();
+            chooseGameMode();
         }
         , error: function (e) {
             alert("Registration error");

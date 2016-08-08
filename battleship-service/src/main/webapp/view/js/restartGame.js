@@ -3,6 +3,16 @@ function showEndOfTheGameModal(data) {
     $('#endOfTheGameModal').modal('show');
 }
 
+function chooseGameMode() {
+    $('.tooltip-test').tooltip();
+    $('.popover-test').popover();
+    $('#gameModeModal').modal('show');
+}
+
+function chooseGame() {
+    $('#gameModeModal').modal('hide');
+}
+
 function restartGame() {
     $.ajax({
         url: '/service/restart'
@@ -11,6 +21,7 @@ function restartGame() {
             $("#winner_id").empty();
             $('#endOfTheGameModal').modal('hide');
             goToPlacingBoard();
+            chooseGameMode();
         }
         , error: function (e) {
             alert("Restart error");
