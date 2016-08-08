@@ -8,8 +8,8 @@ import dreamteam.battleship.logic.movement.PlaceShipManager;
 import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipFactory;
 import dreamteam.battleship.logic.ship.ShipType;
-import dreamteam.battleship.service.BattleShipServiceBase;
-import dreamteam.battleship.service.springcontroller.model.response.Placing;
+import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
+import dreamteam.battleship.service.springcontroller.model.response.Place;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
@@ -28,7 +28,7 @@ import java.util.List;
 @Scope("session")
 public class PlacingShip extends BattleShipServiceBase {
 
-    final static Logger logger = Logger.getLogger(PlacingShip.class);
+    final private static Logger logger = Logger.getLogger(PlacingShip.class);
 
     protected MovementManager manager = new PlaceShipManager(new Board(10));
 
@@ -37,12 +37,12 @@ public class PlacingShip extends BattleShipServiceBase {
     protected Player player;
 
     @Autowired
-    HttpSession session;
+    protected HttpSession session;
 
     @RequestMapping(method = RequestMethod.GET, path = "/place")
-    public Placing place(@RequestParam(name = "type") ShipType type,
-                         @RequestParam(name = "fieldNumber") int fieldNumber,
-                         @RequestParam(name = "direction") Direction direction) {
+    public Place place(@RequestParam(name = "type") ShipType type,
+                       @RequestParam(name = "fieldNumber") int fieldNumber,
+                       @RequestParam(name = "direction") Direction direction) {
 
         logger.debug("Placing the ship " + type + " on field number " + fieldNumber + " " + direction);
         MovementStatus status = MovementStatus.TRY_AGAIN;
@@ -55,7 +55,7 @@ public class PlacingShip extends BattleShipServiceBase {
             cleanUpList(status, type);
         }
         logger.debug("Placement completed with status " + status);
-        return new Placing(status, availableShips);
+        return new Place(status, availableShips);
     }
 
     // TODO do something to create all thinks such these one in one creator or builder
