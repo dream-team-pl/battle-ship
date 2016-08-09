@@ -3,7 +3,7 @@ package dreamteam.battleship.service.springcontroller.play;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
 import dreamteam.battleship.service.springcontroller.model.Player;
@@ -14,9 +14,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-
-import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
-import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
 
 /**
  * Responsible to play and shooting the fields
@@ -40,19 +37,8 @@ public class Playing extends BattleShipServiceBase {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "/shoot")
-    public Shoot shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
-
-        logger.debug(START);
-        Shoot response;
-        // check if there is sense to shoot
-        if(controller.getWinner()==null){
-            response = controller.handleShot(fieldNumber, player);
-            logger.debug("shoot status is " + response.status);
-        }else {
-            response= winnerResponse();
-        }
-        logger.debug(END);
-        return response;
+    public ShootingResult shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
+        return controller.handleShot(fieldNumber, player);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
@@ -62,11 +48,11 @@ public class Playing extends BattleShipServiceBase {
                 new TurnStatus(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner());
     }
 
-    private Shoot winnerResponse() {
+    private ShootingResult winnerResponse() {
         return
-                new Shoot(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
+                new ShootingResult(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
     }
-    
+
     /**
      * Initializing the controller. getting the controller from the session that created earlier
      * @return
