@@ -52,29 +52,6 @@ public class GameControllersTests {
         assertTrue(true);
     }
 
-    /**
-     * Checking the winner
-     */
-    @Test
-    public void testIfWinnerIsCachedWhenPlayer1Won(){
-        when(manager1.isThePlayerWon()).thenReturn(true);
-        when(manager1.damage(anyInt())).thenReturn(MovementStatus.INVALID_MOVEMENT);
-
-
-        when(manager2.isThePlayerWon()).thenReturn(false);
-        when(manager2.damage(anyInt())).thenReturn(MovementStatus.INVALID_MOVEMENT);
-
-        IGameController gc = new NormalController(player1, manager1);
-        gc.addPlayer2(player2, manager2);
-
-        ((NormalController)gc).currentManager = manager1;
-        ((NormalController)gc).currentPlayer=player1;
-
-        gc.shotResponse(1,player1);
-
-        assertTrue(gc.getWinner().equals(player1));
-    }
-
     @Test
     public void checkResponseAfterShot() {
         // given
@@ -108,26 +85,57 @@ public class GameControllersTests {
     @Test
     public void checkIfIsMyTurn() {
         // given
-
         IGameController gc = new NormalController(player1, manager1);
         gc.addPlayer2(player2, manager2);
         ((NormalController)gc).currentPlayer = player1;
 
         // when
-
         boolean myTurn = gc.isMyTurn(player1);
 
         //then
-
         assertTrue("It's player's turn", myTurn);
 
 
         // when
-
         myTurn = gc.isMyTurn(player2);
 
         //then
-
         assertFalse("It's not player's turn", myTurn);
+    }
+
+    @Test
+    public void checkIfIsReadyToPlay() {
+        // given
+        IGameController gc = new NormalController(player1, manager1);
+
+        // when
+        boolean result = gc.isReadyToPlay();
+
+        //then
+        assertFalse("Game is not ready to play", result);
+
+        //given
+        gc.addPlayer2(player2, manager2);
+
+        // when
+        result = gc.isReadyToPlay();
+
+        //then
+        assertTrue("Game is ready to play", result);
+
+    }
+
+    @Test
+    public void checkIfWeCanSetTheWinner() {
+        // given
+        IGameController gc = new NormalController(player1, manager1);
+        gc.addPlayer2(player2, manager2);
+
+        // when
+        when(manager1.isThePlayerWon()).thenReturn(true);
+        gc.trySetWinner();
+
+        // then
+        assertEquals(gc.getWinner(), player1);
     }
 }

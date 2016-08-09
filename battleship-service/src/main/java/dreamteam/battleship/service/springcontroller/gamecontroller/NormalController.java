@@ -29,8 +29,7 @@ public class NormalController extends GameControllerBase {
         return currentPlayer.equals(player);
     }
 
-    @Override
-    public MovementStatus shotResponse(int fieldNumber, Player player) {
+    private MovementStatus shotResponse(int fieldNumber, Player player) {
         MovementStatus status = MovementStatus.INVALID_MOVEMENT;
 
         if(validatePlayer(player)){
@@ -44,14 +43,7 @@ public class NormalController extends GameControllerBase {
     @Override
     public Shoot handleShot(int fieldNumber, Player player) {
         logger.debug(START);
-        Shoot response;
-        // check if there is sense to shoot
-        if(getWinner()==null){
-            response = standardResponse(fieldNumber, player);
-            logger.debug("shoot status is " + response.status);
-        }else {
-            response= winnerResponse(player);
-        }
+        Shoot response = (getWinner()==null) ? standardResponse(fieldNumber, player) : winnerResponse(player);
         logger.debug(END);
         return response;
     }
@@ -90,9 +82,8 @@ public class NormalController extends GameControllerBase {
     }
 
     private boolean validatePlayer(Player player) {
-        if(currentPlayer.equals(player)){
+        if(currentPlayer.equals(player))
             return true;
-        }
         return false;
     }
 
