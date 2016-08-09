@@ -4,6 +4,15 @@ var column1Id = '#column1_id';
 
 var delayBetweenSendingRequest=1000;
 
+//variables for salut mode
+var numberOfShoots=0;
+var shootToSend = [];
+shootToSend.push(1);
+shootToSend.push(2);
+
+alert(JSON.stringify({ "shoots": shootToSend}));
+
+
 //when all ships are placed are components shold be removed and additonal board should show
 function goToPlayAfterPlacingShips() {
     $.get("/html/play", function (data) {
@@ -21,6 +30,18 @@ function loadOpponentBoard() {
     loadHtmlTableAsGameBoard(boardSize, opponentBoardId);
     $(opponentBoardId + ' td.cell_empty').each(function (index, elem) {
         $(this).on("click", function () {
+            if(numberOfShoots>0)
+            numberOfShoots--;
+            shootToSend.push($(this).attr('id'));
+            $(this).attr('class', 'cell_mark');
+            $(this).off('click');
+            if(numberOfShoots==0){
+                //send list of shoots to server
+                
+                console.log('sending shoots: '+shootToSend);
+                shootToSend=[];
+            }
+            //to remove
             sendShotRequest($(this).attr('id'), $(this));
         });
     });
@@ -137,6 +158,10 @@ function sendReuqestForOponnentTurns() {
         success: function (data) {
             var opponentsBoardMap = prepareOpponentShootsMap(data);
             placeOpponentsShootsOnBoard(opponentsBoardMap);
+            //numberOfShoots=data.numberOfShoots;
+            //todo
+            numberOfShoots=2;
+            
             if (data.isMyTurn == true) {
                 unLockTable(opponentBoardId);
                 clearInterval(oponnentTurnsUpdateInterval);

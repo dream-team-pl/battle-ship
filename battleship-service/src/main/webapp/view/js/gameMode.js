@@ -11,6 +11,5 @@ function chooseGameMode() {
 }
 
 function chooseGame() {
-    gameMode=$('input[name=gameModeRadioOption]:checked').val();
     $('#gameModeModal').modal('hide');
 }
