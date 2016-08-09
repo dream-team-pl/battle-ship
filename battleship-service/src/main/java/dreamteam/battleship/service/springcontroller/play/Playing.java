@@ -66,38 +66,7 @@ public class Playing extends BattleShipServiceBase {
         return
                 new Shoot(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
     }
-
-    /**
-     * Will shoot the concrete field and check the result of the shooting.
-     * @param fieldNumber
-     * @return
-     *//*
-    private Shoot handleShoot(int fieldNumber) {
-        logger.debug("Handling the shoot");
-        Shoot response;
-        MovementStatus status = controller.shoot(fieldNumber, player);
-        if(mustPlayNext(status)){
-            controller.nextPlayer();
-        }
-        // check if he is the winnner
-        //FIXME In the future when we will use web sockets we are going to send event, we need to delete this line
-        if(MovementStatus.WON.equals(status)){
-            response = winnerResponse();
-        }else {
-            response = new Shoot(status, controller.getBoardForPlayer(player));
-        }
-        return response;
-    }*/
-
-    /**
-     * It checks if player done his action.
-     * @param status
-     * @return
-     *//*
-    private boolean mustPlayNext(MovementStatus status) {
-        return !( status.equals(MovementStatus.INVALID_MOVEMENT) || status.equals(MovementStatus.SUCCESS) || status.equals(MovementStatus.WON));
-    }*/
-
+    
     /**
      * Initializing the controller. getting the controller from the session that created earlier
      * @return
