@@ -93,15 +93,7 @@
   </dependencies>
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
+
       <!-- -agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
