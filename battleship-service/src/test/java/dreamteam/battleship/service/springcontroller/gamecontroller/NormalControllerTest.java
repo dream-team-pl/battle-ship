@@ -5,7 +5,7 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -68,18 +68,18 @@ public class NormalControllerTest {
         // when
         ((NormalController)gc).currentManager = manager1;
         ((NormalController)gc).currentPlayer=player1;
-        Shoot shoot = gc.handleShot(7, player1);
+        ShootingResult shootingResult = gc.handleShot(7, player1);
 
         // then
-        assertEquals(shoot.status, MovementStatus.SUCCESS);
+        assertEquals(shootingResult.status, MovementStatus.SUCCESS);
 
         //when
         ((NormalController)gc).currentManager = manager2;
         ((NormalController)gc).currentPlayer=player2;
-        shoot = gc.handleShot(7, player2);
+        shootingResult = gc.handleShot(7, player2);
 
         // then
-        assertEquals(shoot.status, MovementStatus.TRY_AGAIN);
+        assertEquals(shootingResult.status, MovementStatus.TRY_AGAIN);
     }
 
     @Test

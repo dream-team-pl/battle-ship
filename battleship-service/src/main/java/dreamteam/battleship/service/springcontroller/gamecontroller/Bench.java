@@ -3,6 +3,7 @@ package dreamteam.battleship.service.springcontroller.gamecontroller;
 import dreamteam.battleship.service.springcontroller.model.GameMode;
 import org.springframework.stereotype.Component;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 @Component
 public class Bench {
 
-    private Map<GameMode, IGameController> controllers = new HashMap<>();
+    private Map<GameMode, IGameController> controllers = new EnumMap<>(GameMode.class);
 
     public synchronized boolean isFree(GameMode gameMode){
         return !controllers.containsKey(gameMode);

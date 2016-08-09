@@ -3,7 +3,7 @@ package dreamteam.battleship.service.springcontroller.play;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
 import dreamteam.battleship.service.springcontroller.model.Player;
@@ -14,9 +14,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-
-import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
-import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
 
 /**
  * Responsible to play and shooting the fields
@@ -40,7 +37,7 @@ public class Playing extends BattleShipServiceBase {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "/shoot")
-    public Shoot shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
+    public ShootingResult shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
         return controller.handleShot(fieldNumber, player);
     }
 
@@ -51,9 +48,9 @@ public class Playing extends BattleShipServiceBase {
                 new TurnStatus(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner());
     }
 
-    private Shoot winnerResponse() {
+    private ShootingResult winnerResponse() {
         return
-                new Shoot(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
+                new ShootingResult(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
     }
 
     /**

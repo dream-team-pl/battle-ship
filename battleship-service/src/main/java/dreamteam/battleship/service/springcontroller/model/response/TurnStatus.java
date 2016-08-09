@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by ehsan on 02.08.16.
  */
-public class TurnStatus extends Shoot {
+public class TurnStatus extends ShootingResult {
 
     public final Map<Integer, Boolean> myDamages;
 
