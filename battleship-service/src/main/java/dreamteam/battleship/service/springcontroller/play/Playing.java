@@ -2,9 +2,9 @@ package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
+import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
 import dreamteam.battleship.service.springcontroller.model.response.Shoot;
 import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
-import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
@@ -27,7 +27,7 @@ public class Playing extends BattleShipServiceBase {
 
     final static Logger logger = Logger.getLogger(Playing.class);
 
-    protected GameController controller;
+    protected IGameController controller;
 
     private Player player;
 
@@ -46,7 +46,7 @@ public class Playing extends BattleShipServiceBase {
         Shoot response;
         // check if there is sense to shoot
         if(controller.getWinner()==null){
-            response = handleShoot(fieldNumber);
+            response = controller.handleShot(fieldNumber, player);
             logger.debug("shoot status is " + response.status);
         }else {
             response= winnerResponse();
@@ -71,7 +71,7 @@ public class Playing extends BattleShipServiceBase {
      * Will shoot the concrete field and check the result of the shooting.
      * @param fieldNumber
      * @return
-     */
+     *//*
     private Shoot handleShoot(int fieldNumber) {
         logger.debug("Handling the shoot");
         Shoot response;
@@ -87,22 +87,22 @@ public class Playing extends BattleShipServiceBase {
             response = new Shoot(status, controller.getBoardForPlayer(player));
         }
         return response;
-    }
+    }*/
 
     /**
      * It checks if player done his action.
      * @param status
      * @return
-     */
+     *//*
     private boolean mustPlayNext(MovementStatus status) {
         return !( status.equals(MovementStatus.INVALID_MOVEMENT) || status.equals(MovementStatus.SUCCESS) || status.equals(MovementStatus.WON));
-    }
+    }*/
 
     /**
      * Initializing the controller. getting the controller from the session that created earlier
      * @return
      */
-    private GameController callController() {
+    private IGameController callController() {
         logger.debug("initializing the controller for the playew");
         return ((PlayerOrganizer)session.getAttribute("playerOrganizer")).myController();
     }

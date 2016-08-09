@@ -2,8 +2,8 @@ package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
+import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
 import dreamteam.battleship.service.springcontroller.model.response.Shoot;
-import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import dreamteam.battleship.service.springcontroller.preparation.PlacingShip;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
 import dreamteam.battleship.service.springcontroller.model.Player;
@@ -32,8 +32,8 @@ public class PlayingTest {
         when(placingShip.myManager()).thenReturn(mock(DamageManager.class));
 
         PlayerOrganizer organizer = mock(PlayerOrganizer.class);
-        GameController controller = mock(GameController.class);
-        when(controller.shoot(anyInt(), any(Player.class))).thenReturn(MovementStatus.SUCCESS);
+        IGameController controller = mock(IGameController.class);
+        when(controller.handleShot(anyInt(), any(Player.class))).thenReturn(new Shoot(MovementStatus.SUCCESS, null));
         when(controller.getWinner()).thenReturn(null);
         when(organizer.myController()).thenReturn(controller);
 

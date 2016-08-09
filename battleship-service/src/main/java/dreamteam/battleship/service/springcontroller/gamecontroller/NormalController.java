@@ -22,7 +22,9 @@ public class NormalController extends GameControllerBase {
     protected MovementManager currentManager;
     protected Player currentPlayer;
 
-    public NormalController(Player player1, MovementManager manager1) {
+
+
+    NormalController(Player player1, MovementManager manager1) {
         super(player1, manager1);
     }
 
