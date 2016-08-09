@@ -19,7 +19,7 @@ import static org.testng.AssertJUnit.assertTrue;
 /**
  * Created by daniel on 09.08.16.
  */
-public class GameControllersTests {
+public class NormalControllerTest {
     Player player1;
     Player player2;
 
