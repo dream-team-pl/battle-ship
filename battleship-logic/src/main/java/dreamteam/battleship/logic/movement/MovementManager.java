@@ -72,4 +72,8 @@ public interface MovementManager {
     Board getBoard();
 
     Map<Integer, Boolean> getMovements();
+
+    int getNumberOfTurn();
+
+    void incrementNumberOfTurn();
 }

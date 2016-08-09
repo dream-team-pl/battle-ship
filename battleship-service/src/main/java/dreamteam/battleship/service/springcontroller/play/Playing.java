@@ -64,7 +64,7 @@ public class Playing extends BattleShipServiceBase {
 
     private Shoot winnerResponse() {
         return
-                new Shoot(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
+                new Shoot(MovementStatus.WON, controller.getWinner());
     }
 
     /**
@@ -84,7 +84,7 @@ public class Playing extends BattleShipServiceBase {
         if(MovementStatus.WON.equals(status)){
             response = winnerResponse();
         }else {
-            response = new Shoot(status, controller.getBoardForPlayer(player));
+            response = new Shoot(status);
         }
         return response;
     }

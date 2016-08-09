@@ -9,6 +9,8 @@ import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.Shoot;
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
 import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
 import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
 
@@ -17,7 +19,7 @@ import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
  */
 public class NormalController extends GameControllerBase {
 
-    final static Logger logger = Logger.getLogger(NormalController.class);
+        final static Logger logger = Logger.getLogger(NormalController.class);
 
     protected MovementManager currentManager;
     protected Player currentPlayer;
@@ -43,9 +45,9 @@ public class NormalController extends GameControllerBase {
     }
 
     @Override
-    public Shoot handleShot(int fieldNumber, Player player) {
+    public Shoot handleShot(List<Integer> fieldNumbers, Player player) {
         logger.debug(START);
-        Shoot response = (getWinner()==null) ? standardResponse(fieldNumber, player) : winnerResponse(player);
+        Shoot response = (getWinner()==null) ? standardResponse(fieldNumbers.get(0), player) : winnerResponse(player);
         logger.debug(END);
         return response;
     }
@@ -87,7 +89,7 @@ public class NormalController extends GameControllerBase {
 
     private Shoot winnerResponse(Player player) {
         return
-                new Shoot(MovementStatus.WON, getWinner(), getBoardForPlayer(player));
+                new Shoot(MovementStatus.WON, getWinner());
     }
 
     /**
@@ -103,7 +105,7 @@ public class NormalController extends GameControllerBase {
             nextPlayer();
         // check if he is the winnner
         //FIXME In the future when we will use web sockets we are going to send event, we need to delete this line
-        response = MovementStatus.WON.equals(status) ? winnerResponse(player) : new Shoot(status,getBoardForPlayer(player));
+        response = MovementStatus.WON.equals(status) ? winnerResponse(player) : new Shoot(status);
         return response;
     }
 }

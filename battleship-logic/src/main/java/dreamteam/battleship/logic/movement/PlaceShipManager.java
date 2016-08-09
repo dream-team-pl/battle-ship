@@ -26,4 +26,14 @@ public class PlaceShipManager extends AbstractMovementManager {
         return status;
     }
 
+    @Override
+    public int getNumberOfTurn() throws IllegalAccessError {
+        throw new IllegalAccessError("You shouldn't use number of turn om place ship manager");
+    }
+
+    @Override
+    public void incrementNumberOfTurn() throws IllegalAccessError {
+        throw new IllegalAccessError("You shouldn't increment number of turn om place ship manager");
+    }
+
 }

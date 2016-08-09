@@ -11,17 +11,17 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * Created by daniel on 09.08.16.
  */
-public class NormalControllerTest {
+public class GunSaluteControllerTest {
     Player player1;
     Player player2;
 
@@ -38,9 +38,33 @@ public class NormalControllerTest {
         manager1 = mock(DamageManager.class);
         manager2 = mock(DamageManager.class);
 
-        arg = Arrays.asList(7);
+        arg = Arrays.asList(7, 18, 19, 21, 77);
     }
 
+    @Test
+    public void checkIfIsMyTurn() {
+        // given
+        IGameController gc = new GunSaluteController(player1, manager1);
+        gc.addPlayer2(player2, manager2);
+
+
+        // when
+        boolean myTurn = gc.isMyTurn(player1);
+        boolean myTurn2 = gc.isMyTurn(player2);
+
+        // then
+        assertTrue("It's player's turn", myTurn);
+        assertTrue("It's player's turn", myTurn2);
+
+        // when
+        when(manager1.getNumberOfTurn()).thenReturn(1);
+        myTurn = gc.isMyTurn(player1);
+        myTurn2 = gc.isMyTurn(player2);
+
+        // then
+        assertFalse("It's not player's turn", myTurn);
+        assertFalse("It's not player's turn", myTurn2);
+    }
 
     @Test
     public void checkResponseAfterShot() {
@@ -70,62 +94,5 @@ public class NormalControllerTest {
 
         // then
         assertEquals(shoot.status, MovementStatus.TRY_AGAIN);
-    }
-
-    @Test
-    public void checkIfIsMyTurn() {
-        // given
-        IGameController gc = new NormalController(player1, manager1);
-        gc.addPlayer2(player2, manager2);
-        ((NormalController)gc).currentPlayer = player1;
-
-        // when
-        boolean myTurn = gc.isMyTurn(player1);
-
-        //then
-        assertTrue("It's player's turn", myTurn);
-
-
-        // when
-        myTurn = gc.isMyTurn(player2);
-
-        //then
-        assertFalse("It's not player's turn", myTurn);
-    }
-
-    @Test
-    public void checkIfIsReadyToPlay() {
-        // given
-        IGameController gc = new NormalController(player1, manager1);
-
-        // when
-        boolean result = gc.isReadyToPlay();
-
-        //then
-        assertFalse("Game is not ready to play", result);
-
-        //given
-        gc.addPlayer2(player2, manager2);
-
-        // when
-        result = gc.isReadyToPlay();
-
-        //then
-        assertTrue("Game is ready to play", result);
-
-    }
-
-    @Test
-    public void checkIfWeCanSetTheWinner() {
-        // given
-        IGameController gc = new NormalController(player1, manager1);
-        gc.addPlayer2(player2, manager2);
-
-        // when
-        when(manager1.isThePlayerWon()).thenReturn(true);
-        gc.trySetWinner();
-
-        // then
-        assertEquals(gc.getWinner(), player1);
     }
 }

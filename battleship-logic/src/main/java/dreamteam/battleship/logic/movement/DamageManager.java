@@ -45,6 +45,16 @@ public class DamageManager extends AbstractMovementManager{
         return container.getMovements();
     }
 
+    @Override
+    public int getNumberOfTurn() {
+        return container.getNumberOfTurn();
+    }
+
+    @Override
+    public void incrementNumberOfTurn() {
+        container.incrementNumberOfTurn();
+    }
+
     /**
      * Check if the movement is a valid movement and earlier there were not such movement
      * @param movementNumber
@@ -106,4 +116,6 @@ public class DamageManager extends AbstractMovementManager{
     public boolean isThePlayerWon() {
         return arbiter.isWinner();
     }
+
+
 }
