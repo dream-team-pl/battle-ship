@@ -5,7 +5,7 @@ import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.logic.movement.PlaceShipManager;
 import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipType;
-import dreamteam.battleship.service.springcontroller.model.response.Placing;
+import dreamteam.battleship.service.springcontroller.model.response.Place;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
@@ -31,9 +31,9 @@ public class PlacingShipTest {
         MockHttpSession session = new MockHttpSession();
         placingShip.player = new Player("","", "1", new LinkedList<Ship>());
         placingShip.session = session;
-        Placing placing = placingShip.place(ShipType.threeMast, 1, Direction.VERTICAL);
+        Place place = placingShip.place(ShipType.threeMast, 1, Direction.VERTICAL);
 
-        assertTrue(placing.status.equals(MovementStatus.SUCCESS));
+        assertTrue(place.status.equals(MovementStatus.SUCCESS));
     }
 
     @Test
@@ -44,9 +44,9 @@ public class PlacingShipTest {
         placingShip.player = new Player("","", "1", new LinkedList<Ship>());
         placingShip.session = session;
         placingShip.place(ShipType.threeMast, 1, Direction.VERTICAL);
-        Placing placing = placingShip.place(ShipType.threeMast, 1, Direction.VERTICAL);
+        Place place = placingShip.place(ShipType.threeMast, 1, Direction.VERTICAL);
 
-        assertEquals(placing.status, MovementStatus.TRY_AGAIN);
+        assertEquals(place.status, MovementStatus.TRY_AGAIN);
     }
 
     @Test
