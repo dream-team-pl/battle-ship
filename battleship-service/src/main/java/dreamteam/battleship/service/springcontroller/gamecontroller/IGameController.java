@@ -5,7 +5,6 @@ import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.Shoot;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -27,7 +26,7 @@ public interface IGameController {
 
     Map<Integer, Boolean> getBoardForPlayer(Player player);
 
-    Shoot handleShot(HttpSession session, int fieldNumber);
+    Shoot handleShot(int fieldNumber, Player player);
 
     void startGame();
 }

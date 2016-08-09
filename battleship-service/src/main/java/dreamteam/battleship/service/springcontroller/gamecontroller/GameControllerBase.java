@@ -2,15 +2,16 @@ package dreamteam.battleship.service.springcontroller.gamecontroller;
 
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import org.apache.log4j.Logger;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
  * Created by daniel on 08.08.16.
  */
 public abstract class GameControllerBase implements IGameController {
+
+    final static Logger logger = Logger.getLogger(GameController.class);
 
     protected Player player1, player2;
     protected MovementManager manager1, manager2;
@@ -51,15 +52,5 @@ public abstract class GameControllerBase implements IGameController {
             return manager2.getMovements();
         else
             return manager1.getMovements();
-    }
-
-    @Override
-    public Shoot handleShot(HttpSession session, int fieldNumber) {
-        return null;
-    }
-
-    @Override
-    public void startGame() {
-
     }
 }
