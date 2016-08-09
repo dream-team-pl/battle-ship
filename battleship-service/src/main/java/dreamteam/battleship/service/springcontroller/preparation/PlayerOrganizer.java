@@ -3,6 +3,7 @@ package dreamteam.battleship.service.springcontroller.preparation;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.gamecontroller.*;
+import dreamteam.battleship.service.springcontroller.model.GameMode;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.Organizer;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
@@ -35,20 +36,20 @@ public class PlayerOrganizer extends BattleShipServiceBase {
 
     protected IGameController gameController;
 
-    private boolean isSalute;
+    private GameMode mode;
 
     @RequestMapping(method = RequestMethod.GET, path = "/prepare")
     public Organizer preparePlayer(HttpSession session,
-                                   @RequestParam(name = "saluteMode", defaultValue= "false") boolean saluteMode) {
-        logger.debug(START + " - " + saluteMode);
-        isSalute = saluteMode;
+                                   @RequestParam(name = "gameMode", defaultValue= "NORMAL_MODE") GameMode gameMode) {
+        logger.debug(START + " - " + gameMode);
+        mode = gameMode;
         if(gameController==null){
             logger.debug("Preparing the player");
             Player player = callPlayer(session);
             MovementManager manager = callManager(session);
 
-            if(bench.isFree(isSalute)){
-                initialGameController(player, manager, isSalute);
+            if(bench.isFree(mode)){
+                initialGameController(player, manager);
             }else {
                 // TODO setSecondPlayerAndStart
                 // TODO start will throw an exception if we call it twice
@@ -61,14 +62,14 @@ public class PlayerOrganizer extends BattleShipServiceBase {
 
     private void setSecondPlayer(Player player, MovementManager manager) {
         logger.debug("Player2 join the game controller, lets play!!");
-        gameController = bench.pickController(isSalute);
+        gameController = bench.pickController(mode);
         gameController.addPlayer2(player, manager);
     }
 
-    private void initialGameController(Player player, MovementManager manager, boolean isSalute) {
+    private void initialGameController(Player player, MovementManager manager) {
         logger.debug("Player1 will wait");
-        gameController = GameControllerBuilder.gameControllerInstance(player, manager, isSalute);
-        bench.letSit(gameController, isSalute);
+        gameController = GameControllerBuilder.gameControllerInstance(player, manager, mode);
+        bench.letSit(gameController, mode);
     }
 
     private MovementManager callManager(HttpSession session) {

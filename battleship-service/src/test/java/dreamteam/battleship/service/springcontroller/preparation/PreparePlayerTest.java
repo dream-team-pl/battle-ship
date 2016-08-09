@@ -3,6 +3,7 @@ package dreamteam.battleship.service.springcontroller.preparation;
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.service.springcontroller.gamecontroller.GameControllerBuilder;
 import dreamteam.battleship.service.springcontroller.gamecontroller.NormalController;
+import dreamteam.battleship.service.springcontroller.model.GameMode;
 import dreamteam.battleship.service.springcontroller.model.response.Organizer;
 import dreamteam.battleship.service.springcontroller.gamecontroller.Bench;
 import dreamteam.battleship.service.springcontroller.model.Player;
@@ -36,7 +37,7 @@ public class PreparePlayerTest {
 
         organizer.bench = new Bench();
 
-        Organizer response =  organizer.preparePlayer(session, false);
+        Organizer response =  organizer.preparePlayer(session, GameMode.NORMAL_MODE);
 
         assertFalse(response.readyToPlay);
     }
@@ -55,8 +56,8 @@ public class PreparePlayerTest {
         session.setAttribute("registration", registration);
         session.setAttribute("placingShip", placingShip);
         organizer.bench = new Bench();
-        organizer.bench.letSit(GameControllerBuilder.gameControllerInstance(mock(Player.class), mock(DamageManager.class),false),false);
-        Organizer response =  organizer.preparePlayer(session, false);
+        organizer.bench.letSit(GameControllerBuilder.gameControllerInstance(mock(Player.class), mock(DamageManager.class),GameMode.NORMAL_MODE),GameMode.NORMAL_MODE);
+        Organizer response =  organizer.preparePlayer(session, GameMode.NORMAL_MODE);
 
         assertTrue(response.readyToPlay);
 
@@ -91,20 +92,20 @@ public class PreparePlayerTest {
         session.setAttribute("placingShip", placingShip);
 
         // prepare player1
-        organizer1.preparePlayer(session, false);
+        organizer1.preparePlayer(session, GameMode.NORMAL_MODE);
 
         // session for player2
         session.setAttribute("registration", registration2);
 
         // second player
-        organizer2.preparePlayer(session, false);
+        organizer2.preparePlayer(session, GameMode.NORMAL_MODE);
 
         // the game controller of organizers must be the same
         assertTrue(organizer1.gameController!=null);
         assertTrue(organizer1.gameController==organizer2.gameController);
 
         // now the bench must be free and ready for a new gameController
-        assertTrue(bench.isFree(false));
+        assertTrue(bench.isFree(GameMode.NORMAL_MODE));
     }
 
 }
