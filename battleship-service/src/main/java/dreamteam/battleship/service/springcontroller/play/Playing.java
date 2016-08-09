@@ -41,18 +41,7 @@ public class Playing extends BattleShipServiceBase {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/shoot")
     public Shoot shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
-
-        logger.debug(START);
-        Shoot response;
-        // check if there is sense to shoot
-        if(controller.getWinner()==null){
-            response = controller.handleShot(fieldNumber, player);
-            logger.debug("shoot status is " + response.status);
-        }else {
-            response= winnerResponse();
-        }
-        logger.debug(END);
-        return response;
+        return controller.handleShot(fieldNumber, player);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
@@ -66,7 +55,7 @@ public class Playing extends BattleShipServiceBase {
         return
                 new Shoot(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
     }
-    
+
     /**
      * Initializing the controller. getting the controller from the session that created earlier
      * @return
