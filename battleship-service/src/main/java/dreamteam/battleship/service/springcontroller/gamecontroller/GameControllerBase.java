@@ -2,7 +2,6 @@ package dreamteam.battleship.service.springcontroller.gamecontroller;
 
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import org.apache.log4j.Logger;
 
 import java.util.Map;
 
@@ -11,11 +10,10 @@ import java.util.Map;
  */
 public abstract class GameControllerBase implements IGameController {
 
-    final static Logger logger = Logger.getLogger(GameController.class);
-
     protected Player player1, player2;
     protected MovementManager manager1, manager2;
     protected Player winner;
+    protected boolean isTheGameStarted;
 
     public GameControllerBase(Player player1, MovementManager manager1){
         this.player1 = player1;

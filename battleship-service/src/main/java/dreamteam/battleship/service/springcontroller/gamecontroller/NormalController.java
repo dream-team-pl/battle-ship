@@ -7,6 +7,7 @@ import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import org.apache.log4j.Logger;
 
 import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
 import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
@@ -16,9 +17,10 @@ import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
  */
 public class NormalController extends GameControllerBase {
 
+    final static Logger logger = Logger.getLogger(NormalController.class);
+
     protected MovementManager currentManager;
     protected Player currentPlayer;
-    private boolean isTheGameStarted;
 
     public NormalController(Player player1, MovementManager manager1) {
         super(player1, manager1);
@@ -35,7 +37,7 @@ public class NormalController extends GameControllerBase {
         if(validatePlayer(player)){
             status = currentManager.damage(fieldNumber);
         }
-        checkPlayer();
+        trySetWinner();
 
         return status;
     }
@@ -70,14 +72,6 @@ public class NormalController extends GameControllerBase {
         }else{
             currentManager = manager1;
             currentPlayer = player1;
-        }
-    }
-
-    private void checkPlayer() {
-        if(manager1.isThePlayerWon()){
-            winner=player1;
-        }else if(manager2.isThePlayerWon()){
-            winner=player2;
         }
     }
 
