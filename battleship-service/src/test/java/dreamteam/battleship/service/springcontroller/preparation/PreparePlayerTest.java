@@ -1,9 +1,10 @@
 package dreamteam.battleship.service.springcontroller.preparation;
 
 import dreamteam.battleship.logic.movement.DamageManager;
+import dreamteam.battleship.service.springcontroller.gamecontroller.GameControllerBuilder;
+import dreamteam.battleship.service.springcontroller.gamecontroller.NormalController;
 import dreamteam.battleship.service.springcontroller.model.response.Organizer;
 import dreamteam.battleship.service.springcontroller.gamecontroller.Bench;
-import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.springframework.mock.web.MockHttpSession;
@@ -54,7 +55,7 @@ public class PreparePlayerTest {
         session.setAttribute("registration", registration);
         session.setAttribute("placingShip", placingShip);
         organizer.bench = new Bench();
-        organizer.bench.letSit(new GameController(mock(Player.class), mock(DamageManager.class)));
+        organizer.bench.letSit(GameControllerBuilder.gameControllerInstance(mock(Player.class), mock(DamageManager.class),false),false);
         Organizer response =  organizer.preparePlayer(session);
 
         assertTrue(response.readyToPlay);
@@ -103,7 +104,7 @@ public class PreparePlayerTest {
         assertTrue(organizer1.gameController==organizer2.gameController);
 
         // now the bench must be free and ready for a new gameController
-        assertTrue(bench.isFree());
+        assertTrue(bench.isFree(false));
     }
 
 }

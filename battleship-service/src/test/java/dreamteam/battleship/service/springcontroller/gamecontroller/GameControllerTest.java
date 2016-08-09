@@ -25,7 +25,7 @@ public class GameControllerTest {
         MovementManager manager1 = mock(DamageManager.class);
         MovementManager manager2 = mock(DamageManager.class);
 
-        GameController gc = new GameController(player1, manager1);
+        IGameController gc = new NormalController(player1, manager1);
         gc.addPlayer2(player2, manager2);
 
         Board board1 = mock(Board.class);
@@ -58,13 +58,13 @@ public class GameControllerTest {
         when(manager2.isThePlayerWon()).thenReturn(false);
         when(manager2.damage(anyInt())).thenReturn(MovementStatus.INVALID_MOVEMENT);
 
-        GameController gc = new GameController(player1, manager1);
+        NormalController gc = new NormalController(player1, manager1);
         gc.addPlayer2(player2, manager2);
 
         gc.currentManager = manager1;
         gc.currentPlayer=player1;
 
-        gc.shoot(1,player1);
+        gc.handleShot(1,player1);
 
         assertTrue(gc.getWinner().equals(player1));
     }

@@ -1,6 +1,5 @@
 package dreamteam.battleship.service.springcontroller.gamecontroller;
 
-import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,19 +8,32 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bench {
 
-    private GameController place1;
+    private IGameController normalController;
 
-    public synchronized boolean isFree(){
-        return place1 == null;
+    private IGameController gunSaluteController;
+
+    public synchronized boolean isFree(boolean gunSaluteMode){
+        return gunSaluteMode? gunSaluteController== null : normalController==null;
     }
 
-    public synchronized void letSit(GameController controller){
-        place1 = controller;
+    public synchronized void letSit(IGameController controller, boolean gunSaluteMode ){
+        if(gunSaluteMode){
+            gunSaluteController = controller;
+        }else {
+            normalController = controller;
+        }
     }
 
-    public synchronized GameController pickController(){
-        GameController controller = place1;
-        place1 = null;
+    public synchronized IGameController pickController(boolean gunSaluteMode){
+        IGameController controller ;
+        if(gunSaluteMode){
+            controller = gunSaluteController;
+            gunSaluteController=null;
+        }else{
+            controller = normalController;
+            normalController = null;
+        }
+
         return controller;
     }
 }
