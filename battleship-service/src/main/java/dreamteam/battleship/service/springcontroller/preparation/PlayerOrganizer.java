@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -37,8 +38,10 @@ public class PlayerOrganizer extends BattleShipServiceBase {
     private boolean isSalute;
 
     @RequestMapping(method = RequestMethod.GET, path = "/prepare")
-    public Organizer preparePlayer(HttpSession session) {
-        logger.debug(START);
+    public Organizer preparePlayer(HttpSession session,
+                                   @RequestParam(name = "saluteMode", defaultValue= "false") boolean saluteMode) {
+        logger.debug(START + " - " + saluteMode);
+        isSalute = saluteMode;
         if(gameController==null){
             logger.debug("Preparing the player");
             Player player = callPlayer(session);

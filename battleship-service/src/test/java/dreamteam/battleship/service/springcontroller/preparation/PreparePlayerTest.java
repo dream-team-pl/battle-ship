@@ -36,7 +36,7 @@ public class PreparePlayerTest {
 
         organizer.bench = new Bench();
 
-        Organizer response =  organizer.preparePlayer(session);
+        Organizer response =  organizer.preparePlayer(session, false);
 
         assertFalse(response.readyToPlay);
     }
@@ -56,7 +56,7 @@ public class PreparePlayerTest {
         session.setAttribute("placingShip", placingShip);
         organizer.bench = new Bench();
         organizer.bench.letSit(GameControllerBuilder.gameControllerInstance(mock(Player.class), mock(DamageManager.class),false),false);
-        Organizer response =  organizer.preparePlayer(session);
+        Organizer response =  organizer.preparePlayer(session, false);
 
         assertTrue(response.readyToPlay);
 
@@ -91,13 +91,13 @@ public class PreparePlayerTest {
         session.setAttribute("placingShip", placingShip);
 
         // prepare player1
-        organizer1.preparePlayer(session);
+        organizer1.preparePlayer(session, false);
 
         // session for player2
         session.setAttribute("registration", registration2);
 
         // second player
-        organizer2.preparePlayer(session);
+        organizer2.preparePlayer(session, false);
 
         // the game controller of organizers must be the same
         assertTrue(organizer1.gameController!=null);
