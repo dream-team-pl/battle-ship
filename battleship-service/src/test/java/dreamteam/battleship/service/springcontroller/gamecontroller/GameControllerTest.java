@@ -7,6 +7,8 @@ import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -64,7 +66,7 @@ public class GameControllerTest {
         gc.currentManager = manager1;
         gc.currentPlayer=player1;
 
-        gc.handleShot(1,player1);
+        gc.handleShot(Arrays.asList(1),player1);
 
         assertTrue(gc.getWinner().equals(player1));
     }
