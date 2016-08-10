@@ -1,52 +1,32 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+    <parent>
+        <groupId>dreamteam.battleship</groupId>
+        <artifactId>battleship</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <properties>
+        <mockito.version>2.0.2-beta</mockito.version>
+    </properties>
+
+
     <groupId>dreamteam.battleship</groupId>
-    <artifactId>battleship</artifactId>
+    <artifactId>battleship-logic</artifactId>
+    <packaging>jar</packaging>
     <version>1.0</version>
-  </parent>
+    <name>battleship-logic</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <groupId>dreamteam.battleship</groupId>
-  <artifactId>battleship-logic</artifactId>
-  <packaging>jar</packaging>
-  <version>1.0</version>
-  <name>battleship-logic</name>
+    <dependencies>
 
-  <dependencies>
-    <!--
-      https://mvnrepository.com/artifact/log4j/log4j
-      We use testNG in our project because it is more powerful than jUnit
-    -->
-
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-    </dependency>
-    <!--
-
-      https://mvnrepository.com/artifact/log4j/log4j
-      final static Logger logger = Logger.getLogger(classname.class);
-      to change the file location configure this: log4j.appender.file.File=
-    -->
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-all</artifactId>
-      <version>RELEASE</version>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
