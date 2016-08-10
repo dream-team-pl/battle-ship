@@ -35,13 +35,6 @@ public enum MovementStatus {
      *     the field that you want to shoot is invalid</li>
      * </ul>
      */
-    INVALID_MOVEMENT,
-
-    /**
-     * <ul>
-     *     <li>When shooting the field it return always in gun salute mode unless somebody win the game </li>
-     * </ul>
-     */
-    GUN_SALUTE_MODE
+    INVALID_MOVEMENT
 
 }

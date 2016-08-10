@@ -51,8 +51,9 @@ public class PlayerOrganizer extends BattleShipServiceBase {
             if(bench.isFree(mode)){
                 initialGameController(player, manager);
             }else {
+                // TODO setSecondPlayerAndStart
+                // TODO start will throw an exception if we call it twice
                 setSecondPlayer(player, manager);
-                gameController.startGame();
             }
         }
         logger.debug(END);
@@ -72,7 +73,7 @@ public class PlayerOrganizer extends BattleShipServiceBase {
     }
 
     private MovementManager callManager(HttpSession session) {
-        return ((PlacingShip)session.getAttribute("placingShip")).myManager();
+        return ((PlacingShip)session.getAttribute("placingShip")).manager;
     }
 
     private Player callPlayer(HttpSession session) {

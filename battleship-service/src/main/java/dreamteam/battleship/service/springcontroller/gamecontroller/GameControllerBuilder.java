@@ -24,9 +24,6 @@ public class GameControllerBuilder {
             case NORMAL_MODE:
                 controller = new NormalController(player, manager);
                 break;
-            case GUN_SALUTE_MODE:
-                controller = new GunSaluteController(player, manager);
-                break;
             default:
                 controller = new NormalController(player, manager);
         }
