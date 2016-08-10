@@ -12,6 +12,7 @@ public abstract class MovementContainer {
      * Container for movements. HashMap was chosen because of performance.
      */
     protected Map<Integer, Boolean> movements = new HashMap();
+    protected int numberOfTurn;
 
     /**
      *
@@ -28,6 +29,14 @@ public abstract class MovementContainer {
      * @return true if movements contains field and false when movements doesn't contain field
      */
     public abstract boolean containsMovement(int field);
+
+    public void incrementNumberOfTurn() {
+        numberOfTurn++;
+    }
+
+    public int getNumberOfTurn() {
+        return numberOfTurn;
+    }
 
     public Map<Integer, Boolean> getMovements(){
         return movements;

@@ -45,6 +45,7 @@ public class DamageManager extends AbstractMovementManager{
         return container.getMovements();
     }
 
+
     /**
      * Check if the movement is a valid movement and earlier there were not such movement
      * @param movementNumber
@@ -98,6 +99,7 @@ public class DamageManager extends AbstractMovementManager{
      */
     private void shipListCleanUp(Ship ship){
         if(ship.isDamaged()){
+            logger.debug("### rm " + arbiter.shipList + "Ship: " + ship);
             arbiter.removeShip(ship);
         }
     }
@@ -105,5 +107,10 @@ public class DamageManager extends AbstractMovementManager{
     @Override
     public boolean isThePlayerWon() {
         return arbiter.isWinner();
+    }
+
+    @Override
+    public int numberOfPlayerShots() throws Exception {
+        return arbiter.numberOfAliveShips();
     }
 }

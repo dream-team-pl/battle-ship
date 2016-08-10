@@ -25,5 +25,4 @@ public class PlaceShipManager extends AbstractMovementManager {
         }
         return status;
     }
-
 }
