@@ -7,7 +7,7 @@ import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.GunSaluteShoot;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class GunSaluteController extends GameControllerBase{
     }
 
     @Override
-    public Shoot handleShot(List<Integer> fieldNumbers, Player player) {
+    public ShootingResult handleShot(List<Integer> fieldNumbers, Player player) {
 
         MovementManager mm = player.equals(player1) ? manager1 : manager2;
         mm.incrementNumberOfTurn();

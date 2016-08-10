@@ -4,7 +4,7 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -14,7 +14,7 @@ import java.util.List;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
@@ -82,7 +82,7 @@ public class GunSaluteControllerTest {
         // when
         ((NormalController)gc).currentManager = manager1;
         ((NormalController)gc).currentPlayer=player1;
-        Shoot shoot = gc.handleShot(arg, player1);
+        ShootingResult shoot = gc.handleShot(arg, player1);
 
         // then
         assertEquals(shoot.status, MovementStatus.SUCCESS);

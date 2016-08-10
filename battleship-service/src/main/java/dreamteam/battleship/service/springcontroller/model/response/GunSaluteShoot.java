@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by daniel on 09.08.16.
  */
-public class GunSaluteShoot extends Shoot {
+public class GunSaluteShoot extends ShootingResult {
     public final Map<Integer, Boolean> gunSaluteShootingResponse;
 
     public GunSaluteShoot(MovementStatus status, Map<Integer, Boolean> gunSaluteShootingResponse) {

@@ -2,7 +2,7 @@ package dreamteam.battleship.service.springcontroller.gamecontroller;
 
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 
 import java.util.List;
 import java.util.Map;
@@ -47,7 +47,7 @@ public interface IGameController {
      * @param player
      * @return
      */
-    Shoot handleShot(List<Integer> fieldNumbers, Player player);
+    ShootingResult handleShot(List<Integer> fieldNumbers, Player player);
 
     /**
      * initialize the game

@@ -6,7 +6,7 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
  */
 public class NormalController extends GameControllerBase {
 
-        final static Logger logger = Logger.getLogger(NormalController.class);
+    final static Logger logger = Logger.getLogger(NormalController.class);
 
     protected MovementManager currentManager;
     protected Player currentPlayer;
@@ -45,9 +45,9 @@ public class NormalController extends GameControllerBase {
     }
 
     @Override
-    public Shoot handleShot(List<Integer> fieldNumbers, Player player) {
+    public ShootingResult handleShot(List<Integer> fieldNumbers, Player player) {
         logger.debug(START);
-        Shoot response = (getWinner()==null) ? standardResponse(fieldNumbers.get(0), player) : winnerResponse(player);
+        ShootingResult response = (getWinner()==null) ? standardResponse(fieldNumbers.get(0), player) : winnerResponse(player);
         logger.debug(END);
         return response;
     }
@@ -87,9 +87,9 @@ public class NormalController extends GameControllerBase {
         return !( status.equals(MovementStatus.INVALID_MOVEMENT) || status.equals(MovementStatus.SUCCESS) || status.equals(MovementStatus.WON));
     }
 
-    private Shoot winnerResponse(Player player) {
+    private ShootingResult winnerResponse(Player player) {
         return
-                new Shoot(MovementStatus.WON, getWinner());
+                new ShootingResult(MovementStatus.WON, getWinner());
     }
 
     /**
@@ -97,15 +97,15 @@ public class NormalController extends GameControllerBase {
      * @param fieldNumber
      * @return
      */
-    private Shoot standardResponse(int fieldNumber, Player player) {
+    private ShootingResult standardResponse(int fieldNumber, Player player) {
         logger.debug("Handling the shoot");
-        Shoot response;
+        ShootingResult response;
         MovementStatus status = shotResponse(fieldNumber, player);
         if(mustPlayNext(status))
             nextPlayer();
         // check if he is the winnner
         //FIXME In the future when we will use web sockets we are going to send event, we need to delete this line
-        response = MovementStatus.WON.equals(status) ? winnerResponse(player) : new Shoot(status);
+        response = MovementStatus.WON.equals(status) ? winnerResponse(player) : new ShootingResult(status);
         return response;
     }
 }

@@ -4,18 +4,21 @@ import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
 
 /**
- * Created by egolesor on 19.07.16.
+ * A model that presents the result of the shooting a field by the player
  */
-public class Shoot {
+public class ShootingResult {
 
     public final MovementStatus status;
 
+    /**
+     * Will be set if only we got a winner
+     */
     public Player winner;
 
-    public Shoot(MovementStatus status) {
+    public ShootingResult(MovementStatus status) {
         this.status = status;
     }
-    public Shoot(MovementStatus status, Player winner) {
+    public ShootingResult(MovementStatus status, Player winner) {
         this.status = status;
         this.winner = winner;
     }
