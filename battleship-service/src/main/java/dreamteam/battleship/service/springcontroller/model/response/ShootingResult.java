@@ -3,6 +3,8 @@ package dreamteam.battleship.service.springcontroller.model.response;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
 
+import java.util.Map;
+
 /**
  * A model that presents the result of the shooting a field by the player
  */
@@ -15,11 +17,15 @@ public class ShootingResult {
      */
     public Player winner;
 
-    public ShootingResult(MovementStatus status) {
+    public final Map<Integer, Boolean> resultFromOpponentBoard;
+
+    public ShootingResult(MovementStatus status, Map<Integer, Boolean> resultFromOpponentBoard) {
         this.status = status;
+        this.resultFromOpponentBoard = resultFromOpponentBoard;
     }
-    public ShootingResult(MovementStatus status, Player winner) {
+    public ShootingResult(MovementStatus status, Player winner, Map<Integer, Boolean> resultFromOpponentBoard) {
         this.status = status;
         this.winner = winner;
+        this.resultFromOpponentBoard = resultFromOpponentBoard;
     }
 }

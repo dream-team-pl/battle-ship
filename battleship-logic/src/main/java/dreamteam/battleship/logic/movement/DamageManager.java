@@ -45,15 +45,6 @@ public class DamageManager extends AbstractMovementManager{
         return container.getMovements();
     }
 
-    @Override
-    public int getNumberOfTurn() {
-        return container.getNumberOfTurn();
-    }
-
-    @Override
-    public void incrementNumberOfTurn() {
-        container.incrementNumberOfTurn();
-    }
 
     /**
      * Check if the movement is a valid movement and earlier there were not such movement
@@ -108,6 +99,7 @@ public class DamageManager extends AbstractMovementManager{
      */
     private void shipListCleanUp(Ship ship){
         if(ship.isDamaged()){
+            logger.debug("### rm " + arbiter.shipList + "Ship: " + ship);
             arbiter.removeShip(ship);
         }
     }
@@ -117,5 +109,8 @@ public class DamageManager extends AbstractMovementManager{
         return arbiter.isWinner();
     }
 
-
+    @Override
+    public int numberOfPlayerShots() throws Exception {
+        return arbiter.numberOfAliveShips();
+    }
 }

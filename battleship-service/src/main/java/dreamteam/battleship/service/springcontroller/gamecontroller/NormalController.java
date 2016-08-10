@@ -7,8 +7,10 @@ import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
+import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
@@ -67,6 +69,11 @@ public class NormalController extends GameControllerBase {
         }
     }
 
+    @Override
+    public TurnStatus turnStatus(Player player) {
+        return new TurnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), 1);
+    }
+
     private void nextPlayer(){
         if(currentPlayer.equals(player1)){
             currentManager = manager2;
@@ -89,7 +96,7 @@ public class NormalController extends GameControllerBase {
 
     private ShootingResult winnerResponse(Player player) {
         return
-                new ShootingResult(MovementStatus.WON, getWinner());
+                new ShootingResult(MovementStatus.WON, getWinner(), new HashMap<Integer, Boolean>());
     }
 
     /**
@@ -105,7 +112,7 @@ public class NormalController extends GameControllerBase {
             nextPlayer();
         // check if he is the winnner
         //FIXME In the future when we will use web sockets we are going to send event, we need to delete this line
-        response = MovementStatus.WON.equals(status) ? winnerResponse(player) : new ShootingResult(status);
+        response = MovementStatus.WON.equals(status) ? winnerResponse(player) : new ShootingResult(status, new HashMap<Integer, Boolean>());
         return response;
     }
 }

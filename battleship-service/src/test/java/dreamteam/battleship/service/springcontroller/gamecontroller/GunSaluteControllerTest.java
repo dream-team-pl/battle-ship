@@ -15,7 +15,6 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 /**
@@ -46,6 +45,7 @@ public class GunSaluteControllerTest {
         // given
         IGameController gc = new GunSaluteController(player1, manager1);
         gc.addPlayer2(player2, manager2);
+        gc.startGame();
 
 
         // when
@@ -57,13 +57,12 @@ public class GunSaluteControllerTest {
         assertTrue("It's player's turn", myTurn2);
 
         // when
-        when(manager1.getNumberOfTurn()).thenReturn(1);
         myTurn = gc.isMyTurn(player1);
         myTurn2 = gc.isMyTurn(player2);
 
         // then
-        assertFalse("It's not player's turn", myTurn);
-        assertFalse("It's not player's turn", myTurn2);
+        assertTrue("It's player's turn", myTurn);
+        assertTrue("It's player's turn", myTurn2);
     }
 
     @Test

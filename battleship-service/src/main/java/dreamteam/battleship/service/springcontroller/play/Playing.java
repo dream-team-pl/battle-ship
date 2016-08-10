@@ -1,6 +1,5 @@
 package dreamteam.battleship.service.springcontroller.play;
 
-import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
 import dreamteam.battleship.service.springcontroller.model.Player;
@@ -46,15 +45,9 @@ public class Playing extends BattleShipServiceBase {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
-    public TurnStatus turnStatus(){
+    public TurnStatus turnStatus() throws Exception{
         // this method will call iterally, so i dont think that logging is a good idea
-        return
-                new TurnStatus(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner());
-    }
-
-    private ShootingResult winnerResponse() {
-        return
-                new ShootingResult(MovementStatus.WON, controller.getWinner());
+        return controller.turnStatus(player);
     }
 
     /**
@@ -79,8 +72,6 @@ public class Playing extends BattleShipServiceBase {
     public void afterPropertiesSet() throws Exception {
         super.init(session);
         controller = callController();
-        controller.startGame();
-
         player= callPlayer();
     }
 }
