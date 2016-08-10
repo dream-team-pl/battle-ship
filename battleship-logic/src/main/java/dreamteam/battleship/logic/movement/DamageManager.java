@@ -99,7 +99,6 @@ public class DamageManager extends AbstractMovementManager{
      */
     private void shipListCleanUp(Ship ship){
         if(ship.isDamaged()){
-            logger.debug("### rm " + arbiter.shipList + "Ship: " + ship);
             arbiter.removeShip(ship);
         }
     }

@@ -24,7 +24,7 @@ public class GunSaluteController extends GameControllerBase{
     final static Logger logger = Logger.getLogger(GunSaluteController.class);
 
 
-    PlayerQueue playerQueue = new PlayerQueue();
+    private PlayerQueue playerQueue = new PlayerQueue();
 
     public GunSaluteController(Player player1, MovementManager manager1) {
         super(player1, manager1);
@@ -72,28 +72,22 @@ public class GunSaluteController extends GameControllerBase{
 
     private ShootingResult handleGunSaluteShoot(List<Integer> fieldNumbers, Player player) {
         logger.debug("Handling the shoot");
-        ShootingResult response;
-
-        for(int fieldNumber: fieldNumbers) {
-            shotResponse(fieldNumber, player);
-        }
-
+        handleShotList(fieldNumbers, player);
         Player winner = getWinner();
         MovementStatus ms  = winner != null ? MovementStatus.WON : MovementStatus.GUN_SALUTE_MODE;
-        response = new ShootingResult(ms, winner, getCurrentManager(player).getMovements());
-        return response;
+        return new ShootingResult(ms, winner, getCurrentManager(player).getMovements());
     }
 
-    private MovementStatus shotResponse(int fieldNumber, Player player){
-        MovementStatus status;
-        status = player.equals(player1) ? manager1.damage(fieldNumber) : manager2.damage(fieldNumber);
+    private void handleShotList(List<Integer> fieldNumbers, Player player){
+
+        for(int fieldNumber: fieldNumbers) {
+            MovementStatus status = player.equals(player1) ? manager1.damage(fieldNumber) : manager2.damage(fieldNumber);
+        }
         trySetWinner();
-
-        return status;
     }
 
-    private boolean shipIsHit (MovementStatus ms) {
-        return ms == MovementStatus.SUCCESS || ms == MovementStatus.WON;
+    private boolean shipIsHit (MovementStatus movementStatus) {
+        return movementStatus == MovementStatus.SUCCESS || movementStatus == MovementStatus.WON;
     }
 
     private MovementManager getCurrentManager(Player player) {
