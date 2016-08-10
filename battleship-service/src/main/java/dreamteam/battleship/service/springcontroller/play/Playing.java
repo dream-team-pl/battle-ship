@@ -1,22 +1,22 @@
 package dreamteam.battleship.service.springcontroller.play;
 
-import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
-import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-
-import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
-import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
+import java.util.List;
 
 /**
  * Responsible to play and shooting the fields
@@ -36,37 +36,20 @@ public class Playing extends BattleShipServiceBase {
 
     /**
      * Responsible to handling the request to for the shooting.
-     * @param fieldNumber
+     * @param fieldNumbers
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "/shoot")
-    public Shoot shoot(@RequestParam(name = "fieldNumber") int fieldNumber) {
-
-        logger.debug(START);
-        Shoot response;
-        // check if there is sense to shoot
-        if(controller.getWinner()==null){
-            response = controller.handleShot(fieldNumber, player);
-            logger.debug("shoot status is " + response.status);
-        }else {
-            response= winnerResponse();
-        }
-        logger.debug(END);
-        return response;
+    public ShootingResult shoot(@RequestParam(name = "fieldNumber") List<Integer> fieldNumbers) {
+        return controller.handleShot(fieldNumbers, player);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
-    public TurnStatus turnStatus(){
+    public TurnStatus turnStatus() throws Exception{
         // this method will call iterally, so i dont think that logging is a good idea
-        return
-                new TurnStatus(controller.getBoardForPlayer(player), controller.isMyTurn(player), controller.getWinner());
+        return controller.turnStatus(player);
     }
 
-    private Shoot winnerResponse() {
-        return
-                new Shoot(MovementStatus.WON, controller.getWinner(), controller.getBoardForPlayer(player));
-    }
-    
     /**
      * Initializing the controller. getting the controller from the session that created earlier
      * @return
@@ -89,8 +72,6 @@ public class Playing extends BattleShipServiceBase {
     public void afterPropertiesSet() throws Exception {
         super.init(session);
         controller = callController();
-        controller.startGame();
-
         player= callPlayer();
     }
 }

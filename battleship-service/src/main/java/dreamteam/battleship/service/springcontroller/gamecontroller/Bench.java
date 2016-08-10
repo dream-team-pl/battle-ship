@@ -1,6 +1,10 @@
 package dreamteam.battleship.service.springcontroller.gamecontroller;
 
+import dreamteam.battleship.service.springcontroller.model.GameMode;
 import org.springframework.stereotype.Component;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Created by egolesor on 19.07.16.
@@ -8,32 +12,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class Bench {
 
-    private IGameController normalController;
+    private Map<GameMode, IGameController> controllers = new EnumMap<>(GameMode.class);
 
-    private IGameController gunSaluteController;
-
-    public synchronized boolean isFree(boolean gunSaluteMode){
-        return gunSaluteMode? gunSaluteController== null : normalController==null;
+    public synchronized boolean isFree(GameMode gameMode){
+        return !controllers.containsKey(gameMode);
     }
 
-    public synchronized void letSit(IGameController controller, boolean gunSaluteMode ){
-        if(gunSaluteMode){
-            gunSaluteController = controller;
-        }else {
-            normalController = controller;
-        }
+    public synchronized void letSit(IGameController controller, GameMode gameMode ){
+        controllers.put(gameMode, controller);
     }
 
-    public synchronized IGameController pickController(boolean gunSaluteMode){
-        IGameController controller ;
-        if(gunSaluteMode){
-            controller = gunSaluteController;
-            gunSaluteController=null;
-        }else{
-            controller = normalController;
-            normalController = null;
-        }
-
+    public synchronized IGameController pickController(GameMode gameMode){
+        IGameController controller = controllers.get(gameMode);
+        controllers.remove(gameMode);
         return controller;
     }
 }

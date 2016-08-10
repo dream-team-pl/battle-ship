@@ -45,6 +45,7 @@ public class DamageManager extends AbstractMovementManager{
         return container.getMovements();
     }
 
+
     /**
      * Check if the movement is a valid movement and earlier there were not such movement
      * @param movementNumber
@@ -105,5 +106,10 @@ public class DamageManager extends AbstractMovementManager{
     @Override
     public boolean isThePlayerWon() {
         return arbiter.isWinner();
+    }
+
+    @Override
+    public int numberOfPlayerShots() throws Exception {
+        return arbiter.numberOfAliveShips();
     }
 }

@@ -1,13 +1,15 @@
 package dreamteam.battleship.service.springcontroller.gamecontroller;
 
-import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.anyInt;
@@ -26,6 +28,8 @@ public class NormalControllerTest {
     MovementManager manager1;
     MovementManager manager2;
 
+    List<Integer> arg;
+
     @BeforeClass
     public void initialize() {
         player1 = mock(Player.class);
@@ -33,24 +37,10 @@ public class NormalControllerTest {
 
         manager1 = mock(DamageManager.class);
         manager2 = mock(DamageManager.class);
+
+        arg = Arrays.asList(7);
     }
 
-
-    @Test
-    public void testIfControllerStartsTheGameProperly(){
-        IGameController gc = new NormalController(player1, manager1);
-        gc.addPlayer2(player2, manager2);
-
-        Board board1 = mock(Board.class);
-        Board board2 = mock(Board.class);
-
-        when(manager1.getBoard()).thenReturn(board1);
-        when(manager2.getBoard()).thenReturn(board2);
-
-        gc.startGame();
-
-        assertTrue(true);
-    }
 
     @Test
     public void checkResponseAfterShot() {
@@ -68,18 +58,18 @@ public class NormalControllerTest {
         // when
         ((NormalController)gc).currentManager = manager1;
         ((NormalController)gc).currentPlayer=player1;
-        Shoot shoot = gc.handleShot(7, player1);
+        ShootingResult shootingResult = gc.handleShot(arg, player1);
 
         // then
-        assertEquals(shoot.status, MovementStatus.SUCCESS);
+        assertEquals(shootingResult.status, MovementStatus.SUCCESS);
 
         //when
         ((NormalController)gc).currentManager = manager2;
         ((NormalController)gc).currentPlayer=player2;
-        shoot = gc.handleShot(7, player2);
+        shootingResult = gc.handleShot(arg, player2);
 
         // then
-        assertEquals(shoot.status, MovementStatus.TRY_AGAIN);
+        assertEquals(shootingResult.status, MovementStatus.TRY_AGAIN);
     }
 
     @Test
