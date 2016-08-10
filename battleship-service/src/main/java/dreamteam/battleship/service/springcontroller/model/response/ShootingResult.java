@@ -17,15 +17,18 @@ public class ShootingResult {
      */
     public Player winner;
 
-    public final Map<Integer, Boolean> resultFromOpponentBoard;
+    /**
+     * The movements that player done so far
+     */
+    public final Map<Integer, Boolean> myDamages;
 
-    public ShootingResult(MovementStatus status, Map<Integer, Boolean> resultFromOpponentBoard) {
+    public ShootingResult(MovementStatus status, Map<Integer, Boolean> damages) {
         this.status = status;
-        this.resultFromOpponentBoard = resultFromOpponentBoard;
+        this.myDamages = damages;
     }
-    public ShootingResult(MovementStatus status, Player winner, Map<Integer, Boolean> resultFromOpponentBoard) {
+    public ShootingResult(MovementStatus status, Player winner, Map<Integer, Boolean> damages) {
         this.status = status;
         this.winner = winner;
-        this.resultFromOpponentBoard = resultFromOpponentBoard;
+        myDamages =damages;
     }
 }

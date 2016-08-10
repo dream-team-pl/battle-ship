@@ -5,7 +5,6 @@ import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.board.Direction;
 import dreamteam.battleship.logic.ship.Ship;
 
-import javax.activity.InvalidActivityException;
 import java.util.Map;
 
 
@@ -68,10 +67,6 @@ public interface MovementManager {
      */
     default MovementStatus tryPutShip(Ship ship, int fromFieldNumber, Direction direction){
         return MovementStatus.INVALID_MOVEMENT;
-    }
-
-    default int numberOfPlayerShots() throws Exception {
-        throw new InvalidActivityException("number of player can be called only in DamageManager");
     }
 
     Board getBoard();

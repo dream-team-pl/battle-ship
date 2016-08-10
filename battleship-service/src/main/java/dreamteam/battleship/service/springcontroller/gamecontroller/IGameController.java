@@ -3,9 +3,7 @@ package dreamteam.battleship.service.springcontroller.gamecontroller;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
-import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,21 +42,14 @@ public interface IGameController {
 
     /**
      * Will shoot the concrete field and check the result of the shooting.
-     * @param fieldNumbers
+     * @param fieldNumber
      * @param player
      * @return
      */
-    ShootingResult handleShot(List<Integer> fieldNumbers, Player player);
+    ShootingResult handleShot(int fieldNumber, Player player);
 
     /**
      * initialize the game
      */
     void startGame();
-
-    /**
-     * Necessery to check if there is player's turn
-     * @param player
-     * @return
-     */
-    TurnStatus turnStatus(Player player) throws Exception;
 }

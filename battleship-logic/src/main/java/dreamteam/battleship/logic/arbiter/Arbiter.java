@@ -13,7 +13,7 @@ public abstract class Arbiter {
     /**
      * List of ships that are alived
      */
-    public List<Ship> shipList;
+    protected List<Ship> shipList;
 
     /**
      *
@@ -27,6 +27,4 @@ public abstract class Arbiter {
      * won the game, because he destroyed all opponent's ships.
      */
     public abstract boolean isWinner();
-
-    public abstract int numberOfAliveShips();
 }

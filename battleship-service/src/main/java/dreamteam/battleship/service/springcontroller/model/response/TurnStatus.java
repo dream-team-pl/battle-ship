@@ -15,13 +15,10 @@ public class TurnStatus extends ShootingResult {
 
     public final Player winner;
 
-    public final int numberOfShots;
-
-    public TurnStatus(Map<Integer, Boolean> myDamages, boolean isMyTurn, Player winner, int numberOfShots) {
+    public TurnStatus(Map<Integer, Boolean> myDamages, boolean isMyTurn, Player winner) {
         super(null, null);
         this.myDamages = myDamages;
         this.isMyTurn = isMyTurn;
         this.winner = winner;
-        this.numberOfShots = numberOfShots;
     }
 }
