@@ -12,6 +12,8 @@
     <properties>
         <mockito.version>2.0.2-beta</mockito.version>
     </properties>
+
+
     <groupId>dreamteam.battleship</groupId>
     <artifactId>battleship-logic</artifactId>
     <packaging>jar</packaging>
