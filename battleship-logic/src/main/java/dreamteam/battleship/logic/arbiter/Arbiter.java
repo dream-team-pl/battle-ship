@@ -13,7 +13,7 @@ public abstract class Arbiter {
     /**
      * List of ships that are alived
      */
-    public List<Ship> shipList;
+    protected List<Ship> shipList;
 
     /**
      *
