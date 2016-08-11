@@ -10,7 +10,7 @@ var shootToSend = [];
 shootToSend.push(1);
 shootToSend.push(2);
 
-alert(JSON.stringify({ "shoots": shootToSend}));
+//alert(JSON.stringify({ "shoots": shootToSend}));
 
 
 //when all ships are placed are components shold be removed and additonal board should show
@@ -52,7 +52,7 @@ function isOpponentReady() {
     $.ajax({
         method: "GET"
         , dataType: 'json'
-        , url: "/service/prepare"
+        , url: "/service/prepare?gameMode="+gameMode
         , success: function (data) {
             if (data.readyToPlay) {
                 sendInitShotRequest();

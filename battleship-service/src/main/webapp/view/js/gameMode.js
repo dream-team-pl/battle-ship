@@ -1,8 +1,8 @@
-var gameMode = 0;
 var GAME_MODE_ENUM = {
-    STANDARD: "STANDARD"
-    ,GUN_SALUTE: "GUN_SALUTE"
+    NORMAL_MODE: "NORMAL_MODE"
+    ,GUN_SALUTE_MODE: "GUN_SALUTE_MODE"
 };
+var gameMode = GAME_MODE_ENUM.NORMAL_MODE;
 
 function chooseGameMode() {
     $('.tooltip-test').tooltip();
@@ -11,5 +11,6 @@ function chooseGameMode() {
 }
 
 function chooseGame() {
+    gameMode=$('input[name=gameModeRadioOption]:checked').val();
     $('#gameModeModal').modal('hide');
 }
