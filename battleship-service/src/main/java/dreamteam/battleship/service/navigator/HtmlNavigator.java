@@ -27,14 +27,14 @@ public class HtmlNavigator extends HttpServlet {
     public void init() throws ServletException {
         String navigationFile = getServletConfig().getInitParameter("navigationFile");
         JSONParser parser = new JSONParser();
-        try {
-            StringBuilder path = new StringBuilder(System.getProperty("user.dir"));
-            if(!path.toString().contains(MODULE_NAME)){
-                path.append(MODULE_NAME);
-            }
-            path.append(WEB_INF_PATH + navigationFile);
-            logger.debug("Reading the file: " + System.getProperty("user.dir") + navigationFile);
-            Object obj = parser.parse(new FileReader(path.toString().replace("//","/")));
+        StringBuilder path = new StringBuilder(System.getProperty("user.dir"));
+        if(!path.toString().contains(MODULE_NAME)){
+            path.append(MODULE_NAME);
+        }
+        path.append(WEB_INF_PATH + navigationFile);
+        logger.debug("Reading the file: " + System.getProperty("user.dir") + navigationFile);
+        try (FileReader fileReader = new FileReader(path.toString().replace("//","/"))) {
+            Object obj = parser.parse(fileReader);
             jsonObject = ((JSONObject) obj);
 
         } catch (ParseException e) {

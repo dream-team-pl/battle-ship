@@ -44,4 +44,8 @@ public class Player {
     public int hashCode() {
         return identification != null ? identification.hashCode() : 0;
     }
+
+    public void clearList() {
+        availableShips.clear();
+    }
 }

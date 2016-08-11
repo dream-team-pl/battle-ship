@@ -1,4 +1,4 @@
-package dreamteam.battleship.service;
+package dreamteam.battleship.service.springcontroller;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.bind.annotation.InitBinder;

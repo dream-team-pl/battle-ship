@@ -2,17 +2,19 @@ package dreamteam.battleship.service.springcontroller.play;
 
 import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
-import dreamteam.battleship.service.springcontroller.model.response.Shoot;
-import dreamteam.battleship.service.springcontroller.gamecontroller.GameController;
+import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
+import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import dreamteam.battleship.service.springcontroller.preparation.PlacingShip;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
-import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.AssertJUnit.assertTrue;
@@ -32,8 +34,8 @@ public class PlayingTest {
         when(placingShip.myManager()).thenReturn(mock(DamageManager.class));
 
         PlayerOrganizer organizer = mock(PlayerOrganizer.class);
-        GameController controller = mock(GameController.class);
-        when(controller.shoot(anyInt(), any(Player.class))).thenReturn(MovementStatus.SUCCESS);
+        IGameController controller = mock(IGameController.class);
+        when(controller.handleShot(anyListOf(Integer.class), any(Player.class))).thenReturn(new ShootingResult(MovementStatus.SUCCESS, null));
         when(controller.getWinner()).thenReturn(null);
         when(organizer.myController()).thenReturn(controller);
 
@@ -47,7 +49,7 @@ public class PlayingTest {
         } catch (Exception e) {
             assertTrue(false);
         }
-        Shoot status = playing.shoot(12);
+        ShootingResult status = playing.shoot(Arrays.asList(12));
 
         assertTrue(status.status.equals(MovementStatus.SUCCESS));
     }
