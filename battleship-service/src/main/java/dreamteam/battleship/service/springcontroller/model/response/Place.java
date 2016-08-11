@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by egolesor on 18.07.16.
  */
-public class Place {
+class Place implements Response {
 
     public final MovementStatus status;
 

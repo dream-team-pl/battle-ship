@@ -2,11 +2,13 @@ package dreamteam.battleship.service.springcontroller.preparation;
 
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
-import dreamteam.battleship.service.springcontroller.gamecontroller.*;
+import dreamteam.battleship.service.springcontroller.gamecontroller.Bench;
+import dreamteam.battleship.service.springcontroller.gamecontroller.GameControllerBuilder;
+import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
 import dreamteam.battleship.service.springcontroller.model.GameMode;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.Organizer;
-import dreamteam.battleship.service.springcontroller.registration.Registration;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
+import dreamteam.battleship.service.springcontroller.util.SessionUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,8 +41,8 @@ public class PlayerOrganizer extends BattleShipServiceBase {
     private GameMode mode;
 
     @RequestMapping(method = RequestMethod.GET, path = "/prepare")
-    public Organizer preparePlayer(HttpSession session,
-                                   @RequestParam(name = "gameMode", defaultValue= "NORMAL_MODE") GameMode gameMode) {
+    public Response preparePlayer(HttpSession session,
+                                  @RequestParam(name = "gameMode", defaultValue= "NORMAL_MODE") GameMode gameMode) {
         logger.debug(START + " - " + gameMode);
         mode = gameMode;
         if(gameController==null){
@@ -56,7 +58,7 @@ public class PlayerOrganizer extends BattleShipServiceBase {
             }
         }
         logger.debug(END);
-        return new Organizer(gameController.isReadyToPlay());
+        return Response.organizer(gameController.isReadyToPlay());
     }
 
     private void setSecondPlayer(Player player, MovementManager manager) {
@@ -72,11 +74,11 @@ public class PlayerOrganizer extends BattleShipServiceBase {
     }
 
     private MovementManager callManager(HttpSession session) {
-        return ((PlacingShip)session.getAttribute("placingShip")).myManager();
+        return SessionUtil.getMyManager(session);
     }
 
     private Player callPlayer(HttpSession session) {
-        return ((Registration)session.getAttribute("registration")).getPlayer();
+        return SessionUtil.getMyPlayer(session);
     }
 
     public IGameController myController(){
