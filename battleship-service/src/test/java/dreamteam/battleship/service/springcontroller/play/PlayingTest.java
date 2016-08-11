@@ -4,6 +4,7 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
 import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
 import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import dreamteam.battleship.service.springcontroller.preparation.PlacingShip;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
@@ -49,8 +50,8 @@ public class PlayingTest {
         } catch (Exception e) {
             assertTrue(false);
         }
-        ShootingResult status = playing.shoot(Arrays.asList(12));
+        Response status = playing.shoot(Arrays.asList(12));
 
-        assertTrue(status.status.equals(MovementStatus.SUCCESS));
+        assertTrue(((ShootingResult)status).status.equals(MovementStatus.SUCCESS));
     }
 }
