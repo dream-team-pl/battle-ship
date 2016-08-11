@@ -8,7 +8,6 @@ import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
-import dreamteam.battleship.service.springcontroller.util.PlayerQueue;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -19,7 +18,7 @@ import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
 /**
  * Created by daniel on 09.08.16.
  */
-public class GunSaluteController extends GameControllerBase{
+class GunSaluteController extends GameControllerBase{
 
     final static Logger logger = Logger.getLogger(GunSaluteController.class);
 

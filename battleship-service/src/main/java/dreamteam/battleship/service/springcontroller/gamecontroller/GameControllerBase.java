@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by daniel on 08.08.16.
  */
-public abstract class GameControllerBase implements IGameController {
+abstract class GameControllerBase implements IGameController {
 
     protected Player player1, player2;
     protected MovementManager manager1, manager2;

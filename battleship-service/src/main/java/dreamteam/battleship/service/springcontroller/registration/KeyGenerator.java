@@ -1,14 +1,13 @@
-package dreamteam.battleship.service.springcontroller.util;
+package dreamteam.battleship.service.springcontroller.registration;
 
 import java.util.Random;
 
 /**
  * Created by ehsan on 18.07.16.
  */
-public class KeyGenerator {
+class KeyGenerator {
 
-
-    public String generate() {
+    String generate() {
         StringBuilder builder = new StringBuilder();
         Random rand = new Random(100);
         builder.append(System.currentTimeMillis()).append(rand.nextFloat()).append(new Object().hashCode());

@@ -9,9 +9,9 @@ import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.logic.ship.ShipFactory;
 import dreamteam.battleship.logic.ship.ShipType;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
-import dreamteam.battleship.service.springcontroller.model.response.Place;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.registration.Registration;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
+import dreamteam.battleship.service.springcontroller.util.SessionUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -40,9 +40,9 @@ public class PlacingShip extends BattleShipServiceBase {
     protected HttpSession session;
 
     @RequestMapping(method = RequestMethod.GET, path = "/place")
-    public Place place(@RequestParam(name = "type") ShipType type,
-                       @RequestParam(name = "fieldNumber") int fieldNumber,
-                       @RequestParam(name = "direction") Direction direction) {
+    public Response place(@RequestParam(name = "type") ShipType type,
+                          @RequestParam(name = "fieldNumber") int fieldNumber,
+                          @RequestParam(name = "direction") Direction direction) {
 
         logger.debug("Placing the ship " + type + " on field number " + fieldNumber + " " + direction);
         MovementStatus status = MovementStatus.TRY_AGAIN;
@@ -54,7 +54,7 @@ public class PlacingShip extends BattleShipServiceBase {
             shipListUpdate(status, type, ship);
         }
         logger.debug("Placement completed with status " + status);
-        return new Place(status, availableShips);
+        return Response.place(status, availableShips);
     }
 
     // TODO do something to create all thinks such these one in one creator or builder
@@ -87,6 +87,6 @@ public class PlacingShip extends BattleShipServiceBase {
     @Override
     public void afterPropertiesSet() throws Exception {
         super.init(session);
-        player = ((Registration)session.getAttribute("registration")).getPlayer();
+        player = SessionUtil.getMyPlayer(session);
     }
 }

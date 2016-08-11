@@ -4,8 +4,9 @@ import dreamteam.battleship.logic.ship.Ship;
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.play.Playing;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
-import dreamteam.battleship.service.springcontroller.util.RestarterUtil;
+
 import dreamteam.battleship.service.springcontroller.util.SessionAttrKey;
+import dreamteam.battleship.service.springcontroller.util.SessionUtil;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
 
@@ -33,9 +34,7 @@ public class RestarterUtilTest {
         when(registration.getPlayer()).thenReturn(player);
         session.setAttribute(SessionAttrKey.REGISTRATION_SERVICE, registration);
 
-        RestarterUtil restarterUtil = new RestarterUtil();
-
-        restarterUtil.restart(session);
+        SessionUtil.restart(session);
 
         assertTrue(session.getAttribute(SessionAttrKey.PLACING_SERVICE)==null);
         assertTrue(session.getAttribute(SessionAttrKey.PREPARING_SERVICE)==null);
