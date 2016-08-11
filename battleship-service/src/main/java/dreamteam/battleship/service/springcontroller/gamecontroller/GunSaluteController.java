@@ -9,7 +9,6 @@ import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.Response;
 import org.apache.log4j.Logger;
 
-import javax.activity.InvalidActivityException;
 import java.util.List;
 
 import static dreamteam.battleship.loggerhelper.LoggerStatics.END;
@@ -46,7 +45,7 @@ class GunSaluteController extends GameControllerBase{
         playerQueue.remove(player);
 
         if(playerQueue.isEmpty()) {
-            playerQueue.add(player1, player2);
+            playerQueue.add(player1, player2, manager2.numberOfPlayerShots(), manager1.numberOfPlayerShots());
             trySetStateOfGame();
         }
 
@@ -61,7 +60,7 @@ class GunSaluteController extends GameControllerBase{
         MovementManager tempManager2 = manager2;
         manager1 = new DamageManager(tempManager2.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player2.shipList()));
         manager2 = new DamageManager(tempManager1.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player1.shipList()));
-        playerQueue.add(player1, player2);
+        playerQueue.add(player1, player2, player1.shipList().size(), player2.shipList().size());
         isTheGameStarted = true;
     }
 
@@ -77,16 +76,7 @@ class GunSaluteController extends GameControllerBase{
 
     @Override
     public Response turnStatus(Player player) {
-        MovementManager opponentManager = getOpponentManager(player);
-
-        int numberOfPlayerShots = 0;
-        try {
-            numberOfPlayerShots = opponentManager.numberOfPlayerShots();
-        } catch (InvalidActivityException e) {
-            logger.debug("turn status exception: " +  e);
-        }
-
-        return Response.turnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), numberOfPlayerShots, draw);
+        return Response.turnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), getOpponentManager(player).numberOfPlayerShots(), draw);
     }
 
     private Response handleGunSaluteShoot(List<Integer> fieldNumbers, Player player) {
@@ -98,14 +88,10 @@ class GunSaluteController extends GameControllerBase{
     }
 
     private void handleShotList(List<Integer> fieldNumbers, Player player) {
-        try {
-            int numberOfShots = getCurrentManager(player).numberOfPlayerShots();
+        int numberOfShots = playerQueue.shotsNumber(player);
 
-            if(fieldNumbers.size() > numberOfShots) {
-                fieldNumbers = fieldNumbers.subList(0, numberOfShots);
-            }
-        } catch(InvalidActivityException e) {
-            logger.debug("handle shot exception: " +  e);
+        if(fieldNumbers.size() > numberOfShots) {
+            fieldNumbers = fieldNumbers.subList(0, numberOfShots);
         }
 
         for(int fieldNumber: fieldNumbers) {

@@ -48,7 +48,7 @@ class NormalController extends GameControllerBase {
     @Override
     public Response handleShot(List<Integer> fieldNumbers, Player player) {
         logger.debug(START);
-        Response response = (getWinner()==null) ? standardResponse(fieldNumbers.get(0), player) : winnerResponse(player);
+        Response response = (getWinner()==null) ? standardResponse(fieldNumbers.get(0), player) : winnerResponse();
         logger.debug(END);
         return response;
     }
@@ -93,7 +93,7 @@ class NormalController extends GameControllerBase {
         return !( status.equals(MovementStatus.INVALID_MOVEMENT) || status.equals(MovementStatus.SUCCESS) || status.equals(MovementStatus.WON));
     }
 
-    private Response winnerResponse(Player player) {
+    private Response winnerResponse() {
         return Response.shootingResult(MovementStatus.WON, getWinner(), new HashMap<Integer, Boolean>());
     }
 
@@ -110,7 +110,7 @@ class NormalController extends GameControllerBase {
             nextPlayer();
         // check if he is the winnner
         //FIXME In the future when we will use web sockets we are going to send event, we need to delete this line
-        response = MovementStatus.WON.equals(status) ? winnerResponse(player) : Response.shootingResult(status, new HashMap<Integer, Boolean>());
+        response = MovementStatus.WON.equals(status) ? winnerResponse() : Response.shootingResult(status, new HashMap<Integer, Boolean>());
         return response;
     }
 }
