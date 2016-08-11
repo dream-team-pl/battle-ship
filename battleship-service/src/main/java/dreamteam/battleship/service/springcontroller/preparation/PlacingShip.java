@@ -50,9 +50,8 @@ public class PlacingShip extends BattleShipServiceBase {
             //getting the ship from the player
             // put the ship from the player
             Ship ship = ShipFactory.create(type);
-            player.addShip(ship);
             status = manager.tryPutShip(ship, fieldNumber, direction);
-            cleanUpList(status, type);
+            shipListUpdate(status, type, ship);
         }
         logger.debug("Placement completed with status " + status);
         return Response.place(status, availableShips);
@@ -70,9 +69,10 @@ public class PlacingShip extends BattleShipServiceBase {
 
 
 
-    private void cleanUpList(MovementStatus status, ShipType type) {
+    private void shipListUpdate(MovementStatus status, ShipType type, Ship ship) {
         if(status.equals(MovementStatus.SUCCESS)){
             availableShips.remove(type);
+            player.addShip(ship);
         }
     }
 
