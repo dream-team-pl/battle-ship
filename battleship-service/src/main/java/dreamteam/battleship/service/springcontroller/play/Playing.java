@@ -5,8 +5,7 @@ import dreamteam.battleship.service.springcontroller.gamecontroller.IGameControl
 import dreamteam.battleship.service.springcontroller.model.Player;
 import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
-import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
-import dreamteam.battleship.service.springcontroller.registration.Registration;
+import dreamteam.battleship.service.springcontroller.util.SessionUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -56,7 +55,7 @@ public class Playing extends BattleShipServiceBase {
      */
     private IGameController callController() {
         logger.debug("initializing the controller for the playew");
-        return ((PlayerOrganizer)session.getAttribute("playerOrganizer")).myController();
+        return SessionUtil.getMyController(session);
     }
 
     /**
@@ -65,7 +64,7 @@ public class Playing extends BattleShipServiceBase {
      */
     private Player callPlayer() {
         logger.debug("getting the player in the playing");
-        return ((Registration)session.getAttribute("registration")).getPlayer();
+        return SessionUtil.getMyPlayer(session);
     }
 
     @Override

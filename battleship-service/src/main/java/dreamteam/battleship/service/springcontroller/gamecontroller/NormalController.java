@@ -19,7 +19,7 @@ import static dreamteam.battleship.loggerhelper.LoggerStatics.START;
 /**
  * Created by daniel on 09.08.16.
  */
-public class NormalController extends GameControllerBase {
+class NormalController extends GameControllerBase {
 
     final static Logger logger = Logger.getLogger(NormalController.class);
 

@@ -1,11 +1,11 @@
-package dreamteam.battleship.service.springcontroller.util;
+package dreamteam.battleship.service.springcontroller.gamecontroller;
 
 import dreamteam.battleship.service.springcontroller.model.Player;
 
 /**
  * Created by daniel on 10.08.16.
  */
-public class PlayerQueue {
+class PlayerQueue {
     private Player player1;
     private Player player2;
 

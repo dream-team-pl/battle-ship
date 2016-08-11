@@ -5,7 +5,8 @@ import dreamteam.battleship.service.springcontroller.gamecontroller.Bench;
 import dreamteam.battleship.service.springcontroller.gamecontroller.GameControllerBuilder;
 import dreamteam.battleship.service.springcontroller.model.GameMode;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.Organizer;
+import dreamteam.battleship.service.springcontroller.model.response.ModelResponseTestUtil;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
 import org.springframework.mock.web.MockHttpSession;
 import org.testng.annotations.Test;
@@ -37,9 +38,9 @@ public class PreparePlayerTest {
 
         organizer.bench = new Bench();
 
-        Organizer response =  organizer.preparePlayer(session, GameMode.NORMAL_MODE);
+        Response response =  organizer.preparePlayer(session, GameMode.NORMAL_MODE);
 
-        assertFalse(response.readyToPlay);
+        assertFalse(ModelResponseTestUtil.readyToPlay(response));
     }
 
     @Test
@@ -57,9 +58,9 @@ public class PreparePlayerTest {
         session.setAttribute("placingShip", placingShip);
         organizer.bench = new Bench();
         organizer.bench.letSit(GameControllerBuilder.gameControllerInstance(mock(Player.class), mock(DamageManager.class),GameMode.NORMAL_MODE),GameMode.NORMAL_MODE);
-        Organizer response =  organizer.preparePlayer(session, GameMode.NORMAL_MODE);
+        Response response =  organizer.preparePlayer(session, GameMode.NORMAL_MODE);
 
-        assertTrue(response.readyToPlay);
+        assertTrue(ModelResponseTestUtil.readyToPlay(response));
 
     }
 
