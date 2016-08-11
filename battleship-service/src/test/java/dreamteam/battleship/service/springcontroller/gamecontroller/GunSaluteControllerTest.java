@@ -4,6 +4,7 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
 import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -81,10 +82,10 @@ public class GunSaluteControllerTest {
         // when
         ((NormalController)gc).currentManager = manager1;
         ((NormalController)gc).currentPlayer=player1;
-        ShootingResult shoot = gc.handleShot(arg, player1);
+        Response shoot = gc.handleShot(arg, player1);
 
         // then
-        assertEquals(shoot.status, MovementStatus.SUCCESS);
+        assertEquals(((ShootingResult)shoot).status, MovementStatus.SUCCESS);
 
         //when
         ((NormalController)gc).currentManager = manager2;
@@ -92,6 +93,6 @@ public class GunSaluteControllerTest {
         shoot = gc.handleShot(arg, player2);
 
         // then
-        assertEquals(shoot.status, MovementStatus.TRY_AGAIN);
+        assertEquals(((ShootingResult)shoot).status, MovementStatus.TRY_AGAIN);
     }
 }

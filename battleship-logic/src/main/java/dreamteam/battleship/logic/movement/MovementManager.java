@@ -70,7 +70,7 @@ public interface MovementManager {
         return MovementStatus.INVALID_MOVEMENT;
     }
 
-    default int numberOfPlayerShots() throws Exception {
+    default int numberOfPlayerShots() throws InvalidActivityException {
         throw new InvalidActivityException("number of player can be called only in DamageManager");
     }
 
