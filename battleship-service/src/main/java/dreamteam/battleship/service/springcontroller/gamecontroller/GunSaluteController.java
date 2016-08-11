@@ -23,7 +23,6 @@ public class GunSaluteController extends GameControllerBase{
 
     final static Logger logger = Logger.getLogger(GunSaluteController.class);
 
-
     private PlayerQueue playerQueue = new PlayerQueue();
 
     public GunSaluteController(Player player1, MovementManager manager1) {
@@ -84,10 +83,6 @@ public class GunSaluteController extends GameControllerBase{
             MovementStatus status = player.equals(player1) ? manager1.damage(fieldNumber) : manager2.damage(fieldNumber);
         }
         trySetWinner();
-    }
-
-    private boolean shipIsHit (MovementStatus movementStatus) {
-        return movementStatus == MovementStatus.SUCCESS || movementStatus == MovementStatus.WON;
     }
 
     private MovementManager getCurrentManager(Player player) {
