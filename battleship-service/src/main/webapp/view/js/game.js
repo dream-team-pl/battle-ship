@@ -5,10 +5,7 @@ var numberOfShotsId = '#numberOfShots_id';
 var delayBetweenSendingRequest = 1000;
 //variables for salut mode
 var numberOfShots = 0;
-var shootToSend = [];
-//shootToSend.push(1);
-//shootToSend.push(2);
-//alert(JSON.stringify({ "shoots": shootToSend}));
+var shootsToSend = [];
 //when all ships are placed are components shold be removed and additonal board should show
 function goToPlayAfterPlacingShips() {
     $.get("/html/play", function (data) {
@@ -21,36 +18,31 @@ function goToPlayAfterPlacingShips() {
     });
 };
 
-function updateShotCounterOnPage(value){
+function updateShotCounterOnPage(value) {
     $(numberOfShotsId).text(value);
 }
-
 // this metho load oponent board. it is invoked after placing all ships
 function loadOpponentBoard() {
     console.log("loading opponent board");
     loadHtmlTableAsGameBoard(boardSize, opponentBoardId);
     $(opponentBoardId + ' td.cell_empty').each(function (index, elem) {
+        //cell action after click
         $(this).on("click", function () {
-            if (numberOfShots > 0){
+            if (numberOfShots > 0) {
                 numberOfShots--;
                 updateShotCounterOnPage(numberOfShots);
-            } 
-            shootToSend.push($(this).attr('id'));
+            }
+            shootsToSend.push($(this).attr('id'));
             $(this).attr('class', 'cell_mark');
             $(this).off('click');
             if (numberOfShots == 0) {
-                //send list of shoots to server
-                console.log('sending shoots: ' + shootToSend);
-                if(gameMode== GAME_MODE_ENUM.GUN_SALUTE_MODE){
+                console.log('sending shoots: ' + shootsToSend);
+                if (gameMode == GAME_MODE_ENUM.GUN_SALUTE_MODE) {
                     lockTable(opponentBoardId);
                 }
-                //sendShotRequest($(opponentBoardId));
                 sendShotRequest($(this).attr('id'), $(this));
-                shootToSend=[];
+                shootsToSend = [];
             }
-            //to remove
-            //fieldNumber=1&fieldNumber=2&fieldNumber=3&fieldNumber=4
-            //sendShotRequest($(this).attr('id'), $(this));
         });
     });
 };
@@ -68,9 +60,6 @@ function isOpponentReady() {
                 removeSelectOptionList();
                 $('#waitModal').modal('hide');
                 goToPlayAfterPlacingShips();
-                if (thisPlayerStartsGameFirst == true&&gameMode== GAME_MODE_ENUM.NORMAL_MODE) {
-                    alert('Your turn');
-                }
             }
             else {
                 thisPlayerStartsGameFirst = true;
@@ -78,16 +67,30 @@ function isOpponentReady() {
         }
     });
 };
-//method for checing who is winner. it depends only on returning status
-function isWinner(data) {
-    if (data.hasOwnProperty('winner') && data.winner != null || data.hasOwnProperty('status') && data.status == PLACING_STATUS_ENUM.WON) {
+
+
+function isGameOver(data){
+    if(data==true){
         clearInterval(oponnentTurnsUpdateInterval);
-        //        exitGame();
-        showEndOfTheGameModal(data);
+        var message='<strong>Game over</strong> ';
+        showEndOfTheGameModal(message);
         return true;
     }
     return false;
 }
+
+
+//method for checing who is winner. it depends only on returning status
+function isWinner(data) {
+    if (data.hasOwnProperty('winner') && data.winner != null || data.hasOwnProperty('status') && data.status == PLACING_STATUS_ENUM.WON) {
+        clearInterval(oponnentTurnsUpdateInterval);
+        var message='<strong>The winner is:</strong> '+data.winner.name + ' ' + data.winner.surname;
+        showEndOfTheGameModal(message);
+        return true;
+    }
+    return false;
+}
+
 //this method read oponnent moves and add it to opponentsBoardMap
 function prepareOpponentShootsMap(items) {
     var opponentsBoardMap = {};
@@ -112,14 +115,14 @@ function sendInitShotRequest(position) {
         }
     });
 };
-//fieldNumber=1&fieldNumber=2&fieldNumber=3&fieldNumber=4
+//this method is used for preparing url arguments ex.fieldNumber=1&fieldNumber=2&fieldNumber=3&fieldNumber=4
 function prepareShootUrl() {
-    var fieldNumber="fieldNumber="; 
-    var urlArgs="?";
-    for (var i = 0; i < shootToSend.length; i++) {
-        urlArgs=urlArgs+fieldNumber+shootToSend[i];
-        if(i+1!=shootToSend.length){
-            urlArgs+="&";
+    var fieldNumber = "fieldNumber=";
+    var urlArgs = "?";
+    for (var i = 0; i < shootsToSend.length; i++) {
+        urlArgs = urlArgs + fieldNumber + shootsToSend[i];
+        if (i + 1 != shootsToSend.length) {
+            urlArgs += "&";
         }
     }
     return urlArgs;
@@ -129,30 +132,32 @@ function sendShotRequest(position, tableCell) {
     $.ajax({
         method: "GET"
         , dataType: 'json'
-        , url: "/service/shoot"+prepareShootUrl()
+        , url: "/service/shoot" + prepareShootUrl()
         , async: false
         , success: function (data) {
-            var shootsResult=prepareOpponentShootsMap(data.resultFromOpponentBoard);
-            placeOpponentsShootsOnBoard($(opponentBoardId),shootsResult);
-            
-            if(gameMode == GAME_MODE_ENUM.GUN_SALUTE_MODE&&!isWinner(data)){
+            var shootsResult = prepareOpponentShootsMap(data.resultFromOpponentBoard);
+            placeOpponentsShootsOnBoard($(opponentBoardId), shootsResult);
+            //function isWinner(status,winner,name,surname) 
+            if (gameMode == GAME_MODE_ENUM.GUN_SALUTE_MODE && !isWinner(data)) {
                 oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
             }
-            if (data.status == PLACING_STATUS_ENUM.SUCCESS || data.status == PLACING_STATUS_ENUM.WON&&gameMode == GAME_MODE_ENUM.NORMAL_MODE) {
-                tableCell.attr('class', 'cell_hit');
-                tableCell.off('click');
-                var winnerExists=isWinner(data);
-            }
-            else if (data.status == PLACING_STATUS_ENUM.TRY_AGAIN) {
-                tableCell.attr('class', 'cell_missed');
-                oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
+            else if (gameMode == GAME_MODE_ENUM.NORMAL_MODE) {
+                if (data.status == PLACING_STATUS_ENUM.SUCCESS || data.status == PLACING_STATUS_ENUM.WON && gameMode == GAME_MODE_ENUM.NORMAL_MODE) {
+                    tableCell.attr('class', 'cell_hit');
+                    tableCell.off('click');
+                    var winnerExists = isWinner(data);
+                }
+                else if (data.status == PLACING_STATUS_ENUM.TRY_AGAIN) {
+                    tableCell.attr('class', 'cell_missed');
+                    oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
+                }
             }
         }
     });
 };
 // this method place returned by ajax oponnent shoots and place it on player board
-function placeOpponentsShootsOnBoard(htmlTable,opponentsBoardMap) {
-   // var htmlTable = $(myBoardId);
+function placeOpponentsShootsOnBoard(htmlTable, opponentsBoardMap) {
+    // var htmlTable = $(myBoardId);
     for (var i in opponentsBoardMap) {
         var tableCell = htmlTable.find('#' + i);
         var position = $(tableCell).attr('id');
@@ -174,20 +179,22 @@ function sendReuqestForOponnentTurns() {
         , url: "/service/turnstatus", //       data: { },
         success: function (data) {
             var opponentsBoardMap = prepareOpponentShootsMap(data.myDamages);
-            placeOpponentsShootsOnBoard($(myBoardId),opponentsBoardMap);
+            placeOpponentsShootsOnBoard($(myBoardId), opponentsBoardMap);
             numberOfShots = data.numberOfShots;
             updateShotCounterOnPage(numberOfShots);
-                    
             
-             if (data.hasOwnProperty('winner') && data.winner != null) {
-                var winnerExists=isWinner(data);
-            } else if (data.isMyTurn == true) {
-                 clearInterval(oponnentTurnsUpdateInterval);
-                unLockTable(opponentBoardId);     
+            var isEndOfTheGame=isGameOver(data.gameOver);
+            if (data.hasOwnProperty('winner') && data.winner != null) {
+                var winnerExists = isWinner(data);
+            }
+            else if (data.isMyTurn == true) {
+                clearInterval(oponnentTurnsUpdateInterval);
+                unLockTable(opponentBoardId);
             }
             else {
                 lockTable(opponentBoardId);
             }
+            
         }
     });
 };

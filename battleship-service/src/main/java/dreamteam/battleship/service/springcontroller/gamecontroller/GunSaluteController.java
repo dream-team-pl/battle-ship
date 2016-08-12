@@ -98,15 +98,7 @@ class GunSaluteController extends GameControllerBase{
     }
 
     private void handleShotList(List<Integer> fieldNumbers, Player player) {
-        try {
-            int numberOfShots = getCurrentManager(player).numberOfPlayerShots();
 
-            if(fieldNumbers.size() > numberOfShots) {
-                fieldNumbers = fieldNumbers.subList(0, numberOfShots);
-            }
-        } catch(InvalidActivityException e) {
-            logger.debug("handle shot exception: " +  e);
-        }
 
         for(int fieldNumber: fieldNumbers) {
             MovementStatus status = player.equals(player1) ? manager1.damage(fieldNumber) : manager2.damage(fieldNumber);

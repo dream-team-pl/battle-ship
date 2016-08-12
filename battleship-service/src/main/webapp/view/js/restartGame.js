@@ -1,5 +1,5 @@
 function showEndOfTheGameModal(data) {
-    $("#winner_id").append(data.winner.name + " " + data.winner.surname);
+    $("#winner_id").append(data);
     $('#endOfTheGameModal').modal('show');
 }
 
