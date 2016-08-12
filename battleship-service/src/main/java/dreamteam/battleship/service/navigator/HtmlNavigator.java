@@ -39,10 +39,11 @@ public class HtmlNavigator extends HttpServlet {
 
         } catch (ParseException e) {
             logger.debug(e);
+            throw new ServletException();
         } catch (Exception e) {
             logger.debug(e);
+            throw new ServletException();
         }
-
     }
 
     @Override
