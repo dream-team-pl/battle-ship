@@ -68,29 +68,25 @@ function isOpponentReady() {
     });
 };
 
-
-function isGameOver(data){
-    if(data==true){
+function isGameOver(data) {
+    if (data == true) {
         clearInterval(oponnentTurnsUpdateInterval);
-        var message='<strong>Game over</strong> ';
+        var message = '<strong>Game over</strong> ';
         showEndOfTheGameModal(message);
         return true;
     }
     return false;
 }
-
-
 //method for checing who is winner. it depends only on returning status
 function isWinner(data) {
     if (data.hasOwnProperty('winner') && data.winner != null || data.hasOwnProperty('status') && data.status == PLACING_STATUS_ENUM.WON) {
         clearInterval(oponnentTurnsUpdateInterval);
-        var message='<strong>The winner is:</strong> '+data.winner.name + ' ' + data.winner.surname;
+        var message = '<strong>The winner is:</strong> ' + data.winner.name + ' ' + data.winner.surname;
         showEndOfTheGameModal(message);
         return true;
     }
     return false;
 }
-
 //this method read oponnent moves and add it to opponentsBoardMap
 function prepareOpponentShootsMap(items) {
     var opponentsBoardMap = {};
@@ -117,8 +113,11 @@ function sendInitShotRequest(position) {
 };
 //this method is used for preparing url arguments ex.fieldNumber=1&fieldNumber=2&fieldNumber=3&fieldNumber=4
 function prepareShootUrl() {
+    var urlArgs = "";
+    if (shootsToSend.length > 0) {
+        urlArgs = "?"
+    }
     var fieldNumber = "fieldNumber=";
-    var urlArgs = "?";
     for (var i = 0; i < shootsToSend.length; i++) {
         urlArgs = urlArgs + fieldNumber + shootsToSend[i];
         if (i + 1 != shootsToSend.length) {
@@ -147,9 +146,11 @@ function sendShotRequest(position, tableCell) {
                     tableCell.off('click');
                     var winnerExists = isWinner(data);
                     numberOfShots++;
+                    updateShotCounterOnPage(numberOfShots);
                 }
                 else if (data.status == PLACING_STATUS_ENUM.TRY_AGAIN) {
                     tableCell.attr('class', 'cell_missed');
+                    lockTable(opponentBoardId);
                     oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
                 }
             }
@@ -183,8 +184,7 @@ function sendReuqestForOponnentTurns() {
             placeOpponentsShootsOnBoard($(myBoardId), opponentsBoardMap);
             numberOfShots = data.numberOfShots;
             updateShotCounterOnPage(numberOfShots);
-            
-            var isEndOfTheGame=isGameOver(data.gameOver);
+            var isEndOfTheGame = isGameOver(data.gameOver);
             if (data.hasOwnProperty('winner') && data.winner != null) {
                 var winnerExists = isWinner(data);
             }
@@ -195,7 +195,6 @@ function sendReuqestForOponnentTurns() {
             else {
                 lockTable(opponentBoardId);
             }
-            
         }
     });
 };
