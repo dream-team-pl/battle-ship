@@ -22,7 +22,7 @@ class GunSaluteController extends GameControllerBase{
     final static Logger logger = Logger.getLogger(GunSaluteController.class);
 
     private boolean draw = false;
-    private PlayerQueue playerQueue = new PlayerQueue();
+    protected PlayerQueue playerQueue = new PlayerQueue();
 
     public GunSaluteController(Player player1, MovementManager manager1) {
         super(player1, manager1);

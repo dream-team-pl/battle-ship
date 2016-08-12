@@ -12,6 +12,8 @@ class PlayerQueue {
     private int player1Shots;
     private int player2Shots;
 
+
+
     public synchronized boolean isMyTurn(Player player) {
         return (player==player1 || player==player2);
     }
