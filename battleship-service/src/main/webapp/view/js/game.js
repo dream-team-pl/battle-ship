@@ -2,7 +2,7 @@ var oponnentTurnsUpdateInterval;
 var thisPlayerStartsGameFirst = false;
 var column1Id = '#column1_id';
 var numberOfShotsId = '#numberOfShots_id';
-var delayBetweenSendingRequest = 1000;
+var delayBetweenSendingRequest = 500;
 //variables for salut mode
 var numberOfShots = 0;
 var shootsToSend = [];
