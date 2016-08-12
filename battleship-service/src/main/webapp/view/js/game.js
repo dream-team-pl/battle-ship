@@ -2,7 +2,7 @@ var oponnentTurnsUpdateInterval;
 var thisPlayerStartsGameFirst = false;
 var column1Id = '#column1_id';
 var numberOfShotsId = '#numberOfShots_id';
-var delayBetweenSendingRequest = 500;
+var delayBetweenSendingRequest = 1000;
 //variables for salut mode
 var numberOfShots = 0;
 var shootsToSend = [];
@@ -31,10 +31,10 @@ function loadOpponentBoard() {
             if (numberOfShots > 0) {
                 numberOfShots--;
                 updateShotCounterOnPage(numberOfShots);
+                shootsToSend.push($(this).attr('id'));
+                $(this).attr('class', 'cell_mark');
+                $(this).off('click');
             }
-            shootsToSend.push($(this).attr('id'));
-            $(this).attr('class', 'cell_mark');
-            $(this).off('click');
             if (numberOfShots == 0) {
                 console.log('sending shoots: ' + shootsToSend);
                 if (gameMode == GAME_MODE_ENUM.GUN_SALUTE_MODE) {
@@ -146,6 +146,7 @@ function sendShotRequest(position, tableCell) {
                     tableCell.attr('class', 'cell_hit');
                     tableCell.off('click');
                     var winnerExists = isWinner(data);
+                    numberOfShots++;
                 }
                 else if (data.status == PLACING_STATUS_ENUM.TRY_AGAIN) {
                     tableCell.attr('class', 'cell_missed');
