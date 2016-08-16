@@ -41,7 +41,7 @@ function loadOpponentBoard() {
                     lockTable(opponentBoardId);
                 }
                 sendShotRequest($(this).attr('id'), $(this));
-                shootsToSend = [];
+              
             }
         });
     });
@@ -55,6 +55,7 @@ function isOpponentReady() {
         , url: "/service/prepare?gameMode=" + gameMode
         , success: function (data) {
             if (data.readyToPlay) {
+                lockTable(opponentBoardId);
                 sendInitShotRequest();
                 clearInterval(readyToPlayInterval);
                 removeSelectOptionList();
@@ -154,6 +155,7 @@ function sendShotRequest(position, tableCell) {
                     oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
                 }
             }
+            shootsToSend = [];
         }
     });
 };
