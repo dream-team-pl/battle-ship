@@ -70,7 +70,7 @@ public interface MovementManager {
     }
 
     default int numberOfPlayerShots() {
-        return 0;
+        throw new IllegalStateException("This method isn't run in PlaceShipManager");
     }
 
     Board getBoard();

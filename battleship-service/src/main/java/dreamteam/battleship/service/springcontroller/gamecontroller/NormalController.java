@@ -25,6 +25,9 @@ class NormalController extends GameControllerBase {
     protected MovementManager currentManager;
     protected Player currentPlayer;
 
+    private final int SHOTS_NUMBER = 1;
+    private final int FIRST_INDEX_OF_THE_LIST = 0;
+
     public NormalController(Player player1, MovementManager manager1) {
         super(player1, manager1);
     }
@@ -48,7 +51,7 @@ class NormalController extends GameControllerBase {
     @Override
     public Response handleShot(List<Integer> fieldNumbers, Player player) {
         logger.debug(START);
-        Response response = (getWinner()==null) ? standardResponse(fieldNumbers.get(0), player) : winnerResponse();
+        Response response = (getWinner()==null) ? standardResponse(fieldNumbers.get(FIRST_INDEX_OF_THE_LIST), player) : winnerResponse();
         logger.debug(END);
         return response;
     }
@@ -70,7 +73,7 @@ class NormalController extends GameControllerBase {
 
     @Override
     public Response turnStatus(Player player) {
-        return Response.turnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), 1);
+        return Response.turnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), SHOTS_NUMBER);
     }
 
     private void nextPlayer(){
