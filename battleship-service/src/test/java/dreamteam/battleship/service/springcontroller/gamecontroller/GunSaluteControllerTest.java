@@ -4,12 +4,16 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
 import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
+import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
@@ -75,23 +79,54 @@ public class GunSaluteControllerTest {
         when(manager2.isThePlayerWon()).thenReturn(false);
         when(manager2.damage(anyInt())).thenReturn(MovementStatus.TRY_AGAIN);
 
-        IGameController gc = new NormalController(player1, manager1);
+        IGameController gc = new GunSaluteController(player1, manager1);
         gc.addPlayer2(player2, manager2);
 
-        // when
-        ((NormalController)gc).currentManager = manager1;
-        ((NormalController)gc).currentPlayer=player1;
-        ShootingResult shoot = gc.handleShot(arg, player1);
+        Response shoot = gc.handleShot(arg, player1);
 
         // then
-        assertEquals(shoot.status, MovementStatus.SUCCESS);
+        assertEquals(((ShootingResult)shoot).status, MovementStatus.GUN_SALUTE_MODE);
 
         //when
-        ((NormalController)gc).currentManager = manager2;
-        ((NormalController)gc).currentPlayer=player2;
         shoot = gc.handleShot(arg, player2);
 
         // then
-        assertEquals(shoot.status, MovementStatus.TRY_AGAIN);
+        assertEquals(((ShootingResult)shoot).status, MovementStatus.GUN_SALUTE_MODE);
+    }
+
+    @Test
+    public void checkIfTurnStatusWorks() {
+        IGameController gc = new GunSaluteController(player1, manager1);
+        gc.addPlayer2(player2, manager2);
+
+        Map<Integer, Boolean> movements = getMovements();
+
+        when(manager1.numberOfPlayerShots()).thenReturn(4);
+        when(manager2.numberOfPlayerShots()).thenReturn(4);
+        when(manager1.getMovements()).thenReturn(movements);
+        when(manager2.getMovements()).thenReturn(movements);
+
+        PlayerQueue playerQueue = new PlayerQueue();
+        playerQueue.add(player1, player2, manager2.numberOfPlayerShots(), manager1.numberOfPlayerShots());
+        ((GunSaluteController)gc).playerQueue = playerQueue;
+
+        TurnStatus response1 = (TurnStatus)gc.turnStatus(player1);
+        TurnStatus response2 = (TurnStatus)gc.turnStatus(player2);
+
+        assertEquals(response1.numberOfShots, 4);
+        assertEquals(response2.numberOfShots, 4);
+
+        assertEquals(response1.myDamages, movements);
+        assertEquals(response2.myDamages, movements);
+    }
+
+    private Map<Integer, Boolean> getMovements() {
+        Map<Integer, Boolean> movements = new HashMap<>();
+        movements.put(1, true);
+        movements.put(2, false);
+        movements.put(8, true);
+        movements.put(22, true);
+
+        return movements;
     }
 }

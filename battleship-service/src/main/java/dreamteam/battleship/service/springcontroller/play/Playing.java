@@ -3,8 +3,7 @@ package dreamteam.battleship.service.springcontroller.play;
 import dreamteam.battleship.service.springcontroller.BattleShipServiceBase;
 import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
-import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
 import dreamteam.battleship.service.springcontroller.util.SessionUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +38,12 @@ public class Playing extends BattleShipServiceBase {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "/shoot")
-    public ShootingResult shoot(@RequestParam(name = "fieldNumber") List<Integer> fieldNumbers) {
+    public Response shoot(@RequestParam(name = "fieldNumber") List<Integer> fieldNumbers) {
         return controller.handleShot(fieldNumbers, player);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/turnstatus")
-    public TurnStatus turnStatus() throws Exception{
+    public Response turnStatus() {
         // this method will call iterally, so i dont think that logging is a good idea
         return controller.turnStatus(player);
     }

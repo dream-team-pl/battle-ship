@@ -5,6 +5,7 @@ import dreamteam.battleship.logic.ship.ShipType;
 import dreamteam.battleship.service.springcontroller.model.Player;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ehsan on 11.08.16.
@@ -23,4 +24,19 @@ public interface Response {
         return new Organizer(readyToPlay);
     }
 
+    static ShootingResult shootingResult(MovementStatus status, Map<Integer, Boolean> resultFromOpponentBoard) {
+        return new ShootingResult(status, resultFromOpponentBoard);
+    }
+
+    static ShootingResult shootingResult(MovementStatus status, Player winner, Map<Integer, Boolean> resultFromOpponentBoard) {
+        return new ShootingResult(status, winner, resultFromOpponentBoard);
+    }
+
+    static TurnStatus turnStatus(Map<Integer, Boolean> myDamages, boolean isMyTurn, Player winner, int numberOfShots) {
+        return new TurnStatus(myDamages, isMyTurn, winner, numberOfShots);
+    }
+
+    static TurnStatus turnStatus(Map<Integer, Boolean> myDamages, boolean isMyTurn, Player winner, int numberOfShots, boolean gameOver) {
+        return new TurnStatus(myDamages, isMyTurn, winner, numberOfShots, gameOver);
+    }
 }

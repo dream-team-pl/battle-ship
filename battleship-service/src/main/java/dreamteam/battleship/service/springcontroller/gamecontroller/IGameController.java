@@ -2,8 +2,7 @@ package dreamteam.battleship.service.springcontroller.gamecontroller;
 
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
-import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +47,7 @@ public interface IGameController {
      * @param player
      * @return
      */
-    ShootingResult handleShot(List<Integer> fieldNumbers, Player player);
+    Response handleShot(List<Integer> fieldNumbers, Player player);
 
     /**
      * initialize the game
@@ -60,5 +59,5 @@ public interface IGameController {
      * @param player
      * @return
      */
-    TurnStatus turnStatus(Player player) throws Exception;
+    Response turnStatus(Player player);
 }

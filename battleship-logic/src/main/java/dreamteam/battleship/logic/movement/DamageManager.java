@@ -109,7 +109,7 @@ public class DamageManager extends AbstractMovementManager{
     }
 
     @Override
-    public int numberOfPlayerShots() throws Exception {
+    public int numberOfPlayerShots() {
         return arbiter.numberOfAliveShips();
     }
 }

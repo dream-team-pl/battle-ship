@@ -6,8 +6,7 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
-import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -22,7 +21,8 @@ class GunSaluteController extends GameControllerBase{
 
     final static Logger logger = Logger.getLogger(GunSaluteController.class);
 
-    private PlayerQueue playerQueue = new PlayerQueue();
+    private boolean draw = false;
+    protected PlayerQueue playerQueue = new PlayerQueue();
 
     public GunSaluteController(Player player1, MovementManager manager1) {
         super(player1, manager1);
@@ -34,18 +34,20 @@ class GunSaluteController extends GameControllerBase{
     }
 
     @Override
-    public ShootingResult handleShot(List<Integer> fieldNumbers, Player player) {
+    public Response handleShot(List<Integer> fieldNumbers, Player player) {
 
         logger.debug(START);
-        ShootingResult response;
+        Response response;
         // check if there is sense to shoot
         response = handleGunSaluteShoot(fieldNumbers, player);
-        logger.debug("shoot status is " + response.status);
         logger.debug(END);
 
         playerQueue.remove(player);
-        if(playerQueue.isEmpty())
-            playerQueue.add(player1, player2);
+
+        if(playerQueue.isEmpty()) {
+            playerQueue.add(player1, player2, manager2.numberOfPlayerShots(), manager1.numberOfPlayerShots());
+            trySetStateOfGame();
+        }
 
         return response;
     }
@@ -58,30 +60,43 @@ class GunSaluteController extends GameControllerBase{
         MovementManager tempManager2 = manager2;
         manager1 = new DamageManager(tempManager2.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player2.shipList()));
         manager2 = new DamageManager(tempManager1.getBoard(), new MovementContainerImpl(), new ArbiterImpl(player1.shipList()));
-        playerQueue.add(player1, player2);
+        playerQueue.add(player1, player2, player1.shipList().size(), player2.shipList().size());
         isTheGameStarted = true;
     }
 
-    @Override
-    public TurnStatus turnStatus(Player player) throws Exception {
-        MovementManager oppponentManager = getOpponentManager(player);
-        return new TurnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), oppponentManager.numberOfPlayerShots());
+    private void trySetStateOfGame() {
+
+        boolean player1Win = manager1.isThePlayerWon();
+        boolean player2Win = manager2.isThePlayerWon();
+
+        if(player1Win && player2Win) draw = true;
+        else
+            trySetWinner();
     }
 
-    private ShootingResult handleGunSaluteShoot(List<Integer> fieldNumbers, Player player) {
+    @Override
+    public Response turnStatus(Player player) {
+        return Response.turnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), getOpponentManager(player).numberOfPlayerShots(), draw);
+    }
+
+    private Response handleGunSaluteShoot(List<Integer> fieldNumbers, Player player) {
         logger.debug("Handling the shoot");
         handleShotList(fieldNumbers, player);
         Player winner = getWinner();
         MovementStatus ms  = winner != null ? MovementStatus.WON : MovementStatus.GUN_SALUTE_MODE;
-        return new ShootingResult(ms, winner, getCurrentManager(player).getMovements());
+        return Response.shootingResult(ms, winner, getCurrentManager(player).getMovements());
     }
 
-    private void handleShotList(List<Integer> fieldNumbers, Player player){
+    private void handleShotList(List<Integer> fieldNumbers, Player player) {
+        int numberOfShots = playerQueue.shotsNumber(player);
+
+        if(fieldNumbers.size() > numberOfShots) {
+            fieldNumbers = fieldNumbers.subList(0, numberOfShots);
+        }
 
         for(int fieldNumber: fieldNumbers) {
             MovementStatus status = player.equals(player1) ? manager1.damage(fieldNumber) : manager2.damage(fieldNumber);
         }
-        trySetWinner();
     }
 
     private MovementManager getCurrentManager(Player player) {

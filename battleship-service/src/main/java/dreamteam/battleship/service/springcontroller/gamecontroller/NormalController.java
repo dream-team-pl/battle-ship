@@ -6,8 +6,7 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
-import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
-import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
+import dreamteam.battleship.service.springcontroller.model.response.Response;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
@@ -25,6 +24,9 @@ class NormalController extends GameControllerBase {
 
     protected MovementManager currentManager;
     protected Player currentPlayer;
+
+    private final int SHOTS_NUMBER = 1;
+    private final int FIRST_INDEX_OF_THE_LIST = 0;
 
     public NormalController(Player player1, MovementManager manager1) {
         super(player1, manager1);
@@ -47,9 +49,9 @@ class NormalController extends GameControllerBase {
     }
 
     @Override
-    public ShootingResult handleShot(List<Integer> fieldNumbers, Player player) {
+    public Response handleShot(List<Integer> fieldNumbers, Player player) {
         logger.debug(START);
-        ShootingResult response = (getWinner()==null) ? standardResponse(fieldNumbers.get(0), player) : winnerResponse(player);
+        Response response = (getWinner()==null) ? standardResponse(fieldNumbers.get(FIRST_INDEX_OF_THE_LIST), player) : winnerResponse();
         logger.debug(END);
         return response;
     }
@@ -70,8 +72,8 @@ class NormalController extends GameControllerBase {
     }
 
     @Override
-    public TurnStatus turnStatus(Player player) {
-        return new TurnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), 1);
+    public Response turnStatus(Player player) {
+        return Response.turnStatus(getBoardForPlayer(player), isMyTurn(player), getWinner(), SHOTS_NUMBER);
     }
 
     private void nextPlayer(){
@@ -94,9 +96,8 @@ class NormalController extends GameControllerBase {
         return !( status.equals(MovementStatus.INVALID_MOVEMENT) || status.equals(MovementStatus.SUCCESS) || status.equals(MovementStatus.WON));
     }
 
-    private ShootingResult winnerResponse(Player player) {
-        return
-                new ShootingResult(MovementStatus.WON, getWinner(), new HashMap<Integer, Boolean>());
+    private Response winnerResponse() {
+        return Response.shootingResult(MovementStatus.WON, getWinner(), new HashMap<Integer, Boolean>());
     }
 
     /**
@@ -104,15 +105,15 @@ class NormalController extends GameControllerBase {
      * @param fieldNumber
      * @return
      */
-    private ShootingResult standardResponse(int fieldNumber, Player player) {
+    private Response standardResponse(int fieldNumber, Player player) {
         logger.debug("Handling the shoot");
-        ShootingResult response;
+        Response response;
         MovementStatus status = shotResponse(fieldNumber, player);
         if(mustPlayNext(status))
             nextPlayer();
         // check if he is the winnner
         //FIXME In the future when we will use web sockets we are going to send event, we need to delete this line
-        response = MovementStatus.WON.equals(status) ? winnerResponse(player) : new ShootingResult(status, new HashMap<Integer, Boolean>());
+        response = MovementStatus.WON.equals(status) ? winnerResponse() : Response.shootingResult(status, new HashMap<Integer, Boolean>());
         return response;
     }
 }
