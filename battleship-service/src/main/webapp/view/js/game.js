@@ -11,10 +11,12 @@ function goToPlayAfterPlacingShips() {
     $.get("/html/play", function (data) {
         $(column1Id).append(data);
         loadOpponentBoard();
+        lockTable(opponentBoardId);
+
         removeActionsForPlacingShipFromPlayerBoard();
-        if (thisPlayerStartsGameFirst == false) {
-            lockTable(opponentBoardId);
-        }
+        //if (thisPlayerStartsGameFirst == false) {
+            //lockTable(opponentBoardId);
+        //}
     });
 };
 
@@ -41,7 +43,6 @@ function loadOpponentBoard() {
                     lockTable(opponentBoardId);
                 }
                 sendShotRequest($(this).attr('id'), $(this));
-              
             }
         });
     });
@@ -49,13 +50,14 @@ function loadOpponentBoard() {
 //this method is used for checking it is possiblility to play
 //posiblity means that oponnent put all its ships on board
 function isOpponentReady() {
+lockTable(opponentBoardId);
     $.ajax({
         method: "GET"
         , dataType: 'json'
         , url: "/service/prepare?gameMode=" + gameMode
         , success: function (data) {
             if (data.readyToPlay) {
-                lockTable(opponentBoardId);
+
                 sendInitShotRequest();
                 clearInterval(readyToPlayInterval);
                 removeSelectOptionList();
@@ -65,6 +67,7 @@ function isOpponentReady() {
             else {
                 thisPlayerStartsGameFirst = true;
             }
+
         }
     });
 };
@@ -80,7 +83,7 @@ function isGameOver(data) {
 }
 //method for checing who is winner. it depends only on returning status
 function isWinner(data) {
-    if (data.hasOwnProperty('winner') && data.winner != null || data.hasOwnProperty('status') && data.status == PLACING_STATUS_ENUM.WON) {
+    if ((data.hasOwnProperty('winner') && data.winner != null) || (data.hasOwnProperty('status') && data.status == PLACING_STATUS_ENUM.WON)) {
         clearInterval(oponnentTurnsUpdateInterval);
         var message = '<strong>The winner is:</strong> ' + data.winner.name + ' ' + data.winner.surname;
         showEndOfTheGameModal(message);
@@ -99,6 +102,7 @@ function prepareOpponentShootsMap(items) {
 };
 //this method send shoot request after click on opponent board table cell
 function sendInitShotRequest(position) {
+    lockTable(opponentBoardId);
     $.ajax({
         method: "GET"
         , dataType: 'json'
@@ -109,6 +113,7 @@ function sendInitShotRequest(position) {
         }
         , success: function (data) {
             oponnentTurnsUpdateInterval = setInterval(sendReuqestForOponnentTurns, delayBetweenSendingRequest);
+            unLockTable(opponentBoardId);
         }
     });
 };
@@ -129,10 +134,11 @@ function prepareShootUrl() {
 }
 //this method send shoot request after click on opponent board table cell
 function sendShotRequest(position, tableCell) {
+    var urlArgs=prepareShootUrl();
     $.ajax({
         method: "GET"
         , dataType: 'json'
-        , url: "/service/shoot" + prepareShootUrl()
+        , url: "/service/shoot" +urlArgs
         , async: false
         , success: function (data) {
             var shootsResult = prepareOpponentShootsMap(data.resultFromOpponentBoard);
