@@ -14,9 +14,6 @@ function goToPlayAfterPlacingShips() {
         lockTable(opponentBoardId);
 
         removeActionsForPlacingShipFromPlayerBoard();
-        //if (thisPlayerStartsGameFirst == false) {
-            //lockTable(opponentBoardId);
-        //}
     });
 };
 
@@ -54,7 +51,10 @@ lockTable(opponentBoardId);
     $.ajax({
         method: "GET"
         , dataType: 'json'
-        , url: "/service/prepare?gameMode=" + gameMode
+        , url: "/service/prepare"
+        , data: {
+            "gameMode": gameMode
+        }
         , success: function (data) {
             if (data.readyToPlay) {
 
@@ -167,7 +167,6 @@ function sendShotRequest(position, tableCell) {
 };
 // this method place returned by ajax oponnent shoots and place it on player board
 function placeOpponentsShootsOnBoard(htmlTable, opponentsBoardMap) {
-    // var htmlTable = $(myBoardId);
     for (var i in opponentsBoardMap) {
         var tableCell = htmlTable.find('#' + i);
         var position = $(tableCell).attr('id');
