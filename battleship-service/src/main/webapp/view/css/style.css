@@ -81,6 +81,11 @@ table th {
     height: 2em;
     width: 2em
 }
+
+.cell_mark .cell_content {
+    background: black
+}
+
 .cell_missed .cell_content {
     background: #f2f4f8
 }

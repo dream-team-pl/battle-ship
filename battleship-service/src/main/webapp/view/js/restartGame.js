@@ -1,5 +1,5 @@
 function showEndOfTheGameModal(data) {
-    $("#winner_id").append(data.winner.name + " " + data.winner.surname);
+    $("#winner_id").append(data);
     $('#endOfTheGameModal').modal('show');
 }
 
@@ -11,6 +11,7 @@ function restartGame() {
             $("#winner_id").empty();
             $('#endOfTheGameModal').modal('hide');
             goToPlacingBoard();
+            chooseGameMode();
         }
         , error: function (e) {
             alert("Restart error");

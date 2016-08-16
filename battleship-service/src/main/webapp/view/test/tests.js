@@ -111,9 +111,9 @@ QUnit.test( "prepared opponent board based on server response", function( assert
         method: "GET"
         , dataType: 'json'
         , async: false
-        , url: "/service/turnstatus", //       data: { },
+        , url: "/service/turnstatus",
         success: function (data) {
-            var opponentsBoardMap = prepareOpponentShootsMap(data);
+            var opponentsBoardMap = prepareOpponentShootsMap(data.myDamages);
             assert.equal(data.status, null, "statuses are equal");
             assert.equal(data.winner.name, "x", "names are equal");
             assert.equal(data.winner.surname, "x", "names are equal");
