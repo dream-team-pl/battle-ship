@@ -5,7 +5,6 @@ import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.board.Direction;
 import dreamteam.battleship.logic.ship.Ship;
 
-import javax.activity.InvalidActivityException;
 import java.util.Map;
 
 
@@ -70,8 +69,8 @@ public interface MovementManager {
         return MovementStatus.INVALID_MOVEMENT;
     }
 
-    default int numberOfPlayerShots() throws InvalidActivityException {
-        throw new InvalidActivityException("number of player can be called only in DamageManager");
+    default int numberOfPlayerShots() {
+        throw new IllegalStateException("This method isn't run in PlaceShipManager");
     }
 
     Board getBoard();

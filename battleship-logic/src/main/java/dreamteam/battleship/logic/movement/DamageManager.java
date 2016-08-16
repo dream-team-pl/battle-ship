@@ -6,7 +6,6 @@ import dreamteam.battleship.logic.board.Board;
 import dreamteam.battleship.logic.ship.Ship;
 import org.apache.log4j.Logger;
 
-import javax.activity.InvalidActivityException;
 import java.util.Map;
 
 /**
@@ -110,7 +109,7 @@ public class DamageManager extends AbstractMovementManager{
     }
 
     @Override
-    public int numberOfPlayerShots() throws InvalidActivityException {
+    public int numberOfPlayerShots() {
         return arbiter.numberOfAliveShips();
     }
 }
