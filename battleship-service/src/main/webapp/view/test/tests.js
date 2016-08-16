@@ -106,12 +106,12 @@ QUnit.test( "prepared opponent board based on server response", function( assert
         dataType: 'json',
         responseText: serverResponse
     });
-my
+
  $.ajax({
         method: "GET"
         , dataType: 'json'
         , async: false
-        , url: "/service/turnstatus", //       data: { },
+        , url: "/service/turnstatus",
         success: function (data) {
             var opponentsBoardMap = prepareOpponentShootsMap(data.myDamages);
             assert.equal(data.status, null, "statuses are equal");
