@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by ehsan on 02.08.16.
  */
-public class TurnStatus implements Response {
+class TurnStatus implements Response {
 
     public final Map<Integer, Boolean> myDamages;
 

@@ -4,9 +4,8 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.ModelResponseTestUtil;
 import dreamteam.battleship.service.springcontroller.model.response.Response;
-import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
-import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -66,7 +65,7 @@ public class NormalControllerTest {
         Response shootingResult = gc.handleShot(arg, player1);
 
         // then
-        assertEquals(((ShootingResult)shootingResult).status, MovementStatus.SUCCESS);
+        assertEquals(ModelResponseTestUtil.shootingStatus(shootingResult), MovementStatus.SUCCESS);
 
         //when
         ((NormalController)gc).currentManager = manager2;
@@ -74,7 +73,7 @@ public class NormalControllerTest {
         shootingResult = gc.handleShot(arg, player2);
 
         // then
-        assertEquals(((ShootingResult)shootingResult).status, MovementStatus.TRY_AGAIN);
+        assertEquals(ModelResponseTestUtil.shootingStatus(shootingResult), MovementStatus.TRY_AGAIN);
     }
 
     @Test
@@ -146,23 +145,23 @@ public class NormalControllerTest {
         when(nc.getBoardForPlayer(player2)).thenReturn(movements);
 
 
-        TurnStatus response1 = (TurnStatus)nc.turnStatus(player1);
-        TurnStatus response2 = (TurnStatus)nc.turnStatus(player2);
+        Response response1 = nc.turnStatus(player1);
+        Response response2 = nc.turnStatus(player2);
 
-        Assert.assertEquals(response1.numberOfShots, 1);
-        Assert.assertEquals(response2.numberOfShots, 1);
+        Assert.assertEquals(ModelResponseTestUtil.numberOfShots(response1), 1);
+        Assert.assertEquals(ModelResponseTestUtil.numberOfShots(response2), 1);
 
-        Assert.assertEquals(response1.myDamages, movements);
-        Assert.assertEquals(response2.myDamages, movements);
+        Assert.assertEquals(ModelResponseTestUtil.myDamages(response1), movements);
+        Assert.assertEquals(ModelResponseTestUtil.myDamages(response2), movements);
 
-        Assert.assertEquals(response1.isMyTurn, true);
-        Assert.assertEquals(response2.isMyTurn, false);
+        Assert.assertEquals(ModelResponseTestUtil.isMyTurn(response1), true);
+        Assert.assertEquals(ModelResponseTestUtil.isMyTurn(response2), false);
 
-        Assert.assertEquals(response1.winner, null);
-        Assert.assertEquals(response2.winner, null);
+        Assert.assertEquals(ModelResponseTestUtil.winner(response1), null);
+        Assert.assertEquals(ModelResponseTestUtil.winner(response2), null);
 
-        Assert.assertEquals(response1.gameOver, false);
-        Assert.assertEquals(response2.gameOver, false);
+        Assert.assertEquals(ModelResponseTestUtil.gameOver(response1), false);
+        Assert.assertEquals(ModelResponseTestUtil.gameOver(response2), false);
     }
 
     private Map<Integer, Boolean> getMovements() {

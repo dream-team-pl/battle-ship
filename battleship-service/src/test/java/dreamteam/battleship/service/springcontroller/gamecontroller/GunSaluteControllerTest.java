@@ -4,9 +4,8 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.ModelResponseTestUtil;
 import dreamteam.battleship.service.springcontroller.model.response.Response;
-import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
-import dreamteam.battleship.service.springcontroller.model.response.TurnStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -85,13 +84,13 @@ public class GunSaluteControllerTest {
         Response shoot = gc.handleShot(arg, player1);
 
         // then
-        assertEquals(((ShootingResult)shoot).status, MovementStatus.GUN_SALUTE_MODE);
+        assertEquals(ModelResponseTestUtil.shootingStatus(shoot), MovementStatus.GUN_SALUTE_MODE);
 
         //when
         shoot = gc.handleShot(arg, player2);
 
         // then
-        assertEquals(((ShootingResult)shoot).status, MovementStatus.GUN_SALUTE_MODE);
+        assertEquals(ModelResponseTestUtil.shootingStatus(shoot), MovementStatus.GUN_SALUTE_MODE);
     }
 
     @Test
@@ -110,14 +109,14 @@ public class GunSaluteControllerTest {
         playerQueue.add(player1, player2, manager2.numberOfPlayerShots(), manager1.numberOfPlayerShots());
         ((GunSaluteController)gc).playerQueue = playerQueue;
 
-        TurnStatus response1 = (TurnStatus)gc.turnStatus(player1);
-        TurnStatus response2 = (TurnStatus)gc.turnStatus(player2);
+        Response response1 = gc.turnStatus(player1);
+        Response response2 = gc.turnStatus(player2);
 
-        assertEquals(response1.numberOfShots, 4);
-        assertEquals(response2.numberOfShots, 4);
+        assertEquals(ModelResponseTestUtil.numberOfShots(response1), 4);
+        assertEquals(ModelResponseTestUtil.numberOfShots(response2), 4);
 
-        assertEquals(response1.myDamages, movements);
-        assertEquals(response2.myDamages, movements);
+        assertEquals(ModelResponseTestUtil.myDamages(response1), movements);
+        assertEquals(ModelResponseTestUtil.myDamages(response2), movements);
     }
 
     private Map<Integer, Boolean> getMovements() {

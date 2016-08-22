@@ -4,8 +4,8 @@ import dreamteam.battleship.logic.movement.DamageManager;
 import dreamteam.battleship.logic.movement.MovementStatus;
 import dreamteam.battleship.service.springcontroller.gamecontroller.IGameController;
 import dreamteam.battleship.service.springcontroller.model.Player;
+import dreamteam.battleship.service.springcontroller.model.response.ModelResponseTestUtil;
 import dreamteam.battleship.service.springcontroller.model.response.Response;
-import dreamteam.battleship.service.springcontroller.model.response.ShootingResult;
 import dreamteam.battleship.service.springcontroller.preparation.PlacingShip;
 import dreamteam.battleship.service.springcontroller.preparation.PlayerOrganizer;
 import dreamteam.battleship.service.springcontroller.registration.Registration;
@@ -36,7 +36,7 @@ public class PlayingTest {
 
         PlayerOrganizer organizer = mock(PlayerOrganizer.class);
         IGameController controller = mock(IGameController.class);
-        when(controller.handleShot(anyListOf(Integer.class), any(Player.class))).thenReturn(new ShootingResult(MovementStatus.SUCCESS, null));
+        when(controller.handleShot(anyListOf(Integer.class), any(Player.class))).thenReturn(Response.shootingResult(MovementStatus.SUCCESS, null));
         when(controller.getWinner()).thenReturn(null);
         when(organizer.myController()).thenReturn(controller);
 
@@ -52,6 +52,6 @@ public class PlayingTest {
         }
         Response status = playing.shoot(Arrays.asList(12));
 
-        assertTrue(((ShootingResult)status).status.equals(MovementStatus.SUCCESS));
+        assertTrue((ModelResponseTestUtil.shootingStatus(status)).equals(MovementStatus.SUCCESS));
     }
 }

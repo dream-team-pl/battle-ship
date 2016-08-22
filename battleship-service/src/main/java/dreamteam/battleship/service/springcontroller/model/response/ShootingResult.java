@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * A model that presents the result of the shooting a field by the player
  */
-public class ShootingResult implements Response {
+class ShootingResult implements Response {
 
     public final MovementStatus status;
 
